@@ -7,6 +7,7 @@ import Map from "../create-property/Map";
 import getPropertyDetail from "@/services/property/getPropertyDetail";
 
 import PropertyData from "@/models/PropertyData";
+import updateProperty from "@/services/property/updateProperty";
 
 type ListingFormDataType = {
   name: string;
@@ -82,6 +83,7 @@ export default function ListingDetail({
   setIsChangesExist: Function;
   propId: string;
 }) {
+
   const [originalData, setOriginalData] = useState<ListingFormDataType>({
     name: "",
     listingType: "",
@@ -101,11 +103,12 @@ export default function ListingDetail({
     address: "",
   });
   const [hoveredOption, setHoveredOption] = useState<string>("");
-
+  const [fetchData,setFetchData] = useState();
   useEffect(() => {
     const fetchPropDetail = async () => {
-      const propDetail: PropertyData = await getPropertyDetail(propId);
+      const propDetail = await getPropertyDetail(propId);
       if (propDetail) {
+        console.log(propDetail,"test")
         const tmp: ListingFormDataType = {
           name: propDetail.property_name,
           listingType: "rent",
@@ -117,6 +120,7 @@ export default function ListingDetail({
         };
         setListingFormData(tmp);
         setOriginalData(tmp);
+        setFetchData((prev)=>propDetail)
       }
     };
     fetchPropDetail();
@@ -141,9 +145,13 @@ export default function ListingDetail({
     }));
   };
 
-  const handleSubmit = (e:any)=>{
+  const handleSubmit = async (e:any)=>{
     e.preventDefault()
     console.log(listingFormData, "test edit")
+    const updatedData:PropertyData = fetchData!
+    console.log(fetchData,"dftghb")
+    const res = await updateProperty(fetchData!)
+    console.log(res)
   }
 
   return (
@@ -401,7 +409,10 @@ export default function ListingDetail({
               <div className="flex justify-end">
                 <button
                   type="reset"
-                  onClick={()=>setListingFormData(originalData)}
+                  onClick={()=>{
+                    setListingFormData(originalData)
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
                   className="m-3 h-[60px] w-[190px] rounded-[10px] bg-ci-dark-gray px-10 py-2 text-[24px] font-medium text-white"
                 >
                   Cancel

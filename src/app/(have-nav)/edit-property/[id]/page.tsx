@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Sidebar from "@/components/edit-profile/Sidebar";
-import PersonalPage from "@/components/edit-profile/PersonalPage";
 import OwnerPage from "@/components/edit-profile/OwnerPage";
 import FinancialPage from "@/components/edit-profile/FinancialPage";
 import { NotSavedPopUp } from "@/components/edit-profile/NotSavedPopUp";
@@ -46,11 +45,11 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
       />
       <div className="m-5 min-w-[40%] max-w-full">
         {tab === "Listing Details" && (
-          // <PersonalPage setIsChangesExist={setIsChangesExist} />
           <ListingDetail propId={params.id} setIsChangesExist={setIsChangesExist} ></ListingDetail>
         )}
         {tab === "Additional Details" && (
           <FinancialPage setIsChangesExist={setIsChangesExist} />
+
         )}
         {tab === "Contact Details" && <OwnerPage />}
       </div>
