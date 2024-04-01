@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, FormEvent, useEffect } from "react";
-import Dropdown from "../create-property/DropDown";
-import ListingType from "../create-property/ListingType";
+import { useState, useEffect } from "react";
+
 import Map from "../create-property/Map";
 import getPropertyDetail from "@/services/property/getPropertyDetail";
 
@@ -11,6 +10,8 @@ import updateProperty from "@/services/property/updateProperty";
 
 import { PropertyFormData } from "@/models/PropertyData";
 import PropertyImages from "@/models/PropertyData";
+
+import { useRouter } from "next/navigation";
 
 const propertyTypes = [
   "Condominium",
@@ -87,6 +88,9 @@ export default function ListingDetail({
   );
   const [hoveredOption, setHoveredOption] = useState<string>("");
   const [fetchData, setFetchData] = useState();
+
+  const router = useRouter();
+
   useEffect(() => {
     const fetchPropDetail = async () => {
       const propDetail: PropertyData = await getPropertyDetail(propId);
@@ -100,7 +104,7 @@ export default function ListingDetail({
           propertyId: propDetail.property_id,
           address: propDetail.address,
           alley: propDetail.alley,
-          bedrooms:propDetail.bedrooms,
+          bedrooms: propDetail.bedrooms,
           bathrooms: propDetail.bathrooms,
           country: propDetail.country,
           district: propDetail.district,
@@ -164,13 +168,14 @@ export default function ListingDetail({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.table(listingFormData);
-    // const updatedData: PropertyData = fetchData!;
-    // console.log(fetchData, "dftghb");
-    const res = await updateProperty(listingFormData);
-    if (res) {
-      alert("update success");
+    if (checkValidFormData(listingFormData, ListingType)) {
+      const res = await updateProperty(listingFormData);
+      if (res) {
+        router.push("/listing");
+      }
+    } else {
+      alert("incorrect form data");
     }
-    console.log(res);
   };
 
   return (

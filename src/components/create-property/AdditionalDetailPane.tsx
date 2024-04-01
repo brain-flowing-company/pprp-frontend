@@ -40,10 +40,10 @@ export default function AdditionalDetailPane({
     const res = await createProperty();
     console.log(res);
     // redirect to the homepage
-    window.location.href = "/";
+    window.location.href = "/listing";
     // redirect("/");
     // router.push("/app/(have-nav)/page");
-    alert("Property created successfully!");
+    // alert("Property created successfully!");
   }
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
