@@ -20,15 +20,15 @@ export default function PropertyDetail({
 }) {
   const propertyAddress =
     (property?.address || "") +
-    ", " +
+    " " +
     (property?.alley || "") +
-    ", " +
+    " " +
     (property?.street || "") +
-    ", " +
+    " " +
     (property?.district || "") +
-    ", " +
+    " " +
     (property?.sub_district || "") +
-    ", " +
+    " " +
     (property?.province || "") +
     " " +
     (property?.postal_code || "");

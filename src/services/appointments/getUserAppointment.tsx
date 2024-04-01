@@ -1,7 +1,7 @@
 export default async function getUserAppointment() {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v1/appointments`,
+        `http://localhost:8000/api/v1/user/me/appointments`,
         {
           method: "GET",
           credentials: "include"

@@ -62,7 +62,12 @@ const PropertyNavigationBar = () => {
           >
             Appointment
           </div>
-          <div className="cursor-pointer hover:opacity-60">Agreement</div>
+          <div 
+            className="cursor-pointer hover:opacity-60"
+            onClick={() => router.push("/my-agreement")}
+          >
+            Agreement
+          </div>
           <div
             className="cursor-pointer hover:opacity-60"
             onClick={() => router.push("/listing")}

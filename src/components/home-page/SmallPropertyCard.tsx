@@ -83,7 +83,8 @@ export default function SmallPropertyCard({
 
             <div className="flex flex-col gap-y-2 text-lg xl:text-xl">
               <div>
-                {property.street}, {property.province}
+                {/* {property.street}, {property.province} */}
+                {property.address}
               </div>
               <div className="font-semibold">
                 {formatPrice(property.renting_property.price_per_month)}/month

@@ -118,7 +118,7 @@ export default async function propertyCreate(propertyInfo: PropertyInfo) {
     console.log(value);
   });
 
-  const response = await fetch("http://localhost:8000/api/v1/properties", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_HTTP_BACKEND_HOST}/api/v1/properties`, {
     method: "POST",
     credentials: "include",
     body: formData,

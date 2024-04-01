@@ -1,18 +1,20 @@
 "use client";
 import Image from "next/image";
-import StatusBox from "@/components/my-appointment/StatusBox";
-import UserCard from "@/components/my-appointment/UserCard";
+import StatusBox from "@/components/my-agreement/StatusBox";
+import UserCard from "@/components/my-agreement/UserCard";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import AppointmentData from "@/models/AppointmentData";
+import AppointmentData from "@/models/AgreementData";
 import PropertyData from "@/models/PropertyData";
 import getPropertyDetail from "@/services/property/getPropertyDetail";
 import UserData from "@/models/UserData";
 import getOwnerData from "@/services/users/getOwnerData";
 import getUserAppointment from "@/services/appointments/getUserAppointment";
-import getOneAppointment from "@/services/appointments/getOneAppointment";
+import getOneAppointment from "@/services/agreement/getOneAgreement";
+import getOneAgreement from "@/services/agreement/getOneAgreement";
+import AgreementData from "@/models/AgreementData";
 
-export default function AppointmentDetail() {
+export default function AgreementDetail() {
   const router = useRouter();
 
   const propertyImgSrc = "/img/my-appointment/mhadaeng.png";
@@ -35,7 +37,7 @@ export default function AppointmentDetail() {
 
   const params = useParams<{ id: string }>();
 
-  const [apptDetail, setApptDetail] = useState<AppointmentData | null>(null);
+  const [agmntDetail, setAgmntDetail] = useState<AgreementData | null>(null);
   const [propertyDetail, setPropertyDetail] = useState<PropertyData | null>(
     null
   );
@@ -45,8 +47,8 @@ export default function AppointmentDetail() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const appt = await getOneAppointment(params.id);
-      setApptDetail(appt);
+      const agmnt = await getOneAgreement(params.id);
+      setAgmntDetail(agmnt);
       // if (appt?.property_id) {
       //     const pptDetail = await getPropertyDetail(appt.property_id);
       //     setPropertyDetail(pptDetail);
@@ -59,7 +61,7 @@ export default function AppointmentDetail() {
       //     const dweller = await getOwnerData(appt.dweller_user_id);
       //     setDwellerDetail(dweller);
       // }
-      if (appt.code == 400) {
+      if (agmnt.code == 400) {
         window.location.href = "/404";
       }
     };
@@ -69,11 +71,11 @@ export default function AppointmentDetail() {
   }, []);
 
   useEffect(() => {
-    console.log(apptDetail);
+    console.log(agmntDetail);
     // console.log(propertyDetail)
     // console.log(ownerDetail)
     // console.log(dwellerDetail)
-  }, [apptDetail]);
+  }, [agmntDetail]);
 
   const getDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -97,8 +99,34 @@ export default function AppointmentDetail() {
       "Dec",
     ];
 
-    return `${day} ${months[month - 1]} ${year}`;
+    return `${day} ${months[month]} ${year}`;
   };
+
+  const getEndDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const newDate = new Date(date.setMonth(date.getMonth() + agmntDetail?.payment_duration))
+
+    const day = newDate.getDate();
+    const month = newDate.getMonth();
+    const year = newDate.getFullYear();
+
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    return `${day} ${months[month]} ${year}`;
+  }
 
   const getTime = (dateString: string) => {
     const date = new Date(dateString);
@@ -109,7 +137,7 @@ export default function AppointmentDetail() {
   };
 
   const getAddress = () => {
-    return `${apptDetail?.property.address}, ${apptDetail?.property.alley}, ${apptDetail?.property.street}, ${apptDetail?.property.district}, ${apptDetail?.property.sub_district}, ${apptDetail?.property.province}, ${apptDetail?.property.country}, ${apptDetail?.property.postal_code}`;
+    return `${agmntDetail?.property.address}, ${agmntDetail?.property.alley}, ${agmntDetail?.property.street}, ${agmntDetail?.property.district}, ${agmntDetail?.property.sub_district}, ${agmntDetail?.property.province}, ${agmntDetail?.property.country}, ${agmntDetail?.property.postal_code}`;
   };
 
   return (
@@ -134,20 +162,20 @@ export default function AppointmentDetail() {
               <div className="my-auto w-[60%] text-lg text-white">Back</div>
             </button>
             <div className="mx-5 my-auto text-4xl font-bold">
-              {apptDetail?.property.property_name}
+              {agmntDetail?.property.property_name}
             </div>
           </div>
           <div className="my-10 flex w-full py-5 flex-col rounded-3xl bg-ci-light-gray">
             <div className="mx-auto my-7 flex w-[90%] flex-col items-center justify-center">
               <div className="mb-5 flex w-full flex-row justify-between">
                 <div className="text-4xl font-bold">
-                  {apptDetail?.property.property_name}
+                  {agmntDetail?.property.property_name}
                 </div>
-                <div>
+                <div className="w-[20%]">
                   <StatusBox
                     status={
-                      apptDetail?.status.charAt(0) +
-                      apptDetail?.status.toLowerCase().slice(1)
+                      agmntDetail?.status.charAt(0) +
+                      agmntDetail?.status.toLowerCase().slice(1)
                     }
                   />
                 </div>
@@ -155,7 +183,7 @@ export default function AppointmentDetail() {
               <div className="flex w-full flex-row justify-between h-max">
                 <div className="w-[40%] rounded-lg">
                   <Image
-                    src={apptDetail?.property.property_images[0].image_url}
+                    src={agmntDetail?.property.property_images[0].image_url}
                     alt="property image"
                     width={600}
                     height={400}
@@ -164,55 +192,69 @@ export default function AppointmentDetail() {
                   />
                 </div>
                 <div className="flex h-auto w-[50%] flex-col text-3xl">
-                  <div className="my-auto flex flex-row">
+                  <div className="flex flex-row my-auto">
                     <div className="mr-auto flex">
-                      <div className="font-semibold">Date:&nbsp;</div>
+                      <div className="font-semibold">Start Date:&nbsp;</div>
                       <div className="font-medium">
-                        {getDate(apptDetail?.appointment_date)}
+                        {getDate(agmntDetail?.agreement_date)}
                       </div>
                     </div>
                     <div className="mx-auto flex">
-                      <div className="font-semibold">Time:&nbsp;</div>
+                      <div className="font-semibold">End Date:&nbsp;</div>
                       <div className="font-medium">
-                        {getTime(apptDetail?.appointment_date)}
+                        {getEndDate(agmntDetail?.agreement_date)}
                       </div>
                     </div>
                   </div>
-                  <div className="my-auto flex flex-row">
+                  <div className="flex flex-row my-auto">
                     <div className="font-semibold">Address:&nbsp;</div>
                     <div className="font-medium">{getAddress()}</div>
                   </div>
-                  <div className="my-auto flex flex-row">
-                    <div className="font-semibold">Price:&nbsp;</div>
+                  <div className="flex flex-row my-auto">
+                    <div className="font-semibold">Rental Duration:&nbsp;</div>
                     <div className="font-medium">
-                      {apptDetail?.property.price_per_month + " Baht / month"}
+                      {agmntDetail?.payment_duration + " months"}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="mx-auto mt-10 flex h-full w-[80%] flex-col items-center justify-between">
+            <div className="flex flex-row w-[90%] justify-between mx-auto mt-5 bg-white rounded-full px-5 py-5">
+                <div className="flex flex-col text-3xl mx-auto">
+                    <div className="my-auto flex flex-row">
+                        <div className="font-semibold">Payment per month: &nbsp;</div>
+                        <div className="font-regular">{agmntDetail?.payment_per_month + " Baht"}</div>
+                    </div>
+                    <div className="my-auto flex flex-row mt-10">
+                        <div className="font-semibold">Deposit Amount: &nbsp;</div>
+                        <div className="font-regular">{agmntDetail?.deposit_amount + " Baht"}</div>
+                    </div>
+                </div>
+                <div className="flex flex-col text-3xl mx-auto">
+                    <div className="my-auto flex flex-row">
+                        <div className="font-semibold">Total Payment: &nbsp;</div>
+                        <div className="font-regular">{agmntDetail?.total_payment + " Baht"}</div>
+                    </div>
+                </div>
+            </div>
+            <div className="mx-auto mt-8 flex h-full w-[80%] flex-col items-center justify-center">
               <div className="mb-5 flex w-[80%] flex-row justify-evenly">
                 <div className="w-[40%]">
                   <UserCard
                     role="Owner"
-                    profilePicSrc={apptDetail?.owner.owner_profile_image_url}
-                    name={`${apptDetail?.owner.owner_first_name} ${apptDetail?.owner.owner_last_name}`}
-                    tel={apptDetail?.owner.owner_phone_number}
+                    profilePicSrc={agmntDetail?.owner.owner_profile_image_url}
+                    name={`${agmntDetail?.owner.owner_first_name} ${agmntDetail?.owner.owner_last_name}`}
+                    tel={agmntDetail?.owner.owner_phone_number}
                   />
                 </div>
                 <div className="w-[40%]">
                   <UserCard
                     role="Dweller"
-                    profilePicSrc={apptDetail?.dweller.dweller_profile_image_url}
-                    name={`${apptDetail?.dweller.dweller_first_name} ${apptDetail?.dweller.dweller_last_name}`}
-                    tel={apptDetail?.dweller.dweller_phone_number}
+                    profilePicSrc={agmntDetail?.dweller.dweller_profile_image_url}
+                    name={`${agmntDetail?.dweller.dweller_first_name} ${agmntDetail?.dweller.dweller_last_name}`}
+                    tel={agmntDetail?.dweller.dweller_phone_number}
                   />
                 </div>
-              </div>
-              <div className="flex flex-row text-3xl mt-5">
-                <div className="font-semibold">Note:&nbsp;</div>
-                <div className="font-medium">{apptDetail?.note}</div>
               </div>
             </div>
           </div>
