@@ -9,9 +9,9 @@ export default function StatusBox({
                 return 'bg-ci-yellow text-black';
             case 'Cancelled' || 'Rejected':
                 return 'bg-ci-red text-white';
-            case 'Archive':
+            case 'Archived':
                 return 'bg-ci-gray text-black';
-            case 'Confirm':
+            case 'Confirmed':
                 return 'bg-ci-green text-black'
         }
     }
