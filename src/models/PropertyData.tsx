@@ -43,7 +43,7 @@ export default interface PropertyData {
   unit_number: number;
 }
 
-interface PropertyFormData {
+export interface PropertyFormData {
   propertyId: string; // Property id
   address: string; // Example: "123/4"
   alley: string; // Example: "Pattaya Nua 78"
@@ -53,8 +53,8 @@ interface PropertyFormData {
   district: string; // Example: "Bang Phli"
   floor: number; // Example: 5
   floor_size: number; // Example: 123.45
-  floor_size_unit: "SQM" | "SQFT"; // Example: "SQM"
-  furnishing: "UNFURNISHED" | "PARTIALLY_FURNISHED" | "FULLY_FURNISHED" | "READY_TO_MOVE_IN"; // Example: "UNFURNISHED"
+  floor_size_unit: string; // Example: "SQM"
+  furnishing: string; // Example: "UNFURNISHED"
   image_urls: string[]; // Example: ["https://image_url.com/abcd", "https://image_url.com/abcd", "https://image_url.com/abcd"]
   is_occupied: boolean; // Example: false
   is_sold: boolean; // Example: true
@@ -63,7 +63,7 @@ interface PropertyFormData {
   price_per_month: number; // Example: 12345.67
   property_description: string; // Example: "Et sequi dolor praes"
   property_name: string; // Example: "Supalai"
-  property_type: "CONDOMINIUM" | "APARTMENT" | "SEMI-DETACHED_HOUSE" | "HOUSE" | "SERVICED_APARTMENT" | "TOWNHOUSE"; // Example: "CONDOMINIUM"
+  property_type: string; // Example: "CONDOMINIUM"
   province: string; // Example: "Pattaya"
   street: string; // Example: "Pattaya"
   sub_district: string; // Example: "Bang Bon"

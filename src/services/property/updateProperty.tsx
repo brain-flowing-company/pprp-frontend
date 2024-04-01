@@ -1,31 +1,31 @@
-import PropertyData from "@/models/PropertyData"
+import { PropertyFormData} from "@/models/PropertyData"
 
-export default async function updateProperty(propData) {
+export default async function updateProperty(propData:PropertyFormData) {
 
   const formData = new FormData();
 
   for (const [key, value] of Object.entries(propData)) {
-    console.log(`${key}: ${value}`);
+    console.log(`${key}, ${value}`);
     // if(key!=="property_id") 
     formData.append(key,value);
   }
 
-//   formData.append("alley","");
-//   formData.append("street", "");
-//   formData.append("sub_district", "");
-//   formData.append("district", "");
-//   formData.append("province", "");
-//   formData.append("country","");
-//   formData.append("postal_code","");
+// //   formData.append("alley","");
+// //   formData.append("street", "");
+// //   formData.append("sub_district", "");
+// //   formData.append("district", "");
+// //   formData.append("province", "");
+// //   formData.append("country","");
+// //   formData.append("postal_code","");
 
 
-  console.log("test form data")
-  formData.entries().forEach((value) => {
-    console.log(value);
-  });
+//   console.log("test form data")
+//   formData.entries().forEach((value) => {
+//     console.log(value);
+//   });
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_HTTP_BACKEND_HOST}/api/v1/properties/${propData.property_id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HTTP_BACKEND_HOST}/api/v1/properties/${propData.propertyId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
