@@ -97,13 +97,30 @@ export default function ListingDetail({
           (prop_img: PropertyImages) => prop_img.image_url
         );
         const tmp: PropertyFormData = {
-          ...propDetail,
           propertyId: propDetail.property_id,
+          address: propDetail.address,
+          alley: propDetail.alley,
+          bedrooms:propDetail.bedrooms,
+          bathrooms: propDetail.bathrooms,
+          country: propDetail.country,
+          district: propDetail.district,
+          floor: propDetail.floor,
+          floor_size: propDetail.floor_size,
+          floor_size_unit: propDetail.floor_size_unit,
+          furnishing: propDetail.furnishing,
           image_urls: img_urls,
           is_occupied: propDetail.renting_property.is_occupied,
           is_sold: propDetail.selling_property.is_sold,
+          postal_code: propDetail.postal_code,
           price: propDetail.selling_property.price,
           price_per_month: propDetail.renting_property.price_per_month,
+          property_description: propDetail.property_description,
+          property_name: propDetail.property_name,
+          property_type: propDetail.property_type,
+          province: propDetail.province,
+          street: propDetail.street,
+          sub_district: propDetail.sub_district,
+          unit_number: propDetail.unit_number,
         };
         setListingFormData(tmp);
         setOriginalData(tmp);
@@ -140,17 +157,20 @@ export default function ListingDetail({
     }));
   };
 
-  const handleListTypeChange = (e:any)=>{
-    setListingType(e.target.value)
-  }
+  const handleListTypeChange = (e: any) => {
+    setListingType(e.target.value);
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // console.log(listingFormData, "test edit");
+    console.table(listingFormData);
     // const updatedData: PropertyData = fetchData!;
     // console.log(fetchData, "dftghb");
-    // const res = await updateProperty(fetchData!);
-    // console.log(res);
+    const res = await updateProperty(listingFormData);
+    if (res) {
+      alert("update success");
+    }
+    console.log(res);
   };
 
   return (
