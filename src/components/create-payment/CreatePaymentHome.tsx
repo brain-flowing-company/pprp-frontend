@@ -3,6 +3,8 @@ import Dropdown from "../register-login/DropDown";
 import { useState, useEffect } from "react"
 import { CreditCardData } from "../edit-profile/FinancialPage";
 import getUserFinancial from "@/services/users/getUserFinancial";
+import { redirectPayment } from "@/services/payments/redirectPayment";
+
 type PaymentInfo = {
     title:string,
     sub_title: string,
@@ -22,6 +24,7 @@ export const CreatePaymentHomePage = ({
     const [message, setMessage] = useState("");
     const [creditCards, setCreditCards] = useState<CreditCardData[]|null>();
     const [selectedCardNumber, setSelectedCardNumber] = useState("-");
+    const [html, setHtml] = useState("");
     const fetchData = async () => {
         try {
           const data = await getUserFinancial();
@@ -33,7 +36,12 @@ export const CreatePaymentHomePage = ({
     }
     useEffect(() => {
         fetchData();
+        fetchHtml()
     },[])
+    const fetchHtml = async() => {
+        const response = await redirectPayment()
+        setHtml(response)
+    }
     const getCreditCardsName = () => {
         const names:string[] = []
         for(let i = 0; i < creditCards!.length; i++ ){
@@ -124,9 +132,13 @@ export const CreatePaymentHomePage = ({
                     <div className="mt-1">Price</div>
                     <div className="flex flex-col space-y-2">
                         <div className="text-2xl text-ci-red">$10,000</div>
-                        <button className="text-white bg-ci-blue text-sm px-4 rounded-md py-1" onClick={() => {setConfirm(1)}}>Confirm</button>
+                        <button className="text-white bg-ci-blue text-sm px-4 rounded-md py-1" 
+                            // onClick={() => {setConfirm(1)}}>
+                            onClick={fetchHtml}>
+                                Confirm</button>
                     </div>
                 </div>
+                <div dangerouslySetInnerHTML={{ __html: html }} />
             </div>
 
         </div>
