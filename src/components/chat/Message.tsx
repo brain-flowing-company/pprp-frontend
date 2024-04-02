@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { ChatMessage } from "@/models/Chat";
 import PropertyMessage from "./PropertyMessage";
 import AgreementMessage from "./AgreementMessage";
@@ -29,34 +29,33 @@ const MessageContent = ({ message }: { message: ChatMessage }) => {
 };
 
 export default function Message({ message }: { message: ChatMessage }) {
-  const [type, setType] = useState<string>("message")
+  let type = "message";
+  if (message.attatchment.agreement_id) type = "agreement";
+  else if (message.attatchment.property_id) type = "property";
+  else if (message.attatchment.appointment_id) type = "appointment";
 
-  useEffect(() => { check_type(), [] })
-
-  function check_type() {
-    if (message.attatchment.agreement_id) {
-      setType("agreement")
-    }
-    if (message.attatchment.property_id) {
-      setType("property")
-    }
-    if (message.attatchment.appointment_id) {
-      setType("appointment")
-    }
-
-  }
-  console.log(type)
   return (
     <div className={`flex ${message.author ? "justify-end" : "justify-start"}`}>
       <div
         className={`flex w-10/12 justify-end gap-2 ${message.author ? "flex-row" : "flex-row-reverse"}`}
       >
         <MessageStatus message={message} />
-        {type == "message" && <MessageContent message={message} />}
-        {type == "property" && <PropertyMessage message={message.attatchment.property_id} />}
-        {type == "agreement" && <AgreementMessage message={message.attatchment.agreement_id} />}
-        {type == "appointment" && <AppointmentMessage message={message.attatchment.appointment_id} />}
-
+        {
+          {
+            message: <MessageContent message={message} />,
+            property: (
+              <PropertyMessage message={message.attatchment.property_id} />
+            ),
+            agreement: (
+              <AgreementMessage message={message.attatchment.agreement_id} />
+            ),
+            appointment: (
+              <AppointmentMessage
+                message={message.attatchment.appointment_id}
+              />
+            ),
+          }[type]
+        }
       </div>
     </div>
   );
