@@ -43,7 +43,6 @@ export default function AppointmentList({
 
   useEffect(() => {
     const updateCancel = async () => {
-      const state = isOwner? "REJECTED" : "CANCELLED";
       if (isCancelled) {
         const data = await UpdateAppointmentStatus({
           appointmentId: apptId,
@@ -86,6 +85,22 @@ export default function AppointmentList({
     };
     updateRejected();
   }, [isRejected]);
+
+  useEffect(() => {
+    const updateArchived = async () => {
+      const currentEpoch = new Date(date).getTime() + Number(time.split(':')[0])*60*60*1000 + Number(time.split(':')[1])*60*1000;
+      if (Date.now() > currentEpoch) {
+        const data = await UpdateAppointmentStatus({
+          appointmentId: apptId,
+          status: "ARCHIVED",
+          msg: "",
+        });
+        console.log(data);
+        setCurrentStatus("Archived");
+      }
+    }
+    updateArchived();
+  }, [])
 
   return (
     <div className="flex h-[240px] w-full border-x-4 border-y-2 border-ci-dark-gray bg-ci-light-gray hover:cursor-pointer" 
@@ -142,7 +157,7 @@ export default function AppointmentList({
               </div>
             </>
           ) : null}
-          {(((!isOwner) && currentStatus !== 'Rejected') || currentStatus === 'Confirmed') ? (
+          {(((!isOwner) && currentStatus === 'Pending') || (currentStatus === 'Confirmed')) ? (
             <div className="my-auto">
               <CancelButton
                 status={currentStatus}
