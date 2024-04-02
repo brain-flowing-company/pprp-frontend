@@ -4,6 +4,7 @@ import {
   DetailButton,
   CancelButton,
   ConfirmButton,
+  RejectButton,
 } from "@/components/my-appointment/InteractiveButton";
 import { useEffect, useState } from "react";
 import UpdateAppointmentStatus from "@/services/appointments/updateAppointmentStatus";
@@ -19,7 +20,7 @@ export default function AppointmentList({
   date,
   time,
   status,
-  withConfirmButton,
+  isOwner,
 }: {
   apptId: string;
   propertyImgSrc: string;
@@ -30,17 +31,19 @@ export default function AppointmentList({
   date: string;
   time: string;
   status: string;
-  withConfirmButton: boolean;
+  isOwner: boolean;
 }) {
   const [reason, setReason] = useState("");
   const [isCancelled, setCancel] = useState(false);
   const [isConfirm, setConfirm] = useState(false);
+  const [isRejected, setRejected] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(status);
 
   const router = useRouter();
 
   useEffect(() => {
     const updateCancel = async () => {
+      const state = isOwner? "REJECTED" : "CANCELLED";
       if (isCancelled) {
         const data = await UpdateAppointmentStatus({
           appointmentId: apptId,
@@ -68,6 +71,21 @@ export default function AppointmentList({
     };
     updateConfirm();
   }, [isConfirm]);
+
+  useEffect(() => {
+    const updateRejected = async () => {
+      if (isRejected) {
+        const data = await UpdateAppointmentStatus({
+          appointmentId: apptId,
+          status: "REJECTED",
+          msg: "",
+        });
+        console.log(data);
+        setCurrentStatus("Rejected");
+      }
+    };
+    updateRejected();
+  }, [isRejected]);
 
   return (
     <div className="flex h-[240px] w-full border-x-4 border-y-2 border-ci-dark-gray bg-ci-light-gray hover:cursor-pointer" 
@@ -114,19 +132,26 @@ export default function AppointmentList({
         </div>
         <div className="my-auto ml-auto flex h-full w-[12.5%] flex-col justify-center">
           {/* <DetailButton appointmentId={apptId} /> */}
-          {(withConfirmButton && currentStatus === 'Pending') ? (
+          {(isOwner && currentStatus === 'Pending') ? (
+            <>
+              <div className="my-auto">
+                <ConfirmButton status={currentStatus} setConfirm={setConfirm}/>
+              </div>
+              <div className="my-auto">
+                <RejectButton status={currentStatus} setRejected={setRejected}/>
+              </div>
+            </>
+          ) : null}
+          {(((!isOwner) && currentStatus !== 'Rejected') || currentStatus === 'Confirmed') ? (
             <div className="my-auto">
-              <ConfirmButton status={currentStatus} setConfirm={setConfirm}/>
+              <CancelButton
+                status={currentStatus}
+                reasontmp={reason}
+                setReason={setReason}
+                setCancel={setCancel}
+              />
             </div>
           ) : null}
-          <div className="my-auto">
-            <CancelButton
-              status={currentStatus}
-              reasontmp={reason}
-              setReason={setReason}
-              setCancel={setCancel}
-            />
-          </div>
         </div>
       </div>
     </div>

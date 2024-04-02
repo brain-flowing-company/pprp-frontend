@@ -7,7 +7,9 @@ export default function StatusBox({
         switch (value) {
             case 'Pending':
                 return 'bg-ci-yellow text-black';
-            case 'Cancelled' || 'Rejected':
+            case 'Cancelled':
+                return 'bg-ci-red text-white';
+            case 'Rejected':
                 return 'bg-ci-red text-white';
             case 'Archived':
                 return 'bg-ci-gray text-black';

@@ -273,7 +273,7 @@ export default function MyAppointment() {
                               status={
                                 appt.status.charAt(0) + appt.status.toLowerCase().slice(1)
                               }
-                              withConfirmButton={false}
+                              isOwner={false}
                             />
                           );
                         })}
@@ -324,7 +324,7 @@ export default function MyAppointment() {
                               status={
                                 appt.status.charAt(0) + appt.status.toLowerCase().slice(1)
                               }
-                              withConfirmButton={true}
+                              isOwner={true}
                             />
                           );
                         })}

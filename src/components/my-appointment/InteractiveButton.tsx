@@ -29,21 +29,21 @@ export function CancelButton({
     status,
     reasontmp,
     setReason,
-    setCancel
+    setCancel,
 } : {
     status: string,
     reasontmp: string
     setReason: Function,
-    setCancel: Function
+    setCancel: Function,
 }) {
     const [isPending, setPending] = useState<Boolean>(false);
 
     function checkStatus() {
-        return (status === 'Pending')? setPending(true): setPending(false);
+        return (status === 'Confirmed')? setPending(true): setPending(false);
     }
     
     const setButtonColor = (value: string) => {
-        return (status === 'Pending')? 'bg-ci-blue': 'bg-ci-dark-gray';
+        return (status === 'Confirmed')? 'bg-ci-blue': 'bg-ci-dark-gray';
     }
 
     const buttonColor = setButtonColor(status);
@@ -53,7 +53,7 @@ export function CancelButton({
     return (
         <div>
             <div className="h-[30%]">
-                {status === 'Pending'? (
+                {status === 'Confirmed'? (
                     <button 
                     className={`w-full ${buttonColor} text-white rounded-lg font-medium medium-text text-center py-3 hover:shadow-blue-950 hover:shadow-inner`}
                     onClick={(e) => {
@@ -218,7 +218,7 @@ export function ConfirmButton({
                                         setConfirmed(false);
                                     }}    
                                 >
-                                    Confirm
+                                    Yes
                                 </button>
                             
                                 <button 
@@ -228,7 +228,93 @@ export function ConfirmButton({
                                         setConfirmed(false);
                                     }}    
                                 >
-                                    Cancel
+                                    No
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
+            </div>
+            ) : null}
+            
+        </div>
+        
+    )
+}
+
+export function RejectButton({
+    status,
+    setRejected
+} : {
+    status: string,
+    setRejected: Function
+}) {
+    const [isConfirmed, setConfirmed] = useState<Boolean>(false);
+
+    function checkStatus() {
+        return (status === 'Pending')? setConfirmed(true): setConfirmed(false);
+    }
+    
+    const setButtonColor = (value: string) => {
+        return (status === 'Pending')? 'bg-ci-blue': 'bg-ci-dark-gray';
+    }
+
+    const buttonColor = setButtonColor(status);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const reason = useRef("");
+
+    return (
+        <div>
+            {status === 'Pending' ? (
+                <div>
+                <div className="h-[30%]">
+                    <button 
+                    className={`w-full ${buttonColor} text-white rounded-lg font-medium medium-text text-center py-3 hover:shadow-blue-950 hover:shadow-inner`}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        checkStatus();
+                    }}
+                    >
+                        Reject
+                    </button>
+                </div>
+                {isConfirmed? (
+                <div 
+                    className="fixed left-[0] top-[0] z-40 flex h-[100vh] w-[100%] flex-col items-center justify-center bg-black bg-opacity-20 hover:cursor-default"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                    }}
+                >
+                    <div className="relative flex flex-col rounded-2xl bg-white p-[32px] items-center w-1/3 h-1/2">
+                        <div className="relative flex flex-col w-full h-full items-center justify-around">
+                            <div className="items-center">
+                                <div className="large-text font-bold">
+                                    Are you sure?
+                                </div>
+                            </div>
+                
+                            <div className="grid grid-cols-2 gap-x-6 mx-auto medium-text font-medium text-white"> 
+                                <button 
+                                    className="w-[180px] h-[50px] bg-ci-blue rounded-2xl hover:shadow-blue-950 hover:shadow-inner" 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setRejected(true);
+                                        setConfirmed(false);
+                                    }}    
+                                >
+                                    Yes
+                                </button>
+                            
+                                <button 
+                                    className="w-[180px] h-[50px] bg-ci-blue rounded-2xl hover:shadow-blue-950 hover:shadow-inner"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setConfirmed(false);
+                                    }}    
+                                >
+                                    No
                                 </button>
                                 
                             </div>
