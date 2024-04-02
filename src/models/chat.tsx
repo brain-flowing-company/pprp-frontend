@@ -20,6 +20,11 @@ export interface ChatMessage {
   read_at: string;
   sent_at: string;
   author: boolean;
+  attatchment: {
+    property_id: string
+    agreement_id: string
+    appointment_id: string
+  };
 }
 
 export interface Chat {
@@ -29,6 +34,7 @@ export interface Chat {
   profile_image_url: string;
   unread_messages: number;
   content: string;
+
 }
 
 export interface ReadMessage {
