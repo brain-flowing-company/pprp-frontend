@@ -1,4 +1,7 @@
 import { ChatMessage } from "@/models/Chat";
+import PropertyMessage from "./PropertyMessage";
+import AgreementMessage from "./AgreementMessage";
+import AppointmentMessage from "./AppointmentMessage";
 
 const MessageStatus = ({ message }: { message: ChatMessage }) => {
   const sentAt = new Date(message.sent_at);
@@ -31,6 +34,9 @@ export default function Message({ message }: { message: ChatMessage }) {
       >
         <MessageStatus message={message} />
         <MessageContent message={message} />
+        {/* <PropertyMessage message={message} />
+        <AgreementMessage message={message} />
+        <AppointmentMessage message={message}/> */}
       </div>
     </div>
   );
