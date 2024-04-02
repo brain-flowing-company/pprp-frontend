@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { CreditCardData } from "../edit-profile/FinancialPage";
 import getUserFinancial from "@/services/users/getUserFinancial";
 import { redirectPayment } from "@/services/payments/redirectPayment";
+import { log } from "console";
 
 type PaymentInfo = {
     title:string,
@@ -23,42 +24,45 @@ export const CreatePaymentHomePage = ({
     const [paymentType, setPaymentType] = useState("QR");
     const [message, setMessage] = useState("");
     const [creditCards, setCreditCards] = useState<CreditCardData[]|null>();
-    const [selectedCardNumber, setSelectedCardNumber] = useState("-");
-    const [html, setHtml] = useState("");
+    // const [selectedCardNumber, setSelectedCardNumber] = useState("-");
     const fetchData = async () => {
         try {
           const data = await getUserFinancial();
           setCreditCards(data.credit_cards)
-          console.log(creditCards)
         } catch (error) {
           console.error("Error fetching data:", error);
         }
     }
     useEffect(() => {
         fetchData();
-        fetchHtml()
     },[])
-    const fetchHtml = async() => {
-        const response = await redirectPayment()
-        setHtml(response)
-    }
-    const getCreditCardsName = () => {
-        const names:string[] = []
-        for(let i = 0; i < creditCards!.length; i++ ){
-            names.push(creditCards![i].card_nickname);
+    const redirect = async() => {
+        const response = {
+            price : 100000,
+            name : "win",
+            payment_method : paymentType,
+            agreement_id : "23f563dc-ebbb-400c-ab3e-9a7611f0ae30"
         }
-        return names
+        const res = await redirectPayment(response)
+        window.location.href = res;
     }
-    const maskedCardNumber = (cardNumber:string) => {
-        return "xxxx xxxx xxxx " + cardNumber.slice(12,16);
-      }
-    const handleSelectCard = (cardName:any) => {
-        for(let i = 0; i < creditCards!.length; i++ ){
-            if(creditCards![i].card_nickname === cardName){
-                setSelectedCardNumber(maskedCardNumber(creditCards![i].card_number))
-            }
-        }
-    }
+    // const getCreditCardsName = () => {
+    //     const names:string[] = []
+    //     for(let i = 0; i < creditCards!.length; i++ ){
+    //         names.push(creditCards![i].card_nickname);
+    //     }
+    //     return names
+    // }
+    // const maskedCardNumber = (cardNumber:string) => {
+    //     return "xxxx xxxx xxxx " + cardNumber.slice(12,16);
+    //   }
+    // const handleSelectCard = (cardName:any) => {
+    //     for(let i = 0; i < creditCards!.length; i++ ){
+    //         if(creditCards![i].card_nickname === cardName){
+    //             setSelectedCardNumber(maskedCardNumber(creditCards![i].card_number))
+    //         }
+    //     }
+    // }
     return (
         <div className="flex flex-col justify-center items-center sm:text-md text-sm">
             <div className="flex flex-row bg-ci-dark-blue w-full h-16 rounded-t-2xl px-10 text-ci-white ">
@@ -102,8 +106,8 @@ export const CreatePaymentHomePage = ({
                     </div>
                 </div>
                 <div className="w-1/3 flex justify-center">
-                    <div className={`${paymentType == "CC"? "bg-ci-blue text-white" : "bg-white text-black"} w-48 h-8 flex items-center px-4 justify-center rounded-md`}
-                        onClick={()=>{setPaymentType("CC")}}>
+                    <div className={`${paymentType == "CREDIT_CARD"? "bg-ci-blue text-white" : "bg-white text-black"} w-48 h-8 flex items-center px-4 justify-center rounded-md`}
+                        onClick={()=>{setPaymentType("CREDIT_CARD")}}>
                         Credit Card
                     </div>
                 </div>
@@ -111,20 +115,8 @@ export const CreatePaymentHomePage = ({
             <div className="flex flex-row bg-ci-gray w-full h-16 px-10 items-center font-bold cursor-default">
                 <div className="w-1/3 text-ci-blue">{paymentType == "QR"? "QR PromptPay" : "Credit Card"}</div>
                 <div className="w-1/3 flex justify-center">
-                {
-                    paymentType == "CC" && creditCards != null && 
-                    <Dropdown
-                    label=""
-                    options={getCreditCardsName()}
-                    onSelect={handleSelectCard}
-                    className="w-[200px] h-[32px]"
-                    />
-                }
                 </div>
                 <div className="w-1/3 flex items-center justify-center">
-                    {paymentType == "CC" && 
-                    creditCards != null && 
-                    selectedCardNumber}
                 </div>
             </div>
             <div className="bg-ci-light-gray w-full h-24 px-16 py-3 text-lg font-bold rounded-b-2xl">
@@ -133,12 +125,11 @@ export const CreatePaymentHomePage = ({
                     <div className="flex flex-col space-y-2">
                         <div className="text-2xl text-ci-red">$10,000</div>
                         <button className="text-white bg-ci-blue text-sm px-4 rounded-md py-1" 
-                            // onClick={() => {setConfirm(1)}}>
-                            onClick={fetchHtml}>
+                            onClick={redirect}>
                                 Confirm</button>
                     </div>
                 </div>
-                <div dangerouslySetInnerHTML={{ __html: html }} />
+
             </div>
 
         </div>

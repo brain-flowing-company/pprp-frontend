@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { Pagination } from "@mui/material";
 import Dropdown from "@/components/edit-profile/DropDown";
+import getUserPayment from "@/services/payments/getUserPayment";
 type Transaction = {
     name:string,
     dateTime: string,
@@ -43,7 +44,9 @@ const PaymentHistory = () => {
                                                         {name:"Nim ZaZa", dateTime:"20 Jul 2023 - 14:00", type: "Credit Bard", amount:"-฿20,000"}]);
     const [currentItems, setCurrentItems] = useState<Transaction[]>([{name:"Win ZaZa", dateTime:"20 Jul 2023 - 14:00", type: "Credit Bard", amount:"-฿30,000"}, 
                                                                     {name:"Win ZaZa", dateTime:"20 Jul 2023 - 14:00", type: "Credit Bard", amount:"-฿30,000"}])
-    const fetchData = () => {
+    const fetchData = async () => {
+        const data = await getUserPayment();
+        console.log(data);
         setCurrentItems(items.slice(0,10));
         setPageCount(Math.ceil(items.length/10));
     }
