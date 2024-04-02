@@ -23,7 +23,7 @@ export default function ToggleSwitch({
 
     return (
         <div className="flex flex-row">
-            <div className="text-2xl font-bold pt-2">
+            <div className="medium-text font-bold pt-2">
                 {label1}
             </div>
             <div 
@@ -35,7 +35,7 @@ export default function ToggleSwitch({
                 <div className={`absolute w-[32px] h-[32px] rounded-[50%] bg-ci-light-gray mx-1 ${setButtonSide(selectOn)}`}>
                 </div>
             </div>
-            <div className="text-2xl font-bold pt-2">
+            <div className="medium-text font-bold pt-2">
                 {label2}
             </div>
         </div>

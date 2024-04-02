@@ -87,9 +87,9 @@ export default function AppointmentList({
             />
           </div>
           <div className="my-auto ml-5 flex flex-col">
-            <div className="text-2xl font-medium hover:cursor-text" onClick={(e) => e.stopPropagation()}>{propertyName}</div>
-            <div className="text-xl font-normal hover:cursor-text" onClick={(e) => e.stopPropagation()}>{propertySubName}</div>
-            <div className="mt-3 flex flex-row text-xl font-normal">
+            <div className="medium-text font-medium hover:cursor-text" onClick={(e) => e.stopPropagation()}>{propertyName}</div>
+            <div className="small-text font-normal hover:cursor-text" onClick={(e) => e.stopPropagation()}>{propertySubName}</div>
+            <div className="mt-3 flex flex-row small-text font-normal">
               <div className="w-20 relative flex aspect-square items-center justify-center overflow-hidden rounded-full hover:cursor-auto" onClick={(e) => e.stopPropagation()}>
                 <Image
                   src={ownerImgSrc}
@@ -104,7 +104,7 @@ export default function AppointmentList({
             </div>
           </div>
         </div>
-        <div className="font-regular my-auto mx-auto flex w-[15%] flex-col text-2xl hover:cursor-text" 
+        <div className="font-regular medium-text my-auto mx-auto flex w-[15%] flex-col hover:cursor-text" 
           onClick={(e) => e.stopPropagation()}>
           <div>{date}</div>
           <div className="mt-2">{time}</div>

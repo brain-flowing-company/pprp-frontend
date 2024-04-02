@@ -55,7 +55,7 @@ export function CancelButton({
             <div className="h-[30%]">
                 {status === 'Pending'? (
                     <button 
-                    className={`w-full ${buttonColor} text-white rounded-lg font-medium text-2xl text-center py-3 hover:shadow-blue-950 hover:shadow-inner`}
+                    className={`w-full ${buttonColor} text-white rounded-lg font-medium medium-text text-center py-3 hover:shadow-blue-950 hover:shadow-inner`}
                     onClick={(e) => {
                         e.stopPropagation();
                         checkStatus();
@@ -65,7 +65,7 @@ export function CancelButton({
                     </button>
                 ) : (
                     <button 
-                    className={`w-full ${buttonColor} text-white rounded-lg font-medium text-2xl text-center py-3`}
+                    className={`w-full ${buttonColor} text-white rounded-lg font-medium medium-text text-center py-3`}
                     onClick={(e) => {
                         e.stopPropagation();
                         checkStatus();
@@ -86,11 +86,11 @@ export function CancelButton({
                     <div className="relative flex flex-col rounded-2xl bg-white p-[32px] items-center w-1/3 h-1/2">
                         <div className="relative flex flex-col w-full h-full items-center justify-around">
                             <div className="items-center">
-                                <div className="text-4xl font-bold">
+                                <div className="large-text font-bold">
                                     Are you sure?
                                 </div>
                             </div>
-                            <div className="text-xl font-bold">
+                            <div className="small-text font-bold">
                                 Reason
                                 {/* <TextBox
                                     onChange={(e) => {
@@ -115,7 +115,7 @@ export function CancelButton({
 
                                 </textarea>
                             </div>
-                            <div className="grid grid-cols-2 gap-x-6 mx-auto text-2xl font-medium text-white">
+                            <div className="grid grid-cols-2 gap-x-6 mx-auto medium-text font-medium text-white">
                                 {reasontmp.length === 0? (
                                     <button 
                                         className="w-[180px] h-[50px] bg-ci-dark-gray rounded-2xl" 
@@ -185,7 +185,7 @@ export function ConfirmButton({
                 <div>
                 <div className="h-[30%]">
                     <button 
-                    className={`w-full ${buttonColor} text-white rounded-lg font-medium text-2xl text-center py-3 hover:shadow-blue-950 hover:shadow-inner`}
+                    className={`w-full ${buttonColor} text-white rounded-lg font-medium medium-text text-center py-3 hover:shadow-blue-950 hover:shadow-inner`}
                     onClick={(e) => {
                         e.stopPropagation();
                         checkStatus();
@@ -204,12 +204,12 @@ export function ConfirmButton({
                     <div className="relative flex flex-col rounded-2xl bg-white p-[32px] items-center w-1/3 h-1/2">
                         <div className="relative flex flex-col w-full h-full items-center justify-around">
                             <div className="items-center">
-                                <div className="text-4xl font-bold">
+                                <div className="large-text font-bold">
                                     Are you sure?
                                 </div>
                             </div>
                 
-                            <div className="grid grid-cols-2 gap-x-6 mx-auto text-2xl font-medium text-white"> 
+                            <div className="grid grid-cols-2 gap-x-6 mx-auto medium-text font-medium text-white"> 
                                 <button 
                                     className="w-[180px] h-[50px] bg-ci-blue rounded-2xl hover:shadow-blue-950 hover:shadow-inner" 
                                     onClick={(e) => {

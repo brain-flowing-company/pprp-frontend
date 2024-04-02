@@ -20,7 +20,7 @@ export default function StatusBox({
 
     return (
         <div>
-            <div className={`rounded-lg font-medium text-2xl text-center py-3 ${boxColor}`}>
+            <div className={`rounded-lg font-medium small-text text-center py-3 ${boxColor}`}>
                 {status}
             </div>
         </div>
