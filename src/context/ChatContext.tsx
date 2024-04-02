@@ -112,7 +112,8 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
               author: true,
               content: message,
               read_at: "sending",
-            },
+              attatchment: {},
+            } as ChatMessage,
           ],
         };
       });
