@@ -79,7 +79,7 @@ export default function AppointmentDetail() {
       "Dec",
     ];
 
-    return `${day} ${months[month - 1]} ${year}`;
+    return `${day} ${months[month]} ${year}`;
   };
 
   const getTime = (dateString: string) => {
