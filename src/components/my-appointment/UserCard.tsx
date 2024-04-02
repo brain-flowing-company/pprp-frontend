@@ -13,7 +13,7 @@ export default function UserCard({
 }) {
     return (
         <div className="flex flex-col">
-            <div className="font-semibold text-3xl mb-5">
+            <div className="font-semibold medium-large-text mb-5">
                 {role}
             </div>
             <div className="flex flex-row mx-auto w-full">
@@ -27,7 +27,7 @@ export default function UserCard({
                         // layout='responsive'
                     />
                 </div>
-                <div className='flex flex-col font-medium text-3xl my-auto mx-auto'>
+                <div className='flex flex-col font-medium medium-large-text my-auto mx-auto'>
                     <div>
                         {name}
                     </div>

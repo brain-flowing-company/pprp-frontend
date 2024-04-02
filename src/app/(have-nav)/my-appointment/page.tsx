@@ -253,6 +253,7 @@ export default function MyAppointment() {
                         {dwellerAppointmentData.map((appt) => {
                           return (
                             <AppointmentList
+                              key={appt.appointment_id}
                               apptId={appt.appointment_id}
                               propertyImgSrc={
                                 appt.property.property_images.length === 0
@@ -304,6 +305,7 @@ export default function MyAppointment() {
                         {ownerAppointmentData.map((appt) => {
                           return (
                             <AppointmentList
+                              key={appt.appointment_id}
                               apptId={appt.appointment_id}
                               propertyImgSrc={
                                 appt.property.property_images.length === 0

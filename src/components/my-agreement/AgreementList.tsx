@@ -3,6 +3,7 @@ import StatusBox from "@/components/my-agreement/StatusBox";
 import { DetailButton, CancelButton } from "@/components/my-agreement/InteractiveButton";
 import { useEffect, useState } from "react";
 import UpdateAgreementStatus from "@/services/agreement/updateAgreementStatus";
+import { useRouter } from "next/navigation";
 
 export default function AgreementList({
     agreementId,
@@ -29,6 +30,8 @@ export default function AgreementList({
     const [isCancelled, setCancel] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(status);
 
+    const router = useRouter();
+
     useEffect(() => {
         const updateCancel = async () => {
             if (isCancelled) {
@@ -45,10 +48,14 @@ export default function AgreementList({
     }, [isCancelled])
 
     return (
-        <div className="border-ci-dark-gray border-y-2 border-x-4 bg-ci-light-gray w-full h-[240px]">
+        <div 
+            className="border-ci-dark-gray border-y-2 border-x-4 bg-ci-light-gray w-full h-[240px] hover:cursor-pointer"
+            onClick={() => router.push(`/my-agreement/${agreementId}`)}
+        >
             <div className="flex flex-row w-[90%] h-[67%] mx-auto my-10 justify-between">
                 <div className="flex flex-row w-[40%] my-auto">
-                    <div className="my-auto w-40 relative flex aspect-square items-center justify-center overflow-hidden rounded-lg">
+                    <div className="my-auto w-40 relative flex aspect-square items-center justify-center overflow-hidden rounded-lg hover:cursor-auto"
+                    onClick={(e) => e.stopPropagation()}>
                         <Image 
                             src={propertyImgSrc}
                             alt="propertyImg"
@@ -59,14 +66,15 @@ export default function AgreementList({
                         />
                     </div>
                     <div className="flex flex-col ml-5 my-auto">
-                        <div className="text-2xl font-medium">
+                        <div className="medium-text font-medium hover:cursor-text" onClick={(e) => e.stopPropagation()}>
                             {propertyName}
                         </div>
-                        <div className="text-xl font-normal">
+                        <div className="small-text font-normal hover:cursor-text" onClick={(e) => e.stopPropagation()}>
                             {propertySubName}
                         </div>
-                        <div className="flex flex-row mt-3 text-xl font-normal">
-                            <div className="w-20 relative flex aspect-square items-center justify-center overflow-hidden rounded-full">
+                        <div className="flex flex-row mt-3 small-text font-normal">
+                            <div className="w-20 relative flex aspect-square items-center justify-center overflow-hidden rounded-full hover:cursor-auto"
+                            onClick={(e) => e.stopPropagation()}>
                                 <Image 
                                     src={ownerImgSrc}
                                     alt="Owner Image"
@@ -76,13 +84,14 @@ export default function AgreementList({
                                     // layout="responsive"
                                 />
                             </div>
-                            <div className="mx-2 my-auto">
+                            <div className="mx-2 my-auto hover:cursor-text" onClick={(e) => e.stopPropagation()}>
                                 {ownerName}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col w-[15%] ml-20 my-auto text-2xl font-regular">
+                <div className="flex flex-col w-[15%] ml-20 my-auto medium-text font-regular hover:cursor-text" 
+                onClick={(e) => e.stopPropagation()}>
                     <div>
                         {date}
                     </div>
@@ -90,12 +99,16 @@ export default function AgreementList({
                         {time}
                     </div>
                 </div>
-                <div className="w-[20%] h-[30%] ml-20 my-auto">
+                <div className="w-[20%] h-[30%] ml-20 my-auto hover:cursor-auto" onClick={(e) => e.stopPropagation()}>
                     <StatusBox status={currentStatus}/>
                 </div>
-                <div className="flex flex-col w-[12.5%] h-full ml-28 my-auto justify-between">
-                    <DetailButton agreementId={agreementId}/>
-                    <CancelButton status={currentStatus} reasontmp={reason} setReason={setReason} setCancel={setCancel}/>            
+                <div className="flex flex-col w-[12.5%] h-full ml-28 my-auto justify-center">
+                    {/* <DetailButton agreementId={agreementId}/> */}
+                    {currentStatus !== 'Archived' && currentStatus !== 'Cancelled' ? (
+                        <div className="my-auto">
+                            <CancelButton status={currentStatus} reasontmp={reason} setReason={setReason} setCancel={setCancel}/>            
+                        </div>
+                    ) : null}
                 </div>
             </div>
         </div>

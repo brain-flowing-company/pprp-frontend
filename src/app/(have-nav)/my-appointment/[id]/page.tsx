@@ -15,24 +15,6 @@ import getOneAppointment from "@/services/appointments/getOneAppointment";
 export default function AppointmentDetail() {
   const router = useRouter();
 
-  const propertyImgSrc = "/img/my-appointment/mhadaeng.png";
-  const propertyName = "Bhan Mha Daeng 3";
-  const propertySubName = "Project House of Mha Daeng";
-  const ownerImgSrc = "/img/my-appointment/owapapi.png";
-  const ownerName = "Owa Papi";
-  const ownerTel = "012 - 345 - 6789";
-  const dwellerName = "Piwa Opi";
-  const dwellerTel = "098 - 765 - 4321";
-  const date = "1 Apr 2005";
-  const time = "13:39";
-  const status = "Pending";
-
-  const address =
-    "101 ถนน สุขุมวิท 101/1 Bang Chak, Phra Khanong, Bangkok 10260";
-  const price = "25,000 Baht/mo";
-  const note =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo";
-
   const params = useParams<{ id: string }>();
 
   const [apptDetail, setApptDetail] = useState<AppointmentData | null>(null);
@@ -133,14 +115,14 @@ export default function AppointmentDetail() {
               </div>
               <div className="my-auto w-[60%] text-lg text-white">Back</div>
             </button>
-            <div className="mx-5 my-auto text-4xl font-bold">
+            <div className="mx-5 my-auto large-text font-bold">
               {apptDetail?.property.property_name}
             </div>
           </div>
           <div className="my-10 flex w-full py-5 flex-col rounded-3xl bg-ci-light-gray">
             <div className="mx-auto my-7 flex w-[90%] flex-col items-center justify-center">
               <div className="mb-5 flex w-full flex-row justify-between">
-                <div className="text-4xl font-bold">
+                <div className="large-text font-bold">
                   {apptDetail?.property.property_name}
                 </div>
                 <div>
@@ -163,7 +145,7 @@ export default function AppointmentDetail() {
                     layout="responsive"
                   />
                 </div>
-                <div className="flex h-auto w-[50%] flex-col text-3xl">
+                <div className="flex h-auto w-[50%] flex-col medium-large-text">
                   <div className="my-auto flex flex-row">
                     <div className="mr-auto flex">
                       <div className="font-semibold">Date:&nbsp;</div>
@@ -210,7 +192,7 @@ export default function AppointmentDetail() {
                   />
                 </div>
               </div>
-              <div className="flex flex-row text-3xl mt-5">
+              <div className="flex flex-row medium-large-text mt-5">
                 <div className="font-semibold">Note:&nbsp;</div>
                 <div className="font-medium">{apptDetail?.note}</div>
               </div>

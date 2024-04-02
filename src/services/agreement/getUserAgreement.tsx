@@ -1,7 +1,7 @@
-export default async function getUserAgreement() {
+export default async function getUserAgreement(sortBy: string) {
   try {
     const response = await fetch(
-      `http://localhost:8000/api/v1/user/me/agreements`,
+      `http://localhost:8000/api/v1/user/me/agreements?order=${sortBy}`,
       {
         method: "GET",
         credentials: "include",

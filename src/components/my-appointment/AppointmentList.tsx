@@ -41,6 +41,9 @@ export default function AppointmentList({
 
   const router = useRouter();
 
+  useEffect(() => console.log("jadil;srjgljdsklr"
+  ), [])
+
   useEffect(() => {
     const updateCancel = async () => {
       if (isCancelled) {
