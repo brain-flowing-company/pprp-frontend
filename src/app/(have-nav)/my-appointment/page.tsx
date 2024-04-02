@@ -171,7 +171,7 @@ export default function MyAppointment() {
             </option>
           </select>
         </div>
-        <div className="relative ml-2 flex flex-row place-items-start text-xl font-bold">
+        {/* <div className="relative ml-2 flex flex-row place-items-start text-xl font-bold">
           <div
             className="flex flex-row hover:cursor-pointer"
             onClick={() => {
@@ -207,7 +207,7 @@ export default function MyAppointment() {
               ))}
             </div>
           ) : null}
-        </div>
+        </div> */}
       </div>
 
       <div className="h-[80px] rounded-t-3xl bg-ci-dark-blue text-2xl font-semibold text-white">
@@ -264,6 +264,7 @@ export default function MyAppointment() {
                               status={
                                 appt.status.charAt(0) + appt.status.toLowerCase().slice(1)
                               }
+                              withConfirmButton={false}
                             />
                           );
                         })}
@@ -314,6 +315,7 @@ export default function MyAppointment() {
                               status={
                                 appt.status.charAt(0) + appt.status.toLowerCase().slice(1)
                               }
+                              withConfirmButton={true}
                             />
                           );
                         })}

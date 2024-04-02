@@ -19,6 +19,7 @@ export default function AppointmentList({
   date,
   time,
   status,
+  withConfirmButton,
 }: {
   apptId: string;
   propertyImgSrc: string;
@@ -29,6 +30,7 @@ export default function AppointmentList({
   date: string;
   time: string;
   status: string;
+  withConfirmButton: boolean;
 }) {
   const [reason, setReason] = useState("");
   const [isCancelled, setCancel] = useState(false);
@@ -110,17 +112,21 @@ export default function AppointmentList({
         <div className="my-auto mx-auto h-[30%] w-[12.5%] hover:cursor-auto" onClick={(e) => e.stopPropagation()}>
           <StatusBox status={currentStatus} />
         </div>
-        <div className="my-auto ml-auto flex h-full w-[12.5%] flex-col justify-between">
+        <div className="my-auto ml-auto flex h-full w-[12.5%] flex-col justify-center">
           {/* <DetailButton appointmentId={apptId} /> */}
-          {status === 'Pending' ? (
-            <ConfirmButton status={status} setConfirm={setConfirm}/>
+          {(withConfirmButton && currentStatus === 'Pending') ? (
+            <div className="my-auto">
+              <ConfirmButton status={currentStatus} setConfirm={setConfirm}/>
+            </div>
           ) : null}
-          <CancelButton
-            status={currentStatus}
-            reasontmp={reason}
-            setReason={setReason}
-            setCancel={setCancel}
-          />
+          <div className="my-auto">
+            <CancelButton
+              status={currentStatus}
+              reasontmp={reason}
+              setReason={setReason}
+              setCancel={setCancel}
+            />
+          </div>
         </div>
       </div>
     </div>
