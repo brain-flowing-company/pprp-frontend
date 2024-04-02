@@ -21,14 +21,26 @@ export default function SmallPropertyCard({
       const res = await favoriteProperty(property.property_id);
     }
   }
+  function formatPrice(num: number): string {
+    if (num) {
+      return Math.round(num)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    return "0";
+  }
 
   return (
     <div>
       {property ? (
-        <div className="w-[320px] rounded-3xl bg-white xl:w-[400px]">
+        <div className="w-[320px] select-none rounded-3xl bg-white xl:w-[400px]">
           <div className="relative h-60 w-full">
             <Image
-              src="/img/home-page/lumpini.png"
+              src={
+                property.property_images[0]
+                  ? property.property_images[0].image_url
+                  : "/img/home-page/lumpini.png"
+              }
               alt="prop-img"
               fill={true}
               className="rounded-t-3xl"
@@ -71,10 +83,11 @@ export default function SmallPropertyCard({
 
             <div className="flex flex-col gap-y-2 text-lg xl:text-xl">
               <div>
-                {property.street}, {property.province}
+                {/* {property.street}, {property.province} */}
+                {property.address}
               </div>
               <div className="font-semibold">
-                {property.renting_property.price_per_month}/month
+                {formatPrice(property.renting_property.price_per_month)}/month
               </div>
             </div>
 

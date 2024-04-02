@@ -1,57 +1,59 @@
 import Image from "next/image";
-const personalIcon = "/img/edit-profile/personal-icon.svg";
-const financialIcon = "/img/edit-profile/financial-icon.svg";
-const ownerIcon = "/img/edit-profile/owner-icon.svg";
+
 const Sidebar = ({
-  personal,
-  financial,
-  owner,
+  switchTo1,
+  switchTo2,
+  switchTo3,
+  header,
+  text1,
+  text2,
+  text3,
+  iconSrc1,
+  iconSrc2,
+  iconSrc3,
 }: {
-  personal: () => void;
-  financial: () => void;
-  owner: () => void;
+  header: string;
+  text1: string;
+  text2: string;
+  text3: string;
+  iconSrc1?: string;
+  iconSrc2?: string;
+  iconSrc3?: string;
+  switchTo1: () => void;
+  switchTo2: () => void;
+  switchTo3: () => void;
 }) => {
   return (
     <div className=" invisible max-w-0 bg-ci-light-gray pt-4 text-[20px] md:visible md:min-w-72">
       <div className="flex w-full justify-center text-[40px] font-bold">
-        Edit Profile
+        {header}
       </div>
       <div
         className="flex h-14 w-full cursor-pointer flex-row space-x-2 hover:bg-ci-gray"
-        onClick={personal}
+        onClick={switchTo1}
       >
         <div className="ml-4 flex items-center">
-          <Image
-            src={personalIcon}
-            alt={"personal icon"}
-            width={18}
-            height={18}
-          />
+          {iconSrc1 ? <Image src={iconSrc1} alt={"first icon"} width={18} height={18} /> :null}
         </div>
-        <div className="flex items-center">Personal Information</div>
+        <div className="flex items-center">{text1}</div>
       </div>
       <div
         className="flex h-14 w-full cursor-pointer flex-row space-x-2 hover:bg-ci-gray"
-        onClick={financial}
+        onClick={switchTo2}
       >
         <div className="ml-4 flex items-center">
-          <Image
-            src={financialIcon}
-            alt={"financial icon"}
-            width={18}
-            height={18}
-          />
+          {iconSrc2 ? <Image src={iconSrc2} alt={"second icon"} width={18} height={18} /> :null}
         </div>
-        <div className="flex items-center">Financial Information</div>
+        <div className="flex items-center">{text2}</div>
       </div>
       <div
         className="flex h-14 w-full cursor-pointer flex-row space-x-2 hover:bg-ci-gray "
-        onClick={owner}
+        onClick={switchTo3}
       >
         <div className="ml-4 flex items-center">
-          <Image src={ownerIcon} alt={"owner icon"} width={18} height={18} />
+          {iconSrc3 ? <Image src={iconSrc3} alt={"third icon"} width={18} height={18} /> :null}
         </div>
-        <div className="flex items-center">Owner Information</div>
+        <div className="flex items-center">{text3}</div>
       </div>
     </div>
   );

@@ -148,7 +148,7 @@ export default function ListingDetailPage({
         )
       }
     >
-      <button
+      {/* <button
         onClick={() => {
           console.log(name);
           console.log(listingType);
@@ -160,7 +160,7 @@ export default function ListingDetailPage({
         }}
       >
         test
-      </button>
+      </button> */}
       <TrackingCircle page="Listing" />
       <div className="flex">
         <div className="m-20 flex-grow rounded-[20px] border-2 border-gray-300 p-10">

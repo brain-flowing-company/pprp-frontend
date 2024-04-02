@@ -7,12 +7,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import MessageSection, { MessageSectionHandler } from "./MessageSection";
 import { ChatContext } from "@/context/ChatContext";
 
-interface MessageBoxProps {
-  user: string;
-  setChat: Function;
-}
-
-export default function MessageBox({ user, setChat }: MessageBoxProps) {
+export default function MessageBox() {
   const ctx = useContext(ChatContext);
   const chat = ctx.chats[ctx.chatUserId];
   const messages = ctx.messages[ctx.chatUserId];
@@ -28,7 +23,7 @@ export default function MessageBox({ user, setChat }: MessageBoxProps) {
       setFetching(true);
       ctx.fetchMessages().then(() => setFetching(false));
     }
-  }, [isVisible]);
+  }, [isVisible, ctx.chatUserId]);
 
   const sendMessage = (msg: string) => {
     ctx.sendMessage(msg);
@@ -54,7 +49,7 @@ export default function MessageBox({ user, setChat }: MessageBoxProps) {
             className="rounded-md hover:bg-slate-300"
             onClick={() => {
               ctx.closeChat();
-              setChat(false);
+              ctx.setChat(false);
             }}
           >
             <Image

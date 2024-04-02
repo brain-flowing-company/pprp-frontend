@@ -5,22 +5,25 @@ import getUserFavProperty from "@/services/property/getUserFavProperty";
 import Image from "next/image";
 
 import { useEffect, useState } from "react";
+import EmptyProperty from "@/components/my-listing/EmptyProperty";
 
 const myFavPage = () => {
   const [propData, setData] = useState<PropertyData[]>([]);
   const [total, setTotal] = useState<number>(0);
 
+  const [sort,setSortby]  = useState<string>("created_at:desc")
+  const [onPage, setOnPage] = useState<number>(1);
+
   useEffect(() => {
     const fetchProp = async () => {
-      const data = await getUserFavProperty(20, 1);
+      const data = await getUserFavProperty(10, onPage,sort);
       if (data) {
         setData(data.properties);
         setTotal(data.total);
       }
-      console.log(data);
     };
     fetchProp();
-  }, []);
+  }, [sort,onPage]);
 
   return (
     <>
@@ -34,26 +37,12 @@ const myFavPage = () => {
               isEditable={false}
               additionaltext="for rent or sales in my favorites"
               showAmount={false}
+              setSort={setSortby}
+              setOnPage={setOnPage}
             ></PropertyCards>
           </div>
         </div>
-      ) : (
-        <div className="mx-72 mt-8 flex h-1/2 flex-col items-center justify-around">
-          <div className="text-center text-4xl font-bold">
-            Empty favorite property
-          </div>
-
-          <Image
-            src="/img/mylisting/home.svg"
-            alt="home"
-            width={100}
-            height={100}
-          />
-          <div className="m-1 text-center text-2xl">
-            Your favorite property is empty.
-          </div>
-        </div>
-      )}
+      ) : <EmptyProperty headerText="Empty favorite property" text1="Your favorite property is empty." haveButton={false}/>}
     </>
   );
 };

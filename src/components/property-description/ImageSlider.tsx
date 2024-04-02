@@ -1,7 +1,9 @@
+import PropertyImages from "@/models/PropertyData";
 import Image from "next/image";
 import { useState } from "react";
 const closeIcon = "/img/white-close-icon.svg";
-const ImageSlider = ({ images }: { images: string[] }) => {
+
+const ImageSlider = ({ images }: { images: PropertyImages[] }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [displayImage, setDisplayImage] = useState(false);
   const updateCurrentImage = (index: number) => {
@@ -12,12 +14,12 @@ const ImageSlider = ({ images }: { images: string[] }) => {
   };
   return (
     <div>
-      <div className="mt-4 flex h-fit flex-row gap-1 overflow-y-hidden overflow-x-scroll">
+      <div className="flex h-fit flex-row gap-1 overflow-x-auto w-full">
         {images.map((img, i) => (
           <div className="relative aspect-video h-64 sm:h-72 md:h-96" key={i}>
             <Image
               className="cursor-pointer"
-              src={img}
+              src={img.image_url}
               alt={`Image ${i + 1}`}
               layout="fill"
               objectFit="cover"
@@ -50,7 +52,7 @@ const ImageSlider = ({ images }: { images: string[] }) => {
             {"<"}
           </button>
           <Image
-            src={images[currentImage]}
+            src={images[currentImage].image_url}
             alt={`Image`}
             width={0}
             height={0}

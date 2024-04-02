@@ -1,4 +1,4 @@
-import { Chat } from "@/models/chat";
+import { Chat } from "@/models/Chat";
 
 export default async function getAllChats(query?: string): Promise<Chat[]> {
   try {

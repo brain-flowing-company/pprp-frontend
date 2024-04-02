@@ -137,7 +137,7 @@ export default function AppointmentDetail() {
               {apptDetail?.property.property_name}
             </div>
           </div>
-          <div className="my-10 flex h-full w-full flex-col rounded-3xl bg-ci-light-gray">
+          <div className="my-10 flex w-full py-5 flex-col rounded-3xl bg-ci-light-gray">
             <div className="mx-auto my-7 flex w-[90%] flex-col items-center justify-center">
               <div className="mb-5 flex w-full flex-row justify-between">
                 <div className="text-4xl font-bold">
@@ -152,10 +152,10 @@ export default function AppointmentDetail() {
                   />
                 </div>
               </div>
-              <div className="flex w-full flex-row justify-between">
-                <div className="w-[40%]">
+              <div className="flex w-full flex-row justify-between h-max">
+                <div className="w-[40%] rounded-lg">
                   <Image
-                    // src={apptDetail?.property.property_images[0].image_url}
+                    src={apptDetail?.property.property_images[0].image_url}
                     alt="property image"
                     width={600}
                     height={400}
@@ -163,52 +163,56 @@ export default function AppointmentDetail() {
                     layout="responsive"
                   />
                 </div>
-                <div className="flex h-full w-[50%] flex-col text-2xl">
+                <div className="flex h-auto w-[50%] flex-col text-3xl">
                   <div className="my-auto flex flex-row">
                     <div className="mr-auto flex">
                       <div className="font-semibold">Date:&nbsp;</div>
-                      <div className="font-regular">
+                      <div className="font-medium">
                         {getDate(apptDetail?.appointment_date)}
                       </div>
                     </div>
                     <div className="mx-auto flex">
                       <div className="font-semibold">Time:&nbsp;</div>
-                      <div className="font-regular">
+                      <div className="font-medium">
                         {getTime(apptDetail?.appointment_date)}
                       </div>
                     </div>
                   </div>
                   <div className="my-auto flex flex-row">
                     <div className="font-semibold">Address:&nbsp;</div>
-                    <div className="font-regular">{getAddress()}</div>
+                    <div className="font-medium">{getAddress()}</div>
                   </div>
                   <div className="my-auto flex flex-row">
                     <div className="font-semibold">Price:&nbsp;</div>
-                    <div className="font-regular">
+                    <div className="font-medium">
                       {apptDetail?.property.price_per_month + " Baht / month"}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="mx-auto mt-5 flex h-full w-[80%] flex-col items-center justify-center">
-              <div className="mb-5 flex w-[80%] flex-row justify-between">
-                <UserCard
-                  role="Owner"
-                  profilePicSrc={apptDetail?.owner.owner_profile_image_url}
-                  name={`${apptDetail?.owner.owner_first_name} ${apptDetail?.owner.owner_last_name}`}
-                  tel={apptDetail?.owner.owner_phone_number}
-                />
-                <UserCard
-                  role="Dweller"
-                  profilePicSrc={apptDetail?.dweller.dweller_profile_image_url}
-                  name={`${apptDetail?.dweller.dweller_first_name} ${apptDetail?.dweller.dweller_last_name}`}
-                  tel={apptDetail?.dweller.dweller_phone_number}
-                />
+            <div className="mx-auto mt-10 flex h-full w-[80%] flex-col items-center justify-between">
+              <div className="mb-5 flex w-[80%] flex-row justify-evenly">
+                <div className="w-[40%]">
+                  <UserCard
+                    role="Owner"
+                    profilePicSrc={apptDetail?.owner.owner_profile_image_url}
+                    name={`${apptDetail?.owner.owner_first_name} ${apptDetail?.owner.owner_last_name}`}
+                    tel={apptDetail?.owner.owner_phone_number}
+                  />
+                </div>
+                <div className="w-[40%]">
+                  <UserCard
+                    role="Dweller"
+                    profilePicSrc={apptDetail?.dweller.dweller_profile_image_url}
+                    name={`${apptDetail?.dweller.dweller_first_name} ${apptDetail?.dweller.dweller_last_name}`}
+                    tel={apptDetail?.dweller.dweller_phone_number}
+                  />
+                </div>
               </div>
-              <div className="flex flex-row text-xl">
+              <div className="flex flex-row text-3xl mt-5">
                 <div className="font-semibold">Note:&nbsp;</div>
-                <div className="font-regular">{apptDetail?.note}</div>
+                <div className="font-medium">{apptDetail?.note}</div>
               </div>
             </div>
           </div>

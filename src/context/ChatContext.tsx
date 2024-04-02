@@ -5,8 +5,9 @@ import {
   WSInEvent,
   WSOutEvent,
   WSOutEventType,
-} from "@/models/chat";
+} from "@/models/Chat";
 import getMessages from "@/services/chat/getMessages";
+import getUserById from "@/services/users/getUserById";
 import React, {
   createContext,
   useCallback,
@@ -19,10 +20,14 @@ interface ChatContextType {
   chatUserId: string;
   chats: { [key: string]: Chat };
   messages: { [key: string]: ChatMessage[] };
+  isOpen: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isChat: boolean;
+  setChat: React.Dispatch<React.SetStateAction<boolean>>;
   fetchChats: (query?: string) => Promise<Chat[]>;
   fetchMessages: (offset?: number) => Promise<void>;
   sendMessage: (message: string) => void;
-  openChat: (chatId: string) => void;
+  openChat: (chatId: string) => Promise<void>;
   closeChat: () => void;
 }
 
@@ -35,6 +40,9 @@ interface ChatContextProviderProps {
 const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
   const connRef = useRef<WebSocket>();
   const [isConnected, setConnected] = useState<boolean>(false);
+
+  const [isOpen, setOpen] = useState<boolean>(false);
+  const [isChat, setChat] = useState<boolean>(false);
 
   const [chatUserId, setChatUserId] = useState<string>("");
   const [chats, setChats] = useState<{
@@ -145,15 +153,49 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
       setMessages((prev) => {
         return { ...prev, [chatUserId]: msgs.concat(prev[chatUserId]) };
       });
-      // }
     },
     [chatUserId, messages]
   );
 
+  const initChat = useCallback(
+    async (userId: string): Promise<void> => {
+      if (chats[userId]) return Promise.resolve();
+      try {
+        let user = await getUserById(userId);
+        setChats((prev) => {
+          return {
+            ...prev,
+            [userId]: {
+              content: "",
+              first_name: user.first_name,
+              last_name: user.last_name,
+              profile_image_url: user.profile_image_url,
+              unread_messages: 0,
+              user_id: user.user_id,
+            },
+          };
+        });
+
+        setMessages((prev) => {
+          return {
+            ...prev,
+            [userId]: [] as ChatMessage[],
+          };
+        });
+      } catch (err) {
+        Promise.reject(err);
+      }
+    },
+    [chats]
+  );
+
   const openChat = useCallback(
-    (chatId: string) => {
-      setChatUserId(chatId);
+    async (chatId: string): Promise<void> => {
+      await initChat(chatId);
+
       send("JOIN", chatId, new Date(Date.now()));
+      setChatUserId(chatId);
+      setChat(true);
       setChats((prev) => {
         return {
           ...prev,
@@ -164,7 +206,7 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
         };
       });
     },
-    [send]
+    [send, initChat]
   );
 
   const closeChat = useCallback(() => {
@@ -173,7 +215,7 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
   }, [send]);
 
   const onMessage = useCallback(
-    (e: MessageEvent<string>) => {
+    async (e: MessageEvent<string>) => {
       let msg = JSON.parse(e.data) as WSInEvent;
 
       console.log(msg);
@@ -182,6 +224,8 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
         case "MSG":
           {
             let payload = msg.payload as ChatMessage;
+
+            await initChat(payload.chat_id);
 
             setChats((prev) => {
               return {
@@ -197,9 +241,8 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
               };
             });
 
-            let idx = messages[payload.chat_id].findIndex(
-              (m) => m.message_id === msg.tag
-            );
+            let msgs = messages[payload.chat_id] || [];
+            let idx = msgs.findIndex((m) => m.message_id === msg.tag);
 
             // other message
             if (idx == -1) appendMessage(payload.chat_id, payload);
@@ -260,6 +303,10 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
         chatUserId,
         chats,
         messages,
+        isChat,
+        setChat,
+        isOpen,
+        setOpen,
         fetchChats,
         fetchMessages,
         sendMessage,

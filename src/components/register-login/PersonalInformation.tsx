@@ -141,6 +141,7 @@ export default function PersonalInformation({
             onChange={(e) => {
               firstName.current = e.target.value;
               setFirstName(firstName.current);
+              console.log(src);
             }}
             value={firsttmp}
             ref={inputRef}

@@ -1,12 +1,11 @@
-import { Chat } from "@/models/chat";
+import { Chat } from "@/models/Chat";
 import UserCard from "./UserCard";
 
 interface ChatListProps {
   chats: Chat[];
-  setChat: Function;
 }
 
-export default function ChatList({ chats, setChat }: ChatListProps) {
+export default function ChatList({ chats }: ChatListProps) {
   return (
     <div className="flex h-full flex-col overflow-auto">
       {chats.length === 0 && (
@@ -16,7 +15,7 @@ export default function ChatList({ chats, setChat }: ChatListProps) {
       )}
       {chats &&
         chats.map((item: Chat, index: number) => (
-          <UserCard key={index} chat={item} setChat={setChat} />
+          <UserCard key={index} chat={item} />
         ))}
     </div>
   );

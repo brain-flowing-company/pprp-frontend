@@ -89,7 +89,7 @@ export default function FeaturesPropCatalog() {
       </div>
 
       {propertiesId ? (
-        <div className="flex flex-row justify-between gap-x-4">
+        <div className="flex select-none flex-row justify-between gap-x-4">
           {start > 0 ? (
             <Image
               src="/img/home-page/back.svg"
@@ -107,7 +107,7 @@ export default function FeaturesPropCatalog() {
             .slice(start, start + windowSize)
             .map((item: PropertyData) => (
               <Link
-                href={"/property/" + item.property_id}
+                href={"/properties/" + item.property_id}
                 key={item.property_id}
               >
                 <SmallPropertyCard

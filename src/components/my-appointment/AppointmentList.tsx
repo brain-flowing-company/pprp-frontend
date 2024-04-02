@@ -48,29 +48,30 @@ export default function AppointmentList({
   }, [isCancelled]);
 
   return (
-    <div className="h-[240px] w-full border-x-4 border-y-2 border-ci-dark-gray bg-ci-light-gray">
-      <div className="mx-auto my-10 flex h-[67%] w-[90%] flex-row justify-between">
+    <div className="flex h-[240px] w-full border-x-4 border-y-2 border-ci-dark-gray bg-ci-light-gray">
+      <div className="mx-auto flex h-[67%] w-[90%] flex-row my-auto">
         <div className="my-auto flex w-[40%] flex-row">
-          <div className="my-auto w-[40%]">
+          <div className="my-auto w-40 relative flex aspect-square items-center justify-center overflow-hidden rounded-lg">
             <Image
               src={propertyImgSrc}
               alt="propertyImg"
-              width={240}
-              height={160}
+              draggable={false}
+              fill
               objectFit="cover"
-              layout="responsive"
+              // layout="responsive"
             />
           </div>
           <div className="my-auto ml-5 flex flex-col">
             <div className="text-2xl font-medium">{propertyName}</div>
             <div className="text-xl font-normal">{propertySubName}</div>
             <div className="mt-3 flex flex-row text-xl font-normal">
-              <div>
+              <div className="w-20 relative flex aspect-square items-center justify-center overflow-hidden rounded-full">
                 <Image
                   src={ownerImgSrc}
                   alt="Owner Image"
-                  width={60}
-                  height={60}
+                  draggable={false}
+                  fill
+                  objectFit="cover"
                   // layout="responsive"
                 />
               </div>
@@ -78,17 +79,17 @@ export default function AppointmentList({
             </div>
           </div>
         </div>
-        <div className="font-regular my-auto ml-20 flex w-[15%] flex-col text-2xl">
+        <div className="font-regular my-auto mx-auto flex w-[15%] flex-col text-2xl">
           <div>{date}</div>
           <div className="mt-2">{time}</div>
         </div>
-        <div className="my-auto ml-20 h-[30%] w-[12.5%]">
+        <div className="my-auto mx-auto h-[30%] w-[12.5%]">
           <StatusBox status={currentStatus} />
         </div>
-        <div className="my-auto ml-28 flex h-full w-[12.5%] flex-col justify-between">
+        <div className="my-auto ml-auto flex h-full w-[12.5%] flex-col justify-between">
           <DetailButton appointmentId={apptId} />
           <CancelButton
-            status={status}
+            status={currentStatus}
             reasontmp={reason}
             setReason={setReason}
             setCancel={setCancel}

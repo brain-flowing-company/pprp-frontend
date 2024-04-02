@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react";
 import Message from "./Message";
-import { ChatMessage } from "@/models/chat";
+import { ChatMessage } from "@/models/Chat";
 import { useIntersectionObserver } from "@/hook/IntersectionObserver";
 
 interface MessageSectionProps {

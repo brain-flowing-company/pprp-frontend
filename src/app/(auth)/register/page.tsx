@@ -48,7 +48,6 @@ export default function RegisterPage() {
   useEffect(() => {
     async function getUser() {
       try {
-        // const data = await getCurrentUserRegister();
         const data = await authCallback(queryString);
 
         if (data.registered_type === "GOOGLE")

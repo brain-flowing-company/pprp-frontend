@@ -9,7 +9,7 @@ export default function ProfileImage({ src }: ProfileImageProps) {
     <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-full">
       <Image
         src={
-          src.length > 0
+          src && src.length > 0
             ? src
             : "/img/PropertyNavBar/ic_round-account-circle.svg"
         }

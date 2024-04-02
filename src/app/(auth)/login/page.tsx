@@ -17,7 +17,6 @@ export default function LoginPage() {
   const router = useRouter();
   const [isError, setError] = useState(false);
 
-  // const cookieStore = cookies();
 
   const test = async () => {
     console.log(email);
@@ -32,10 +31,11 @@ export default function LoginPage() {
       if (success) {
         router.push("/");
         setError(false);
+      } else {
+        setError(true);
       }
     } catch (error) {
       console.log(error);
-      setError(true);
     }
   };
 
@@ -76,11 +76,11 @@ export default function LoginPage() {
               onChange={(e) => (password.current = e.target.value)}
             />
           </div>
-          {isError ? (
+          {isError && (
             <div className=" px-[10px] pt-[20px] text-[15px] text-[#D22F42]">
               Your email or password is wrong please try again
             </div>
-          ) : null}
+          )}
           <div className="pb-[30px] pt-[25px] text-right text-ci-blue">
             Forgot Password?
           </div>

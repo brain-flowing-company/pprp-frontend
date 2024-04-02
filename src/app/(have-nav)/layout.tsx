@@ -1,5 +1,8 @@
+"use client";
+
 import ChatModule from "@/components/chat/ChatModule";
 import PropertyNavigationBar from "@/components/property-description/PropertyNavigationBar";
+import { ChatContextProvider } from "@/context/ChatContext";
 
 import { SearchContextProvider } from "@/context/SearchContext";
 
@@ -9,14 +12,16 @@ export default function Suechaokhai({
   children: React.ReactNode;
 }) {
   return (
-    <div className="">
-      <PropertyNavigationBar />
-      <div>
-        <div className="">
-          <SearchContextProvider>{children}</SearchContextProvider>
+    <div>
+      <ChatContextProvider>
+        <PropertyNavigationBar />
+        <div>
+          <div className="">
+            <SearchContextProvider>{children}</SearchContextProvider>
+          </div>
         </div>
-      </div>
-      <ChatModule />
+        <ChatModule />
+      </ChatContextProvider>
     </div>
   );
 }

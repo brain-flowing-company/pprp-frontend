@@ -18,6 +18,11 @@ const config = {
       },
     },
     extend: {
+      fontSize: {
+        "c-2xl": ["36px", "44px"],
+        "c-md": ["28px", "36px"],
+        "c-sm": ["20px", "28px"],
+      },
       colors: {
         "ci-black": "#0F142E",
         "ci-dark-gray": "#B3B3B3",

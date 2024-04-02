@@ -100,5 +100,7 @@ input[type="number"] {
 }
 
 .in-card-button {
-  @apply mx-0.5 my-1 h-[40px] w-full rounded-md px-4 text-center font-semibold text-[#DFDFDF] shadow;
+  @apply mx-0.5 my-1 h-[40px] w-full rounded-md px-4 text-center font-semibold text-white shadow;
 }
+
+

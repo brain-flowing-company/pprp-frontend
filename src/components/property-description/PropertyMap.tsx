@@ -1,21 +1,19 @@
 import React from "react";
 
-let googleApiKey = process.env.GOOGLE_MAPS_API_KEY;
-
-const PropertyMap = ({ name }: { name: string }) => {
+export default function PropertyMap({ name }: { name: string }) {
+  let googleApiKey = process.env.GOOGLE_MAPS_API_KEY;
   return (
-    <div>
+    <div className="flex flex-col gap-y-4">
+      <div className="text-3xl font-bold">Location Map</div>
       <iframe
-        width="600"
-        height="450"
+        width="100%"
+        height="600"
         loading="lazy"
-        // style="border:0"
-        // allowfullscreen
-        // referrerpolicy="no-referrer-when-downgrade"
-        src={`https://www.google.com/maps/embed/v1/place?key=${googleApiKey}&q=${name}`}
+        allowFullScreen={true}
+        referrerPolicy="no-referrer-when-downgrade"
+        // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBNOLDzeFNz4y8LNAy0-hVenLGVGX06Y6U&q=${"จุฬา"}`}
+        src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${name}`}
       ></iframe>
     </div>
   );
-};
-
-export default PropertyMap;
+}

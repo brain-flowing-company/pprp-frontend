@@ -9,8 +9,8 @@ const ListingType: React.FC<ListingTypeProps> = ({
   selectedType,
   onOptionChange,
 }) => {
-  const [selectedOption, setSelectedOption] = useState("");
-  const [hoveredOption, setHoveredOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState<string>("");
+  const [hoveredOption, setHoveredOption] = useState<string>("");
 
   useEffect(() => {
     setSelectedOption(selectedType);
@@ -65,7 +65,7 @@ const ListingType: React.FC<ListingTypeProps> = ({
       <input
         type="radio"
         id="rent"
-        name="type"
+        name="listingType"
         value="rent"
         checked={selectedOption === "rent"}
         onChange={() => handleOptionChange("rent")}
@@ -91,7 +91,7 @@ const ListingType: React.FC<ListingTypeProps> = ({
       <input
         type="radio"
         id="sell"
-        name="type"
+        name="listingType"
         value="sell"
         checked={selectedOption === "sell"}
         onChange={() => handleOptionChange("sell")}
@@ -117,7 +117,7 @@ const ListingType: React.FC<ListingTypeProps> = ({
       <input
         type="radio"
         id="rent/sell"
-        name="type"
+        name="listingType"
         value="rent/sell"
         checked={selectedOption === "rent/sell"}
         onChange={() => handleOptionChange("rent/sell")}

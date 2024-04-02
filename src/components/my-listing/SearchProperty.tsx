@@ -342,7 +342,7 @@ const SearchProperty = () => {
               <div className="m-2 font-semibold">Features</div>
               <div className="grid grid-cols-2 sm:grid-cols-3 ">
                 {all_filters.map((fil) => (
-                  <div className="m-3 flex flex-row">
+                  <div className="m-3 flex flex-row" key={fil.id}>
                     <Checkbox id={fil.id} className="h-7 w-7"></Checkbox>
                     <div className="mx-2 ">{fil.label}</div>
                   </div>

@@ -1,25 +1,33 @@
-
 "use client";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { isSameDay } from "date-fns";
+import PropertyData from "@/models/PropertyData";
 import { DayClickEventHandler, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { toast } from "sonner";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { ChatContext } from "@/context/ChatContext";
 
-const RoomTourRes = ({ Property, handlePost }: { Property: string, handlePost: Function }) => {
+interface RoomTourResProps {
+  property: PropertyData;
+  handlePost: Function;
+}
+
+const RoomTourRes = ({ property, handlePost }: RoomTourResProps) => {
   const today = new Date();
   const [isReserving, setReserve] = useState<boolean>(false);
-  const [selectedDay, setSelectedDay] = useState<Date | null>(null);
-  const [message, setMessage] = useState<string>('');
+  const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
+  const [message, setMessage] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
 
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const messageRef = useRef("");
+
+  const ctx = useContext(ChatContext);
 
   const handleDayClick: DayClickEventHandler = (day: Date, modifiers: any) => {
     // const newSelectedDays = [...selectedDays];
@@ -28,7 +36,7 @@ const RoomTourRes = ({ Property, handlePost }: { Property: string, handlePost: F
       //   isSameDay(day, selectedDay)
       // );
       // newSelectedDays.splice(index, 1);
-      setSelectedDay(null);
+      setSelectedDay(undefined);
     } else {
       // newSelectedDays.push(day);
       setSelectedDay(day);
@@ -38,9 +46,8 @@ const RoomTourRes = ({ Property, handlePost }: { Property: string, handlePost: F
   };
 
   useEffect(() => {
-    console.log(selectedDay)
-  }, [selectedDay])
-
+    console.log(selectedDay);
+  }, [selectedDay]);
 
   // useEffect(() => {
   //   console.log(typeof(selectedTime?.$d.toISOString()))
@@ -52,6 +59,10 @@ const RoomTourRes = ({ Property, handlePost }: { Property: string, handlePost: F
       return true;
     }
     return false;
+  };
+
+  const chatWithOwnerHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    ctx.openChat(property.owner_id);
   };
 
   const handleReservation = () => {
@@ -96,137 +107,138 @@ const RoomTourRes = ({ Property, handlePost }: { Property: string, handlePost: F
   };
 
   return (
-    <div className="flex flex-col  bg-white p-4 ">
+    <div className="flex w-full flex-col bg-white p-4">
       {isReserving ? (
-        <div className="fixed left-[0] top-[0] z-40 flex h-[100vh] w-[100%] flex-col items-center justify-center bg-black bg-opacity-20">
+        <div className="fixed left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center bg-black/20">
           <div className="relative flex flex-col rounded-lg bg-white p-[32px]">
             <div className="font-bold">Room Tour Reservation</div>
             <div className="">Please select whenever you are free.</div>
-              <div className="flex flex-row">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DayPicker
-                      onDayClick={handleDayClick}
-                      selected={selectedDay}
-                      disabled={disableDate}
-                      modifiersStyles={{
-                        selected: {
-                          backgroundColor: "#3AAEEF",
-                          color: "white",
-                          borderRadius: 8,
-                        },
+            <div className="flex flex-row">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DayPicker
+                  onDayClick={handleDayClick}
+                  selected={selectedDay}
+                  disabled={disableDate}
+                  modifiersStyles={{
+                    selected: {
+                      backgroundColor: "#3AAEEF",
+                      color: "white",
+                      borderRadius: 8,
+                    },
 
-                        disabled: {
-                          backgroundColor: "#DFDFDF",
-                        },
-                      }}
-                      styles={{
-                        day: {
-                        margin: 3,
-                        border: "solid 1px",
-                        borderRadius: 8,
-                      },
-                      }}
-                    />
-
-                  </LocalizationProvider>
-                
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimePicker 
-                    label="Select time"
-                    value={selectedTime}
-                    onChange={(time) => {
-                      setSelectedTime(time);
-                    }}
-                  />
-                </LocalizationProvider>
-              </div>
-              <div className="">
-                Message (Optional)
-                <textarea 
-                  className="h-[220px] w-full rounded-[10px] mx-auto border border-black p-2 text-gray-700`"
-                  name="" id="" placeholder='Enter text' cols={40} rows={10}
-                  value={message} ref={inputRef} 
-                  onChange={(e) => {
-                    messageRef.current = e.target.value;
-                    setMessage(messageRef.current);
+                    disabled: {
+                      backgroundColor: "#DFDFDF",
+                    },
                   }}
-                >
-                </textarea>
-              </div>
+                  styles={{
+                    day: {
+                      margin: 3,
+                      border: "solid 1px",
+                      borderRadius: 8,
+                    },
+                  }}
+                />
+              </LocalizationProvider>
 
-          {selectedDay === null ? (
-            <div className="flex-row">
-              <button
-                className="mx-0.5 my-4 w-[48%] rounded-md bg-[#3AAEEF] px-4 py-2 font-semibold text-white shadow hover:bg-blue-800 "
-                onClick={(e) => {
-                  e.preventDefault();
-                  setReserve(false);
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                className="mx-0.5  my-4 w-[48%] rounded-md  bg-[#DFDFDF] px-4 py-2 font-semibold text-white shadow"
-                disabled
-              >
-                Reserve Now
-              </button>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <TimePicker
+                  label="Select time"
+                  value={selectedTime}
+                  onChange={(time) => {
+                    setSelectedTime(time);
+                  }}
+                />
+              </LocalizationProvider>
             </div>
-          ) : (
-            <div className="flex-row">
-              <button
-                className="mx-0.5 my-4 w-[48%] rounded-md bg-[#3AAEEF] px-4 py-2 font-semibold text-white shadow hover:bg-blue-800 "
-                onClick={(e) => {
-                  e.preventDefault();
-                  setReserve(false);
+            <div className="">
+              Message (Optional)
+              <textarea
+                className="mx-auto h-[220px] w-full rounded-[10px] border border-black p-2 text-gray-700"
+                name=""
+                id=""
+                placeholder="Enter text"
+                cols={40}
+                rows={10}
+                value={message}
+                ref={inputRef}
+                onChange={(e) => {
+                  messageRef.current = e.target.value;
+                  setMessage(messageRef.current);
                 }}
-              >
-                Cancel
-              </button>
-              <button
-                className="mx-0.5 my-4 w-[48%] rounded-md bg-[#3AAEEF] px-4 py-2 font-semibold text-white shadow hover:bg-blue-800 "
-                onClick={(e) => {
-                  e.preventDefault();
-                  setReserve(true);
-                  const strDay = selectedDay.toISOString().split('T')[0] + 'T' + selectedTime?.toISOString().split('T')[1].slice(0, -5) + 'Z';
-                  console.log(strDay);
-                  handlePost(strDay, message);
-                  setReserve(false);
-                }}
-              >
-                Reserve Now
-              </button>
-          </div>
-        )}
+              ></textarea>
+            </div>
 
-          </div>
-        </div>
-      ) : null}
-      
-
-      <div className="flex flex-col items-center">
-        <div className="text-xl font-bold">Room Tour Reservation</div>
-        <button
-                  className="mx-1 my-4 w-[60%] rounded-full bg-ci-blue px-4 py-2 font-semibold text-white shadow hover:bg-blue-800 "
+            {selectedDay === null ? (
+              <div className="flex-row">
+                <button
+                  className="mx-0.5 my-4 w-[48%] rounded-md bg-[#3AAEEF] px-4 py-2 font-semibold text-white shadow hover:bg-blue-800 "
                   onClick={(e) => {
                     e.preventDefault();
-                    handleReservation();
+                    setReserve(false);
                   }}
                 >
-                Chat with Owner
-        </button>
-        <button
-                  className="mx-1 my-4 w-[60%] rounded-full bg-ci-blue px-4 py-2 font-semibold text-white shadow hover:bg-blue-800 "
+                  Cancel
+                </button>
+                <button
+                  className="mx-0.5  my-4 w-[48%] rounded-md  bg-[#DFDFDF] px-4 py-2 font-semibold text-white shadow"
+                  disabled
+                >
+                  Reserve Now
+                </button>
+              </div>
+            ) : (
+              <div className="flex-row">
+                <button
+                  className="mx-0.5 my-4 w-[48%] rounded-md bg-[#3AAEEF] px-4 py-2 font-semibold text-white shadow hover:bg-blue-800 "
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setReserve(false);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="mx-0.5 my-4 w-[48%] rounded-md bg-[#3AAEEF] px-4 py-2 font-semibold text-white shadow hover:bg-blue-800 "
                   onClick={(e) => {
                     e.preventDefault();
                     setReserve(true);
+                    const newSelectedDay = new Date(selectedDay.getTime() + (1000*60*60*24));
+                    const strDay =
+                      newSelectedDay.toISOString().split("T")[0] +
+                      "T" +
+                      selectedTime?.toISOString().split("T")[1].slice(0, -5) +
+                      "Z";
+                    console.log(strDay);
+                    handlePost(strDay, message);
+                    setReserve(false);
                   }}
                 >
-                Make Appointment
+                  Reserve Now
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : null}
+
+      <div className="flex w-full flex-col items-start justify-start gap-y-6">
+        {/* <div className="text-xl font-bold">Room Tour Reservation</div> */}
+        <button
+          className="w-1/4 min-w-60 rounded-full bg-ci-blue px-4 py-2 text-lg font-semibold text-white shadow hover:bg-blue-800 sm:text-xl"
+          onClick={chatWithOwnerHandler}
+        >
+          Chat with Owner
         </button>
-
+        <button
+          className="w-1/4 min-w-60 rounded-full bg-ci-blue px-4 py-2 text-lg font-semibold text-white shadow hover:bg-blue-800 sm:text-xl"
+          onClick={(e) => {
+            e.preventDefault();
+            setReserve(true);
+          }}
+        >
+          Make Appointment
+        </button>
       </div>
-
     </div>
   );
 };

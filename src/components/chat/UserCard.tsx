@@ -1,22 +1,20 @@
 "use client";
 
 import ProfileImage from "./ProfileImage";
-import { Chat } from "@/models/chat";
+import { Chat } from "@/models/Chat";
 import { useContext } from "react";
 import { ChatContext } from "@/context/ChatContext";
 
 interface UserCardProps {
   chat: Chat;
-  setChat: Function;
 }
 
-export default function UserCard({ chat, setChat }: UserCardProps) {
+export default function UserCard({ chat }: UserCardProps) {
   const ctx = useContext(ChatContext);
   return (
     <div
       className="flex h-20 w-full cursor-pointer flex-row items-center justify-start gap-2 rounded-xl p-2 hover:bg-ci-light-gray"
       onClick={() => {
-        setChat(true);
         ctx.openChat(chat.user_id);
       }}
     >

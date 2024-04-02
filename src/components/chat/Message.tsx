@@ -1,4 +1,4 @@
-import { ChatMessage } from "@/models/chat";
+import { ChatMessage } from "@/models/Chat";
 
 const MessageStatus = ({ message }: { message: ChatMessage }) => {
   const sentAt = new Date(message.sent_at);

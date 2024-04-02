@@ -6,12 +6,7 @@ import SearchBar from "./SearchBar";
 import { useContext, useEffect, useState } from "react";
 import { ChatContext } from "@/context/ChatContext";
 
-interface ChatBoxProps {
-  setOpen: Function;
-  setChat: Function;
-}
-
-export default function ChatBox({ setOpen, setChat }: ChatBoxProps) {
+export default function ChatBox() {
   const [searchValue, setSearchValue] = useState<string>("");
   const ctx = useContext(ChatContext);
   const chats = Object.values(ctx.chats);
@@ -36,7 +31,7 @@ export default function ChatBox({ setOpen, setChat }: ChatBoxProps) {
           <button
             className="rounded-md hover:bg-slate-300"
             onClick={() => {
-              setOpen(false);
+              ctx.setOpen(false);
             }}
           >
             <Image
@@ -49,7 +44,7 @@ export default function ChatBox({ setOpen, setChat }: ChatBoxProps) {
         </div>
       </div>
       <SearchBar setSearchValue={setSearchValue} searchAfterMS={400} />
-      <ChatList chats={chats} setChat={setChat} />
+      <ChatList chats={chats} />
     </div>
   );
 }
