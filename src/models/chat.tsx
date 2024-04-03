@@ -13,6 +13,12 @@ export interface WSInEvent {
   payload: any;
 }
 
+export interface ChatMessageAttatchment {
+  property_id: string;
+  agreement_id: string;
+  appointment_id: string;
+}
+
 export interface ChatMessage {
   message_id: string;
   chat_id: string;
@@ -20,11 +26,7 @@ export interface ChatMessage {
   read_at: string;
   sent_at: string;
   author: boolean;
-  attatchment: {
-    property_id: string
-    agreement_id: string
-    appointment_id: string
-  };
+  attatchment: ChatMessageAttatchment;
 }
 
 export interface Chat {
@@ -34,7 +36,6 @@ export interface Chat {
   profile_image_url: string;
   unread_messages: number;
   content: string;
-
 }
 
 export interface ReadMessage {
