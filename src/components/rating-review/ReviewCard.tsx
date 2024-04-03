@@ -67,7 +67,7 @@ const ReviewCard = ({ property }: { property: PropertyData }) => {
 
         {showForm && (
           <div
-            className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-500 bg-opacity-50"
+            className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-gray-500 bg-opacity-50"
             onClick={() => {
               setShowForm(false);
             }}
