@@ -98,7 +98,6 @@ const PropertyNavigationBar = () => {
                 draggable={false}
                 fill
                 style={{ objectFit: "cover"}}
-                
               />
             </div>
             {!accountMenu && (
