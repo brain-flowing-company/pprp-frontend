@@ -145,11 +145,16 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
         return Object.fromEntries(chats.map((chat) => [chat.user_id, chat]));
       });
 
-      setMessages((prev) => {
-        let cpy = { ...prev };
-        for (let chat of chats) cpy[chat.user_id] = cpy[chat.user_id] || [];
-        return cpy;
-      });
+      for (let chat of chats) {
+        const limit = 10;
+        let msgs = await getMessages(chat.user_id, 0, limit);
+        setMessages((prev) => {
+          return {
+            ...prev,
+            [chat.user_id]: msgs,
+          };
+        });
+      }
 
       return Promise.resolve(chats);
     } catch (err) {
@@ -289,7 +294,7 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
           break;
       }
     },
-    [chatUserId, messages, appendMessage, replaceMessage, fetchChats]
+    [chatUserId, messages, appendMessage, replaceMessage, fetchChats, initChat]
   );
 
   useEffect(() => {
