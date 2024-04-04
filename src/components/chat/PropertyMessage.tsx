@@ -12,7 +12,7 @@ export default function PropetyMessage({ message }: { message: string }) {
         const data = await getPropertyDetail(message);
         setData(data);
         if (data.property_images[0]) {
-          setImg(data.property_images[0]);
+          setImg(data.property_images[0].image_url);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -29,7 +29,7 @@ export default function PropetyMessage({ message }: { message: string }) {
         <div className="flex flex-row gap-x-3">
           <div className="relative flex aspect-square size-16 items-center justify-center overflow-hidden rounded-lg">
             <Image
-              src={img}
+              src={img || "/img/boss.png"}
               alt="ไอบอสสสส"
               draggable={false}
               fill={true}

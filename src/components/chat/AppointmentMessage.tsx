@@ -13,7 +13,7 @@ export default function AppointmentMessage({ message }: { message: string }) {
         setData(data);
         console.log(data.property.property_images[0]);
         if (data.property.property_images[0]) {
-          setImg(data.property.property_images[0]);
+          setImg(data.property.property_images[0].image_url);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -55,7 +55,7 @@ export default function AppointmentMessage({ message }: { message: string }) {
       <div className="flex flex-row items-center gap-x-3">
         <div className="relative flex aspect-square size-16 items-center justify-center overflow-hidden rounded-lg">
           <Image
-            src="/img/boss.png"
+            src={img || "/img/boss.png"}
             alt="ไอบอสสสส"
             draggable={false}
             fill={true}
