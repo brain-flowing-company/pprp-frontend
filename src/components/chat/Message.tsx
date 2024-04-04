@@ -1,4 +1,9 @@
+"use client";
 import { ChatMessage } from "@/models/Chat";
+import PropertyMessage from "./PropertyMessage";
+import AgreementMessage from "./AgreementMessage";
+import AppointmentMessage from "./AppointmentMessage";
+import { useEffect, useState } from "react";
 
 const MessageStatus = ({ message }: { message: ChatMessage }) => {
   const sentAt = new Date(message.sent_at);
@@ -24,13 +29,33 @@ const MessageContent = ({ message }: { message: ChatMessage }) => {
 };
 
 export default function Message({ message }: { message: ChatMessage }) {
+  let type = "message";
+  if (message.attatchment.agreement_id) type = "agreement";
+  else if (message.attatchment.property_id) type = "property";
+  else if (message.attatchment.appointment_id) type = "appointment";
+
   return (
     <div className={`flex ${message.author ? "justify-end" : "justify-start"}`}>
       <div
         className={`flex w-10/12 justify-end gap-2 ${message.author ? "flex-row" : "flex-row-reverse"}`}
       >
         <MessageStatus message={message} />
-        <MessageContent message={message} />
+        {
+          {
+            message: <MessageContent message={message} />,
+            property: (
+              <PropertyMessage message={message.attatchment.property_id} />
+            ),
+            agreement: (
+              <AgreementMessage message={message.attatchment.agreement_id} />
+            ),
+            appointment: (
+              <AppointmentMessage
+                message={message.attatchment.appointment_id}
+              />
+            ),
+          }[type]
+        }
       </div>
     </div>
   );

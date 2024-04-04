@@ -4,6 +4,7 @@ export interface WSOutEvent {
   content: string;
   sent_at: string;
   tag: string;
+  attatchment: ChatMessageAttatchment;
 }
 
 export type WSInEventType = "MSG" | "READ" | "OK";
@@ -13,6 +14,12 @@ export interface WSInEvent {
   payload: any;
 }
 
+export interface ChatMessageAttatchment {
+  property_id?: string;
+  agreement_id?: string;
+  appointment_id?: string;
+}
+
 export interface ChatMessage {
   message_id: string;
   chat_id: string;
@@ -20,6 +27,7 @@ export interface ChatMessage {
   read_at: string;
   sent_at: string;
   author: boolean;
+  attatchment: ChatMessageAttatchment;
 }
 
 export interface Chat {
