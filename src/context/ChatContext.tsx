@@ -1,6 +1,7 @@
 import {
   Chat,
   ChatMessage,
+  ChatMessageAttatchment,
   ReadMessage,
   WSInEvent,
   WSOutEvent,
@@ -27,7 +28,10 @@ interface ChatContextType {
   fetchChats: (query?: string) => Promise<Chat[]>;
   fetchMessages: (offset?: number) => Promise<void>;
   sendMessage: (message: string) => void;
-  openChat: (chatId: string) => Promise<void>;
+  openChat: (
+    chatId: string,
+    attatchment?: ChatMessageAttatchment
+  ) => Promise<void>;
   closeChat: () => void;
 }
 
@@ -77,7 +81,12 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
   );
 
   const send = useCallback(
-    (event: WSOutEventType, content: string, sentAt: Date): string => {
+    (
+      event: WSOutEventType,
+      content: string,
+      sentAt: Date,
+      attatchment = {} as ChatMessageAttatchment
+    ): string => {
       if (!connRef.current) return "";
 
       let tag: string = Math.random().toString(16).substring(2);
@@ -86,6 +95,7 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
         content,
         sent_at: sentAt.toISOString(),
         tag,
+        attatchment,
       };
 
       connRef.current.send(JSON.stringify(msg));
@@ -112,7 +122,8 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
               author: true,
               content: message,
               read_at: "sending",
-            },
+              attatchment: {},
+            } as ChatMessage,
           ],
         };
       });
@@ -134,11 +145,16 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
         return Object.fromEntries(chats.map((chat) => [chat.user_id, chat]));
       });
 
-      setMessages((prev) => {
-        let cpy = { ...prev };
-        for (let chat of chats) cpy[chat.user_id] = cpy[chat.user_id] || [];
-        return cpy;
-      });
+      for (let chat of chats) {
+        const limit = 10;
+        let msgs = await getMessages(chat.user_id, 0, limit);
+        setMessages((prev) => {
+          return {
+            ...prev,
+            [chat.user_id]: msgs,
+          };
+        });
+      }
 
       return Promise.resolve(chats);
     } catch (err) {
@@ -190,10 +206,13 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
   );
 
   const openChat = useCallback(
-    async (chatId: string): Promise<void> => {
+    async (
+      chatId: string,
+      attatchment = {} as ChatMessageAttatchment
+    ): Promise<void> => {
       await initChat(chatId);
 
-      send("JOIN", chatId, new Date(Date.now()));
+      send("JOIN", chatId, new Date(Date.now()), attatchment);
       setChatUserId(chatId);
       setChat(true);
       setChats((prev) => {
@@ -275,7 +294,7 @@ const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
           break;
       }
     },
-    [chatUserId, messages, appendMessage, replaceMessage, fetchChats]
+    [chatUserId, messages, appendMessage, replaceMessage, fetchChats, initChat]
   );
 
   useEffect(() => {
