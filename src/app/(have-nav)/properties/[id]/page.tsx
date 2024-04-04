@@ -7,6 +7,7 @@ import PropertyData from "@/models/PropertyData";
 import UserData from "@/models/UserData";
 import getPropertyDetail from "@/services/property/getPropertyDetail";
 import getCurrentUser from "@/services/users/getCurrentUser";
+import Review from "@/components/rating-review/Review";
 import { useEffect, useState } from "react";
 
 export default function PropertyPage({ params }: { params: { id: string } }) {
@@ -55,6 +56,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
             bgColor="none"
           />
           <PropertyDetail property={property} user={user} />
+          <Review property={property} />
           <RelatedProperty street={property.street} />
         </div>
       ) : null}
