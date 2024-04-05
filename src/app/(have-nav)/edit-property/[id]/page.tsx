@@ -52,7 +52,8 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
           ></ListingDetail>
         )}
         {tab === "Additional Details" && (
-          <AdditionalDetail setIsChangesExist={setIsChangesExist} />
+          // <AdditionalDetail setIsChangesExist={setIsChangesExist} />
+          <OwnerPage />
         )}
         {tab === "Contact Details" && <OwnerPage />}
       </div>
