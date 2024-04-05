@@ -18,6 +18,7 @@ const CreditCard = ({
   month,
   year,
   tagNumber,
+
 }: {
   cardNumber: string;
   cardHolderName: string;

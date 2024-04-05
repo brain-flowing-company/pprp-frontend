@@ -34,8 +34,7 @@ const PropertyNavigationBar = () => {
   const accountIcon = user?.profile_image_url
     ? user.profile_image_url
     : "/img/PropertyNavBar/ic_round-account-circle.svg";
-  console.log(accountIcon);
-  // const accountIcon = "/img/PropertyNavBar/ic_round-account-circle.svg";
+
   return (
     <div className="select-none pt-20 ">
       <div className="fixed top-0 z-50 flex min-h-20 w-full select-none items-center justify-between bg-ci-blue py-1  text-[20px] text-white">
@@ -99,7 +98,6 @@ const PropertyNavigationBar = () => {
                 draggable={false}
                 fill
                 style={{ objectFit: "cover"}}
-                
               />
             </div>
             {!accountMenu && (
