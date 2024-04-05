@@ -72,6 +72,38 @@ function checkValidFormData(
   );
 }
 
+function areArraysEqual(arr1: string[], arr2: string[]): boolean {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function haveChanges(
+  original: PropertyFormData,
+  data: PropertyFormData
+): boolean {
+  for (const [key, value] of Object.entries(original)) {
+    if (key === "image_urls") {
+      if (!areArraysEqual(value, data.key)) {
+        return true;
+      }
+    } else {
+      if (value !== data.key) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 export default function ListingDetail({
   setIsChangesExist,
   propId,
@@ -143,7 +175,16 @@ export default function ListingDetail({
   }, []);
 
   useEffect(() => {
-    setIsChangesExist(true);
+    if (
+      originalData !== ({} as PropertyFormData) &&
+      listingFormData !== ({} as PropertyFormData) &&
+      haveChanges(originalData, listingFormData)
+    ) {
+      setIsChangesExist(true);
+    }
+    else{
+      setIsChangesExist(false);
+    }
   }, [listingFormData]);
 
   const handleMouseEnter = (option: string) => {

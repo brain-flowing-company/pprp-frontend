@@ -5,7 +5,7 @@ import OwnerPage from "@/components/edit-profile/OwnerPage";
 import FinancialPage from "@/components/edit-profile/FinancialPage";
 import { NotSavedPopUp } from "@/components/edit-profile/NotSavedPopUp";
 import ListingDetail from "@/components/edit-property/ListingDetails";
-import AdditionalDetail from "@/components/edit-property/AdditionalDetails";
+import AdditionalDetails from "@/components/edit-property/AdditionalDetails";
 
 type Tab = "Listing Details" | "Additional Details" | "Contact Details";
 
@@ -52,8 +52,10 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
           ></ListingDetail>
         )}
         {tab === "Additional Details" && (
-          // <AdditionalDetail setIsChangesExist={setIsChangesExist} />
-          <OwnerPage />
+          <AdditionalDetails
+            propId={params.id}
+            setIsChangesExist={setIsChangesExist}
+          />
         )}
         {tab === "Contact Details" && <OwnerPage />}
       </div>
