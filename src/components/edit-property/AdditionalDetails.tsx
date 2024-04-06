@@ -79,6 +79,8 @@ const AdditionalDetails = ({
                 id="Ready to Move"
                 name="furnishing"
                 className="invisible "
+                value="READY_TO_MOVE_IN"
+                checked={additionalFormData.furnishing === "READY_TO_MOVE_IN"}
               ></input>
               <label
                 htmlFor="Ready to Move"
@@ -93,6 +95,8 @@ const AdditionalDetails = ({
                 id="Fully-Furnished"
                 name="furnishing"
                 className="invisible "
+                value="FULLY_FURNISHED"
+                checked={additionalFormData.furnishing === "FULLY_FURNISHED"}
               ></input>
               <label
                 htmlFor="Fully-Furnished"
@@ -107,6 +111,10 @@ const AdditionalDetails = ({
                 id="Partially-Furnished"
                 name="furnishing"
                 className="invisible "
+                value="PARTIALLY_FURNISHED"
+                checked={
+                  additionalFormData.furnishing === "PARTIALLY_FURNISHED"
+                }
               ></input>
               <label
                 htmlFor="Partially-Furnished"
@@ -121,6 +129,8 @@ const AdditionalDetails = ({
                 id="Unfurnished"
                 name="furnishing"
                 className="invisible "
+                value="UNFURNISHED"
+                checked={additionalFormData.furnishing === "UNFURNISHED"}
               ></input>
               <label
                 htmlFor="Unfurnished"
@@ -138,6 +148,7 @@ const AdditionalDetails = ({
                 name="bedrooms"
                 placeholder="Bedrooms"
                 required
+                value={additionalFormData.bedrooms}
                 className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
               />
             </div>
@@ -148,6 +159,7 @@ const AdditionalDetails = ({
                 name="bathrooms"
                 placeholder="Bethrooms"
                 required
+                value={additionalFormData.bathrooms}
                 className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
               />
             </div>
@@ -158,6 +170,7 @@ const AdditionalDetails = ({
                 name="floor"
                 placeholder="Floor"
                 required
+                value={additionalFormData.floor}
                 className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
               />
             </div>
@@ -171,9 +184,13 @@ const AdditionalDetails = ({
                   name="floor_size"
                   placeholder="Floor Size"
                   required
+                  value={additionalFormData.floor_size}
                   className=" flex h-full w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
                 />
-                <select className="flex    h-full rounded-lg  bg-ci-light-blue text-white  ">
+                <select
+                  value={additionalFormData.floor_size_unit}
+                  className="flex h-full rounded-lg  bg-ci-light-blue text-white  "
+                >
                   <option
                     value="SQM"
                     className=" h-20 bg-white text-center text-black hover:bg-ci-dark-gray"
@@ -196,6 +213,7 @@ const AdditionalDetails = ({
                 name="unit_number"
                 placeholder="Unit Number"
                 required
+                value={additionalFormData.unit_number}
                 className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
               />
             </div>
@@ -235,52 +253,55 @@ const AdditionalDetails = ({
             </label>
           </div>
           <div className="m-4 flex w-full space-x-4 overflow-x-auto ">
-            {additionalFormData.image_urls? additionalFormData.image_urls.map((imageURL:string, index:number) => (
-
-              <div
-                key={index}
-                className="relative inline-block h-36 w-2/3 flex-shrink-0"
-              >
-                {" "}
-                {/* Adjust width as needed */}
-                <Image
-                  src={imageURL}
-                  alt={`Property Photo ${index + 1}`}
-                  layout="fill" // This makes the image fill the container
-                  objectFit="cover" // Adjusts the image's fit within its box
-                  className="rounded-lg"
-                />
-                <button
-                  className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
-                  // onClick={() => {
-                  //   const newImages = [...images];
-                  //   const newImageURLs = [...imageURLs];
-                  //   newImageURLs.splice(index, 1);
-                  //   newImages.splice(index, 1);
-                  //   setAdditionalDetailPaneProps({
-                  //     ...additionalDetailPaneProps,
-                  //     images: newImages,
-                  //     imageURLs: newImageURLs,
-                  //   });
-                  // }}
-                >
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            )):null}
+            {additionalFormData.image_urls
+              ? additionalFormData.image_urls.map(
+                  (imageURL: string, index: number) => (
+                    <div
+                      key={index}
+                      className="relative inline-block h-36 w-2/3 flex-shrink-0"
+                    >
+                      {" "}
+                      {/* Adjust width as needed */}
+                      <Image
+                        src={imageURL}
+                        alt={`Property Photo ${index + 1}`}
+                        layout="fill" // This makes the image fill the container
+                        objectFit="cover" // Adjusts the image's fit within its box
+                        className="rounded-lg"
+                      />
+                      <button
+                        className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
+                        // onClick={() => {
+                        //   const newImages = [...images];
+                        //   const newImageURLs = [...imageURLs];
+                        //   newImageURLs.splice(index, 1);
+                        //   newImages.splice(index, 1);
+                        //   setAdditionalDetailPaneProps({
+                        //     ...additionalDetailPaneProps,
+                        //     images: newImages,
+                        //     imageURLs: newImageURLs,
+                        //   });
+                        // }}
+                      >
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  )
+                )
+              : null}
           </div>
         </div>
       </div>
