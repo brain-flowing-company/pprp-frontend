@@ -63,6 +63,30 @@ const AdditionalDetails = ({
     };
     fetchPropDetail();
   }, []);
+  const handleFormChange = (e: any) => {
+    setAdditionalFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    console.log(e.target.name, e.target.value);
+  };
+  const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // const files = event.target.files;
+    // console.log(files);
+    // const newImages = [...images];
+    // const newImageURLs = [...imageURLs];
+    // if (files !== null) {
+    //   for (let i = 0; i < files.length; i++) {
+    //     newImages.push(files[i]);
+    //     newImageURLs.push(URL.createObjectURL(files[i]));
+    //   }
+    // }
+    // setAdditionalDetailPaneProps({
+    //   ...additionalDetailPaneProps,
+    //   images: newImages,
+    //   imageURLs: newImageURLs,
+    // });
+  };
   return (
     <>
       <div className="large-text m-4 mx-10 my-8 font-bold">
@@ -81,6 +105,7 @@ const AdditionalDetails = ({
                 className="invisible "
                 value="READY_TO_MOVE_IN"
                 checked={additionalFormData.furnishing === "READY_TO_MOVE_IN"}
+                onChange={handleFormChange}
               ></input>
               <label
                 htmlFor="Ready to Move"
@@ -97,6 +122,7 @@ const AdditionalDetails = ({
                 className="invisible "
                 value="FULLY_FURNISHED"
                 checked={additionalFormData.furnishing === "FULLY_FURNISHED"}
+                onChange={handleFormChange}
               ></input>
               <label
                 htmlFor="Fully-Furnished"
@@ -115,6 +141,7 @@ const AdditionalDetails = ({
                 checked={
                   additionalFormData.furnishing === "PARTIALLY_FURNISHED"
                 }
+                onChange={handleFormChange}
               ></input>
               <label
                 htmlFor="Partially-Furnished"
@@ -131,6 +158,7 @@ const AdditionalDetails = ({
                 className="invisible "
                 value="UNFURNISHED"
                 checked={additionalFormData.furnishing === "UNFURNISHED"}
+                onChange={handleFormChange}
               ></input>
               <label
                 htmlFor="Unfurnished"
@@ -150,6 +178,7 @@ const AdditionalDetails = ({
                 required
                 value={additionalFormData.bedrooms}
                 className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
+                onChange={handleFormChange}
               />
             </div>
             <div>
@@ -161,6 +190,7 @@ const AdditionalDetails = ({
                 required
                 value={additionalFormData.bathrooms}
                 className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
+                onChange={handleFormChange}
               />
             </div>
             <div>
@@ -172,6 +202,7 @@ const AdditionalDetails = ({
                 required
                 value={additionalFormData.floor}
                 className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
+                onChange={handleFormChange}
               />
             </div>
           </div>
@@ -186,10 +217,13 @@ const AdditionalDetails = ({
                   required
                   value={additionalFormData.floor_size}
                   className=" flex h-full w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
+                  onChange={handleFormChange}
                 />
                 <select
+                  name="floor_size_unit"
                   value={additionalFormData.floor_size_unit}
                   className="flex h-full rounded-lg  bg-ci-light-blue text-white  "
+                  onChange={handleFormChange}
                 >
                   <option
                     value="SQM"
@@ -215,6 +249,7 @@ const AdditionalDetails = ({
                 required
                 value={additionalFormData.unit_number}
                 className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
+                onChange={handleFormChange}
               />
             </div>
           </div>
@@ -248,7 +283,7 @@ const AdditionalDetails = ({
                 type="file"
                 className="hidden"
                 multiple
-                // onChange={handlePhotoUpload}
+                onChange={handlePhotoUpload}
               />
             </label>
           </div>
