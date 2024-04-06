@@ -55,6 +55,7 @@ const AdditionalDetails = ({
           street: propDetail.street,
           sub_district: propDetail.sub_district,
           unit_number: propDetail.unit_number,
+          property_images: new Array<FileList>(),
         };
         setAdditionalFormData(tmp);
         setOriginalData(tmp);
@@ -63,6 +64,9 @@ const AdditionalDetails = ({
     };
     fetchPropDetail();
   }, []);
+  useEffect(() => {
+    setIsChangesExist(true);
+  }, [additionalFormData]);
   const handleFormChange = (e: any) => {
     setAdditionalFormData((prev) => ({
       ...prev,
@@ -71,21 +75,15 @@ const AdditionalDetails = ({
     console.log(e.target.name, e.target.value);
   };
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const files = event.target.files;
-    // console.log(files);
-    // const newImages = [...images];
-    // const newImageURLs = [...imageURLs];
-    // if (files !== null) {
-    //   for (let i = 0; i < files.length; i++) {
-    //     newImages.push(files[i]);
-    //     newImageURLs.push(URL.createObjectURL(files[i]));
-    //   }
-    // }
-    // setAdditionalDetailPaneProps({
-    //   ...additionalDetailPaneProps,
-    //   images: newImages,
-    //   imageURLs: newImageURLs,
-    // });
+    if (event.target.files !== null) {
+      const files: FileList = event.target.files;
+      if (files) {
+        additionalFormData.property_images?.push(files);
+        setAdditionalFormData((prev) => ({
+          ...prev,
+        }));
+      }
+    }
   };
   return (
     <>
@@ -299,6 +297,55 @@ const AdditionalDetails = ({
                       {/* Adjust width as needed */}
                       <Image
                         src={imageURL}
+                        alt={`Property Photo ${index + 1}`}
+                        layout="fill" // This makes the image fill the container
+                        objectFit="cover" // Adjusts the image's fit within its box
+                        className="rounded-lg"
+                      />
+                      <button
+                        className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
+                        // onClick={() => {
+                        //   const newImages = [...images];
+                        //   const newImageURLs = [...imageURLs];
+                        //   newImageURLs.splice(index, 1);
+                        //   newImages.splice(index, 1);
+                        //   setAdditionalDetailPaneProps({
+                        //     ...additionalDetailPaneProps,
+                        //     images: newImages,
+                        //     imageURLs: newImageURLs,
+                        //   });
+                        // }}
+                      >
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  )
+                )
+              : null}
+            {additionalFormData.property_images?.length !== 0
+              ? additionalFormData.property_images?.map(
+                  (imageFile: FileList, index: number) => (
+                    <div
+                      key={index}
+                      className="relative inline-block h-36 w-2/3 flex-shrink-0"
+                    >
+                      {" "}
+                      {/* Adjust width as needed */}
+                      <Image
+                        src={URL.createObjectURL(imageFile[0])}
                         alt={`Property Photo ${index + 1}`}
                         layout="fill" // This makes the image fill the container
                         objectFit="cover" // Adjusts the image's fit within its box
