@@ -6,6 +6,7 @@ import PropertyImages from "@/models/PropertyData";
 import PropertyData from "@/models/PropertyData";
 import updateProperty from "@/services/property/updateProperty";
 import getPropertyDetail from "@/services/property/getPropertyDetail";
+import Image from "next/image";
 
 const AdditionalDetails = ({
   setIsChangesExist,
@@ -68,7 +69,7 @@ const AdditionalDetails = ({
         {" "}
         Additional Details
       </div>
-      <div className="flex flex-col lg:flex-row gap-10 px-10">
+      <div className="flex flex-col gap-10 px-10 lg:flex-row">
         <div className="flex flex-col ">
           <div className="medium-text m-4 font-medium">Furnishing</div>
           <div className="m-4  grid w-[550px]  grid-cols-2 gap-4">
@@ -232,6 +233,54 @@ const AdditionalDetails = ({
                 // onChange={handlePhotoUpload}
               />
             </label>
+          </div>
+          <div className="m-4 flex w-full space-x-4 overflow-x-auto ">
+            {additionalFormData.image_urls? additionalFormData.image_urls.map((imageURL:string, index:number) => (
+
+              <div
+                key={index}
+                className="relative inline-block h-36 w-2/3 flex-shrink-0"
+              >
+                {" "}
+                {/* Adjust width as needed */}
+                <Image
+                  src={imageURL}
+                  alt={`Property Photo ${index + 1}`}
+                  layout="fill" // This makes the image fill the container
+                  objectFit="cover" // Adjusts the image's fit within its box
+                  className="rounded-lg"
+                />
+                <button
+                  className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
+                  // onClick={() => {
+                  //   const newImages = [...images];
+                  //   const newImageURLs = [...imageURLs];
+                  //   newImageURLs.splice(index, 1);
+                  //   newImages.splice(index, 1);
+                  //   setAdditionalDetailPaneProps({
+                  //     ...additionalDetailPaneProps,
+                  //     images: newImages,
+                  //     imageURLs: newImageURLs,
+                  //   });
+                  // }}
+                >
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            )):null}
           </div>
         </div>
       </div>
