@@ -21,6 +21,8 @@ const AdditionalDetails = ({
   const [additionalFormData, setAdditionalFormData] =
     useState<PropertyFormData>({} as PropertyFormData);
 
+  const [isCanceling, setIsCanceling] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchPropDetail = async () => {
       const propDetail: PropertyData = await getPropertyDetail(propId);
@@ -85,8 +87,50 @@ const AdditionalDetails = ({
       }
     }
   };
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    // if (checkValidFormData(listingFormData, ListingType)) {
+    //   const res = await updateProperty(listingFormData);
+    //   if (res) {
+    //     router.push("/listing");
+    //   }
+    // } else {
+    //   alert("incorrect form data");
+    // }
+  };
+
   return (
     <>
+    {isCanceling ? (<div className="fixed left-[0] top-[0] z-40 flex h-[100vh] w-[100%] flex-col items-center justify-center bg-black bg-opacity-20">
+          <div className="p-auto relative  m-10 flex flex-col items-center justify-around rounded-2xl bg-white p-10">
+            <div className="large-text font-bold ">Cancel Change</div>
+            <div className="small-text m-6 md:m-8 lg:m-10">
+              Are you sure you want to discard all changes ?
+            </div>
+
+            <div className="flex w-full flex-row items-center justify-center gap-x-5">
+              <button
+                className="medium-text  in-card-button  bg-[#B3B3B3]  "
+                onClick={() => {
+                  setIsCanceling(false);
+                }}
+              >
+                No
+              </button>
+              <button
+                className="medium-text in-card-button  bg-ci-red "
+                onClick={() => {
+                  setIsCanceling(false);
+                  setAdditionalFormData(originalData);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>):null}
+    <form onSubmit={handleSubmit}>
       <div className="large-text m-4 mx-10 my-8 font-bold">
         {" "}
         Additional Details
@@ -381,6 +425,26 @@ const AdditionalDetails = ({
           </div>
         </div>
       </div>
+      <div className="flex justify-end">
+        <button
+          type="reset"
+          onClick={(e) => {
+            e.preventDefault()
+            setIsCanceling(true);
+          }}
+          className="m-3 h-[60px] w-[190px] rounded-[10px] bg-ci-dark-gray px-10 py-2 text-[24px] font-medium text-white"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          //   onClick={() => }
+          className="m-3 h-[60px] w-[190px] rounded-[10px] bg-ci-blue px-10 py-2 text-[24px] font-medium text-white"
+        >
+          Save
+        </button>
+      </div>
+    </form>
     </>
   );
 };
