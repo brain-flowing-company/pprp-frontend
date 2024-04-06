@@ -293,7 +293,6 @@ const AdditionalDetails = ({
                       key={index}
                       className="relative inline-block h-36 w-2/3 flex-shrink-0"
                     >
-                      {" "}
                       {/* Adjust width as needed */}
                       <Image
                         src={imageURL}
@@ -304,17 +303,14 @@ const AdditionalDetails = ({
                       />
                       <button
                         className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
-                        // onClick={() => {
-                        //   const newImages = [...images];
-                        //   const newImageURLs = [...imageURLs];
-                        //   newImageURLs.splice(index, 1);
-                        //   newImages.splice(index, 1);
-                        //   setAdditionalDetailPaneProps({
-                        //     ...additionalDetailPaneProps,
-                        //     images: newImages,
-                        //     imageURLs: newImageURLs,
-                        //   });
-                        // }}
+                        onClick={() => {
+                          const tmpImg = additionalFormData.image_urls;
+                          tmpImg.splice(index, 1);
+                          setAdditionalFormData((prev) => ({
+                            ...prev,
+                            image_urls: tmpImg,
+                          }));
+                        }}
                       >
                         <svg
                           className="h-4 w-4"
@@ -342,7 +338,6 @@ const AdditionalDetails = ({
                       key={index}
                       className="relative inline-block h-36 w-2/3 flex-shrink-0"
                     >
-                      {" "}
                       {/* Adjust width as needed */}
                       <Image
                         src={URL.createObjectURL(imageFile[0])}
@@ -353,17 +348,16 @@ const AdditionalDetails = ({
                       />
                       <button
                         className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
-                        // onClick={() => {
-                        //   const newImages = [...images];
-                        //   const newImageURLs = [...imageURLs];
-                        //   newImageURLs.splice(index, 1);
-                        //   newImages.splice(index, 1);
-                        //   setAdditionalDetailPaneProps({
-                        //     ...additionalDetailPaneProps,
-                        //     images: newImages,
-                        //     imageURLs: newImageURLs,
-                        //   });
-                        // }}
+                        onClick={() => {
+                          const tmpFile = additionalFormData.property_images;
+                          if (tmpFile !== undefined) {
+                            tmpFile.splice(index, 1);
+                            setAdditionalFormData((prev) => ({
+                              ...prev,
+                              property_images: tmpFile,
+                            }));
+                          }
+                        }}
                       >
                         <svg
                           className="h-4 w-4"
