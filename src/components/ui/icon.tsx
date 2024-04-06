@@ -94,5 +94,18 @@ export const CreditCardIcon = ({ size, className }: Icon) => {
     />
   );
 };
+export const ArrowLeft = ({ size, className }: Icon) => {
+  return (
+    <Image
+      src={"/img/arrow-left.svg"}
+      alt={"arrow-left-icon"}
+      width={size}
+      height={size}
+      style={{ height: `${size}px`, width: "auto" }}
+      className={className}
+      draggable={false}
+    />
+  );
+};
 
 
