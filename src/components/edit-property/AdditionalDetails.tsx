@@ -30,7 +30,6 @@ const AdditionalDetails = ({
       const propDetail: PropertyData = await getPropertyDetail(propId);
       if (propDetail) {
         console.log(propDetail, "test");
-        console.log(originalData, "test ori");
         const img_urls: string[] = propDetail.property_images.map(
           (prop_img: PropertyImages) => prop_img.image_url
         );
@@ -80,31 +79,30 @@ const AdditionalDetails = ({
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files !== null) {
       console.log("something");
-      if(additionalFormData.property_images!==undefined){
+      if (additionalFormData.property_images !== undefined) {
         const tmpFiles: FileList[] = additionalFormData.property_images;
         tmpFiles?.push(event.target.files);
         setAdditionalFormData((prev) => ({
           ...prev,
-          property_images:tmpFiles
+          property_images: tmpFiles,
         }));
-      }
-      else{
+      } else {
         const tmpFiles: FileList[] = new Array<FileList>();
         tmpFiles.push(event.target.files);
         setAdditionalFormData((prev) => ({
           ...prev,
-          property_images:tmpFiles
+          property_images: tmpFiles,
         }));
       }
     }
-    console.log(additionalFormData.property_images,"img?")
+    console.log(additionalFormData.property_images, "img?");
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const res = await updateProperty(additionalFormData);
-    if (res) {
-      router.push("/listing");
-    }
+    // if (res) {
+    //   router.push("/listing");
+    // }
   };
 
   return (
@@ -339,6 +337,7 @@ const AdditionalDetails = ({
               </label>
             </div>
             <div className="m-4 flex w-full space-x-4 overflow-x-auto ">
+              {/* show fetched image */}
               {additionalFormData.image_urls
                 ? additionalFormData.image_urls.map(
                     (imageURL: string, index: number) => (
@@ -350,9 +349,9 @@ const AdditionalDetails = ({
                         <Image
                           src={imageURL}
                           alt={`Property Photo ${index + 1}`}
-                          layout="fill" // This makes the image fill the container
                           objectFit="cover" // Adjusts the image's fit within its box
                           className="rounded-lg"
+                          fill={true}
                         />
                         <button
                           className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
@@ -384,6 +383,7 @@ const AdditionalDetails = ({
                     )
                   )
                 : null}
+              {/* show new image */}
               {additionalFormData.property_images?.length !== 0
                 ? additionalFormData.property_images?.map(
                     (imageFile: FileList, index: number) => (
@@ -395,16 +395,16 @@ const AdditionalDetails = ({
                         <Image
                           src={URL.createObjectURL(imageFile[0])}
                           alt={`Property Photo ${index + 1}`}
-                          layout="fill" // This makes the image fill the container
                           objectFit="cover" // Adjusts the image's fit within its box
                           className="rounded-lg"
+                          fill={true}
                         />
                         <button
                           className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
                           onClick={() => {
                             const tmpFile = additionalFormData.property_images;
                             if (tmpFile !== undefined) {
-                              tmpFile.splice(index, 1);
+                              tmpFile.splice(index, 1); //remove img
                               setAdditionalFormData((prev) => ({
                                 ...prev,
                                 property_images: tmpFile,
