@@ -142,7 +142,7 @@ const AdditionalDetails = ({
         <div className="large-text m-4 mx-10 my-8 font-bold">
           Additional Details
         </div>
-        <div className="flex flex-col gap-10 px-10 lg:flex-row">
+        <div className="flex flex-col gap-10 px-10 xl:flex-row">
           <div className="flex flex-col ">
             <div className="medium-text m-4 font-medium">Furnishing</div>
             <div className="m-4  grid w-[550px]  grid-cols-2 gap-4">
@@ -303,7 +303,7 @@ const AdditionalDetails = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
             <div className="medium-text m-4 font-medium">
               Upload Photos of Your Property
             </div>

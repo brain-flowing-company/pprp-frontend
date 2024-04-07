@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
 import Sidebar from "@/components/edit-profile/Sidebar";
-import OwnerPage from "@/components/edit-profile/OwnerPage";
-import FinancialPage from "@/components/edit-profile/FinancialPage";
+
 import { NotSavedPopUp } from "@/components/edit-profile/NotSavedPopUp";
 import ListingDetail from "@/components/edit-property/ListingDetails";
 import AdditionalDetails from "@/components/edit-property/AdditionalDetails";
@@ -24,27 +23,18 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
       setIsSwitchingTab(true);
     }
   };
-  const switchToContact = () => {
-    if (!isChangesExist) {
-      setTab("Contact Details");
-      setIsSwitchingTab(false);
-    } else {
-      setIsSwitchingTab(true);
-    }
-  };
+
 
   return (
-    <div className=" flex min-h-dvh  flex-row">
+    <div className=" flex min-h-dvh w-full  flex-row">
       <Sidebar
         switchTo1={switchToListing}
         switchTo2={switchToAdditional}
-        switchTo3={switchToContact}
         header="Edit Property"
         text1="Listing Details"
         text2="Additional Details"
-        text3="Contact Details"
       />
-      <div className="m-5 min-w-[40%] max-w-full">
+      <div className="m-5 min-w-[40%] w-full">
         {tab === "Listing Details" && (
           <ListingDetail
             propId={params.id}
@@ -57,7 +47,6 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
             setIsChangesExist={setIsChangesExist}
           />
         )}
-        {tab === "Contact Details" && <OwnerPage />}
       </div>
       {isSwitchingTab && isChangesExist && (
         <NotSavedPopUp
