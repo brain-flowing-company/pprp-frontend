@@ -16,7 +16,6 @@ export function arePropertiesDifferent(
   }
   // Check each property for differences
   if (
-    property1.propertyId !== property2.propertyId ||
     property1.address !== property2.address ||
     property1.alley !== property2.alley ||
     property1.bathrooms !== property2.bathrooms ||

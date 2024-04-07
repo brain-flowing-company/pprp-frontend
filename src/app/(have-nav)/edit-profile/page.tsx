@@ -55,12 +55,12 @@ const EditProfile = () => {
         )}
         {tab === "owner" && <OwnerPage />}
       </div>
-      {isSwitchingTab && isChangesExist && (
+      {isSwitchingTab && isChangesExist ? (
         <NotSavedPopUp
           setIsChangesExist={setIsChangesExist}
           setIsSwitchingTab={setIsSwitchingTab}
         />
-      )}
+      ):null}
     </div>
   );
 };

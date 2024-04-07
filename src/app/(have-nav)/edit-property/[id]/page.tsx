@@ -6,7 +6,7 @@ import { NotSavedPopUp } from "@/components/edit-profile/NotSavedPopUp";
 import ListingDetail from "@/components/edit-property/ListingDetails";
 import AdditionalDetails from "@/components/edit-property/AdditionalDetails";
 
-type Tab = "Listing Details" | "Additional Details" | "Contact Details";
+type Tab = "Listing Details" | "Additional Details";
 
 const EditProperty = ({ params }: { params: { id: string } }) => {
   const [tab, setTab] = useState<Tab>("Listing Details");
@@ -14,7 +14,14 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
   const [isChangesExist, setIsChangesExist] = useState<boolean>(false);
   const [isSwitchingTab, setIsSwitchingTab] = useState<boolean>(false);
 
-  const switchToListing = () => setTab("Listing Details");
+  const switchToListing = () => {
+    if (!isChangesExist) {
+      setTab("Listing Details");
+      setIsSwitchingTab(false);
+    } else {
+      setIsSwitchingTab(true);
+    }
+  };
   const switchToAdditional = () => {
     if (!isChangesExist) {
       setTab("Additional Details");
@@ -23,7 +30,6 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
       setIsSwitchingTab(true);
     }
   };
-
 
   return (
     <div className=" flex min-h-dvh w-full  flex-row">
@@ -48,12 +54,12 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
           />
         )}
       </div>
-      {isSwitchingTab && isChangesExist && (
+      {isSwitchingTab && isChangesExist ? (
         <NotSavedPopUp
           setIsChangesExist={setIsChangesExist}
           setIsSwitchingTab={setIsSwitchingTab}
         />
-      )}
+      ) : null}
     </div>
   );
 };

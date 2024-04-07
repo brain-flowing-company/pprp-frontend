@@ -65,6 +65,7 @@ const AdditionalDetails = ({
     };
     fetchPropDetail();
   }, []);
+
   useEffect(() => {
     if (arePropertiesDifferent(originalData, additionalFormData)) {
       setIsChangesExist(true);
@@ -72,12 +73,14 @@ const AdditionalDetails = ({
       setIsChangesExist(false);
     }
   }, [additionalFormData]);
+
   const handleFormChange = (e: any) => {
     setAdditionalFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
+  
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files !== null) {
       if (additionalFormData.property_images !== undefined) {
