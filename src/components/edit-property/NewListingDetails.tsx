@@ -161,8 +161,8 @@ const ListingDetails = ({
                 onChange={handleFormChange}
               />
             </div>
-            <div className="medium-text m-4 font-medium">Listing Type</div>
-            <div className="m-4  grid w-[550px]  grid-cols-3 gap-4">
+            <div className="medium-text m-4 max-h-4 font-medium">Listing Type</div>
+            <div className="m-4  grid w-[550px]  grid-cols-3 gap-8">
               <div className="flex  w-full select-none items-center justify-center rounded-md border-2 border-solid border-ci-dark-gray hover:bg-ci-dark-gray has-[:checked]:border-0 has-[:checked]:bg-black has-[:checked]:text-white">
                 <input
                   type="radio"
