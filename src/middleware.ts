@@ -12,6 +12,7 @@ export const config = {
     "/editProfile",
     "/my-appointment",
     "/property",
+    "/my-agreement"
   ],
 };
 
