@@ -100,9 +100,9 @@ const AdditionalDetails = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const res = await updateProperty(additionalFormData);
-    // if (res) {
-    //   router.push("/listing");
-    // }
+    if (res) {
+      router.push("/listing");
+    }
   };
 
   return (
