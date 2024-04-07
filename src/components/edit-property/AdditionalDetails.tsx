@@ -108,7 +108,7 @@ const AdditionalDetails = ({
   return (
     <>
       {isCanceling ? (
-        <div className="fixed left-[0] top-[0] z-40 flex h-[100vh] w-[100%] flex-col items-center justify-center bg-black bg-opacity-20">
+        <div className="fixed left-[0] top-[0] z-40 flex h-full w-full flex-col items-center justify-center bg-black bg-opacity-20">
           <div className="p-auto relative  m-10 flex flex-col items-center justify-around rounded-2xl bg-white p-10">
             <div className="large-text font-bold ">Cancel Change</div>
             <div className="small-text m-6 md:m-8 lg:m-10">
@@ -303,7 +303,7 @@ const AdditionalDetails = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-full">
+          <div className="flex w-full flex-col">
             <div className="medium-text m-4 font-medium">
               Upload Photos of Your Property
             </div>
@@ -355,7 +355,8 @@ const AdditionalDetails = ({
                         />
                         <button
                           className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
                             const tmpImg = additionalFormData.image_urls;
                             tmpImg.splice(index, 1);
                             setAdditionalFormData((prev) => ({
@@ -401,7 +402,8 @@ const AdditionalDetails = ({
                         />
                         <button
                           className="absolute bottom-0 right-0 m-1 rounded-full bg-red-500 p-1 text-white"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
                             const tmpFile = additionalFormData.property_images;
                             if (tmpFile !== undefined) {
                               tmpFile.splice(index, 1); //remove img
@@ -441,13 +443,13 @@ const AdditionalDetails = ({
               e.preventDefault();
               setIsCanceling(true);
             }}
-            className="m-3 h-[60px] w-[190px] rounded-[10px] bg-ci-dark-gray px-10 py-2 text-[24px] font-medium text-white"
+            className="medium-text m-3 h-12 w-40 rounded-xl  bg-ci-dark-gray font-medium text-white"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="m-3 h-[60px] w-[190px] rounded-[10px] bg-ci-blue px-10 py-2 text-[24px] font-medium text-white"
+            className="medium-text m-3 h-12 w-40 rounded-xl  bg-ci-blue font-medium text-white"
           >
             Save
           </button>

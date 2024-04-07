@@ -222,7 +222,7 @@ export default function ListingDetail({
   return (
     <>
       {isCanceling ? (
-        <div className="fixed left-[0] top-[0] z-40 flex h-[100vh] w-[100%] flex-col items-center justify-center bg-black bg-opacity-20">
+        <div className="fixed left-[0] top-[0] z-40 flex h-full w-full flex-col items-center justify-center bg-black bg-opacity-20">
           <div className="p-auto relative  m-10 flex flex-col items-center justify-around rounded-2xl bg-white p-10">
             <div className="large-text font-bold ">Cancel Change</div>
             <div className="small-text m-6 md:m-8 lg:m-10">
