@@ -3,7 +3,7 @@ import { useState } from "react";
 import Sidebar from "@/components/edit-profile/Sidebar";
 
 import { NotSavedPopUp } from "@/components/edit-profile/NotSavedPopUp";
-import ListingDetail from "@/components/edit-property/ListingDetails";
+import ListingDetail from "@/components/edit-property/NewListingDetails";
 import AdditionalDetails from "@/components/edit-property/AdditionalDetails";
 
 type Tab = "Listing Details" | "Additional Details";

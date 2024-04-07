@@ -1,18 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
 import Map from "../create-property/Map";
 import getPropertyDetail from "@/services/property/getPropertyDetail";
-
 import PropertyData from "@/models/PropertyData";
 import updateProperty from "@/services/property/updateProperty";
-
 import { PropertyFormData } from "@/models/PropertyData";
 import PropertyImages from "@/models/PropertyData";
-
 import { useRouter } from "next/navigation";
-
 import { arePropertiesDifferent } from "@/lib/utils";
 
 const propertyTypes = [
