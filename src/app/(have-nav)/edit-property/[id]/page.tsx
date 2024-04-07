@@ -34,7 +34,7 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
         text1="Listing Details"
         text2="Additional Details"
       />
-      <div className="m-5 min-w-[40%] w-full">
+      <div className="m-5  w-full">
         {tab === "Listing Details" && (
           <ListingDetail
             propId={params.id}

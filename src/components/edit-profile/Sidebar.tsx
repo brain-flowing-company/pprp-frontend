@@ -29,11 +29,11 @@ const Sidebar = ({
         {header}
       </div>
       <div
-        className="flex h-14 w-full cursor-pointer flex-row space-x-2 p-4 hover:bg-ci-gray"
+        className="flex h-14 w-full cursor-pointer justify-center flex-row space-x-2 p-4 hover:bg-ci-gray"
         onClick={switchTo1}
       >
         {iconSrc1 ? (
-          <div className="mx-3 flex items-center">
+          <div className="mx-0 xl:mx-3 flex items-center">
             (
             <Image src={iconSrc1} alt={"first icon"} width={18} height={18} />)
           </div>
@@ -48,7 +48,7 @@ const Sidebar = ({
         onClick={switchTo2}
       >
         {iconSrc2 ? (
-          <div className="mx-3 flex items-center ">
+          <div className="mx-0 xl:mx-3 flex items-center ">
             <Image src={iconSrc2} alt={"second icon"} width={18} height={18} />
           </div>
         ) : null}
@@ -61,7 +61,7 @@ const Sidebar = ({
         onClick={switchTo3}
       >
         {iconSrc3 ? (
-          <div className="mx-3 flex items-center ">
+          <div className="mx-0 xl:mx-3 flex items-center ">
             (
             <Image src={iconSrc3} alt={"third icon"} width={18} height={18} />)
           </div>
