@@ -13,6 +13,8 @@ import PropertyImages from "@/models/PropertyData";
 
 import { useRouter } from "next/navigation";
 
+import {arePropertiesDifferent,isFormValid} from "@/lib/utils";
+
 const propertyTypes = [
   "Condominium",
   "Apartment",
@@ -53,57 +55,6 @@ const noOptionSelectedStyle: React.CSSProperties = {
   border: "1px solid red",
 };
 
-function checkValidFormData(
-  listingFormData: PropertyFormData,
-  listingType: string
-): boolean {
-  return (
-    listingFormData.property_name.trim() !== "" &&
-    listingType.trim() !== "" &&
-    listingFormData.property_type.trim() !== "" &&
-    ((listingType.trim() === "rent" &&
-      listingFormData.price_per_month !== null) ||
-      (listingType.trim() === "sell" && listingFormData.price !== null) ||
-      (listingType.trim() === "rent/sell" &&
-        listingFormData.price_per_month !== null &&
-        listingFormData.price !== null)) &&
-    listingFormData.property_description.trim() !== "" &&
-    listingFormData.address.trim() !== ""
-  );
-}
-
-function areArraysEqual(arr1: string[], arr2: string[]): boolean {
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i] !== arr2[i]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function haveChanges(
-  original: PropertyFormData,
-  data: PropertyFormData
-): boolean {
-  for (const [key, value] of Object.entries(original)) {
-    if (key === "image_urls") {
-      if (!areArraysEqual(value, data.key)) {
-        return true;
-      }
-    } else {
-      if (value !== data.key) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 export default function ListingDetail({
   setIsChangesExist,
   propId,
@@ -127,8 +78,6 @@ export default function ListingDetail({
     const fetchPropDetail = async () => {
       const propDetail: PropertyData = await getPropertyDetail(propId);
       if (propDetail) {
-        console.log(propDetail, "test");
-        console.log(originalData, "test ori");
         const img_urls: string[] = propDetail.property_images.map(
           (prop_img: PropertyImages) => prop_img.image_url
         );
@@ -160,7 +109,6 @@ export default function ListingDetail({
         };
         setListingFormData(tmp);
         setOriginalData(tmp);
-        console.log(tmp);
         if (tmp.price !== 0 && tmp.price_per_month !== 0) {
           setListingType("rent/sell");
         } else if (tmp.price !== 0 && tmp.price_per_month === 0) {
@@ -168,21 +116,15 @@ export default function ListingDetail({
         } else if (tmp.price === 0 && tmp.price_per_month !== 0) {
           setListingType("rent");
         }
-        // setFetchData((prev)=>propDetail)
       }
     };
     fetchPropDetail();
   }, []);
 
   useEffect(() => {
-    if (
-      originalData !== ({} as PropertyFormData) &&
-      listingFormData !== ({} as PropertyFormData) &&
-      haveChanges(originalData, listingFormData)
-    ) {
+    if (arePropertiesDifferent(originalData, listingFormData)) {
       setIsChangesExist(true);
-    }
-    else{
+    } else {
       setIsChangesExist(false);
     }
   }, [listingFormData]);
@@ -209,14 +151,14 @@ export default function ListingDetail({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.table(listingFormData);
-    if (checkValidFormData(listingFormData, ListingType)) {
-      const res = await updateProperty(listingFormData);
-      if (res) {
-        router.push("/listing");
-      }
-    } else {
-      alert("incorrect form data");
-    }
+    // if (isFormValid(listingFormData, ListingType)) {
+    //   const res = await updateProperty(listingFormData);
+    //   if (res) {
+    //     router.push("/listing");
+    //   }
+    // } else {
+    //   alert("incorrect form data");
+    // }
   };
 
   return (

@@ -7,6 +7,7 @@ import updateProperty from "@/services/property/updateProperty";
 import getPropertyDetail from "@/services/property/getPropertyDetail";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { arePropertiesDifferent, isFormValid } from "@/lib/utils";
 
 const AdditionalDetails = ({
   setIsChangesExist,
@@ -29,7 +30,6 @@ const AdditionalDetails = ({
     const fetchPropDetail = async () => {
       const propDetail: PropertyData = await getPropertyDetail(propId);
       if (propDetail) {
-        console.log(propDetail, "test");
         const img_urls: string[] = propDetail.property_images.map(
           (prop_img: PropertyImages) => prop_img.image_url
         );
@@ -61,24 +61,25 @@ const AdditionalDetails = ({
         };
         setAdditionalFormData(tmp);
         setOriginalData(tmp);
-        console.log(tmp);
       }
     };
     fetchPropDetail();
   }, []);
   useEffect(() => {
-    setIsChangesExist(true);
+    if (arePropertiesDifferent(originalData, additionalFormData)) {
+      setIsChangesExist(true);
+    } else {
+      setIsChangesExist(false);
+    }
   }, [additionalFormData]);
   const handleFormChange = (e: any) => {
     setAdditionalFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    console.log(e.target.name, e.target.value);
   };
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files !== null) {
-      console.log("something");
       if (additionalFormData.property_images !== undefined) {
         const tmpFiles: FileList[] = additionalFormData.property_images;
         tmpFiles?.push(event.target.files);
@@ -95,7 +96,6 @@ const AdditionalDetails = ({
         }));
       }
     }
-    console.log(additionalFormData.property_images, "img?");
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -126,9 +126,9 @@ const AdditionalDetails = ({
               </button>
               <button
                 className="medium-text in-card-button  bg-ci-red "
-                onClick={() => {
+                onClick={(e) => {
                   setIsCanceling(false);
-                  setAdditionalFormData(originalData);
+                  setAdditionalFormData((prev) => originalData);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               >
@@ -333,6 +333,7 @@ const AdditionalDetails = ({
                   className="hidden"
                   multiple
                   onChange={handlePhotoUpload}
+                  required
                 />
               </label>
             </div>
