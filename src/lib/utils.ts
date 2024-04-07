@@ -71,6 +71,4 @@ export function arePropertiesDifferent(
   return false; // Properties are the same
 }
 
-export function isFormValid(data: PropertyFormData): boolean {
-  return false;
-}
+

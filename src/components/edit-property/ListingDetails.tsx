@@ -13,7 +13,7 @@ import PropertyImages from "@/models/PropertyData";
 
 import { useRouter } from "next/navigation";
 
-import {arePropertiesDifferent,isFormValid} from "@/lib/utils";
+import { arePropertiesDifferent } from "@/lib/utils";
 
 const propertyTypes = [
   "Condominium",
@@ -151,14 +151,11 @@ export default function ListingDetail({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.table(listingFormData);
-    // if (isFormValid(listingFormData, ListingType)) {
-    //   const res = await updateProperty(listingFormData);
-    //   if (res) {
-    //     router.push("/listing");
-    //   }
-    // } else {
-    //   alert("incorrect form data");
-    // }
+    const res = await updateProperty(listingFormData);
+    if (res) {
+      router.push("/listing");
+    }
+
   };
 
   return (

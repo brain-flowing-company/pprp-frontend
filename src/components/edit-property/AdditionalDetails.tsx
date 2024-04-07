@@ -7,7 +7,7 @@ import updateProperty from "@/services/property/updateProperty";
 import getPropertyDetail from "@/services/property/getPropertyDetail";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { arePropertiesDifferent, isFormValid } from "@/lib/utils";
+import { arePropertiesDifferent } from "@/lib/utils";
 
 const AdditionalDetails = ({
   setIsChangesExist,
@@ -80,7 +80,7 @@ const AdditionalDetails = ({
       [e.target.name]: e.target.value,
     }));
   };
-  
+
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files !== null) {
       if (additionalFormData.property_images !== undefined) {
