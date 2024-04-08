@@ -61,8 +61,12 @@ const RoomTourRes = ({ property, handlePost }: RoomTourResProps) => {
     return false;
   };
 
-  const chatWithOwnerHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    ctx.openChat(property.owner_id);
+  const chatWithOwnerHandler = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    ctx.openChat(property.owner_id, {
+      property_id: property.property_id,
+    });
   };
 
   const handleReservation = () => {
@@ -202,7 +206,9 @@ const RoomTourRes = ({ property, handlePost }: RoomTourResProps) => {
                   onClick={(e) => {
                     e.preventDefault();
                     setReserve(true);
-                    const newSelectedDay = new Date(selectedDay.getTime() + (1000*60*60*24));
+                    const newSelectedDay = new Date(
+                      selectedDay!.getTime() + 1000 * 60 * 60 * 24
+                    );
                     const strDay =
                       newSelectedDay.toISOString().split("T")[0] +
                       "T" +

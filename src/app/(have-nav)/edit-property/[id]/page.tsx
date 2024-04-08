@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
 import Sidebar from "@/components/edit-profile/Sidebar";
-import PersonalPage from "@/components/edit-profile/PersonalPage";
 import OwnerPage from "@/components/edit-profile/OwnerPage";
 import FinancialPage from "@/components/edit-profile/FinancialPage";
 import { NotSavedPopUp } from "@/components/edit-profile/NotSavedPopUp";
 import ListingDetail from "@/components/edit-property/ListingDetails";
+import AdditionalDetail from "@/components/edit-property/AdditionalDetails";
+
 type Tab = "Listing Details" | "Additional Details" | "Contact Details";
 
 const EditProperty = ({ params }: { params: { id: string } }) => {
@@ -13,7 +14,6 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
 
   const [isChangesExist, setIsChangesExist] = useState<boolean>(false);
   const [isSwitchingTab, setIsSwitchingTab] = useState<boolean>(false);
-
 
   const switchToListing = () => setTab("Listing Details");
   const switchToAdditional = () => {
@@ -46,11 +46,13 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
       />
       <div className="m-5 min-w-[40%] max-w-full">
         {tab === "Listing Details" && (
-          // <PersonalPage setIsChangesExist={setIsChangesExist} />
-          <ListingDetail propId={params.id} setIsChangesExist={setIsChangesExist} ></ListingDetail>
+          <ListingDetail
+            propId={params.id}
+            setIsChangesExist={setIsChangesExist}
+          ></ListingDetail>
         )}
         {tab === "Additional Details" && (
-          <FinancialPage setIsChangesExist={setIsChangesExist} />
+          <AdditionalDetail setIsChangesExist={setIsChangesExist} />
         )}
         {tab === "Contact Details" && <OwnerPage />}
       </div>
@@ -60,7 +62,6 @@ const EditProperty = ({ params }: { params: { id: string } }) => {
           setIsSwitchingTab={setIsSwitchingTab}
         />
       )}
-      
     </div>
   );
 };
