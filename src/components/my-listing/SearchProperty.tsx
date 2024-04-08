@@ -90,6 +90,7 @@ const SearchProperty = () => {
           placeholder={searchContent.current}
           onKeyDown={onKeyDownHandler}
           onChange={(e) => {
+            setIsSearching(true)
             searchContent.current = e.target.value;
             console.log(searchContent.current, "testing search");
           }}
