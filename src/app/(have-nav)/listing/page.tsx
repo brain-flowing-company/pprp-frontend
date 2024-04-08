@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import EmptyProperty from "@/components/my-listing/EmptyProperty";
 import getCurrentUser from "@/services/users/getCurrentUser";
+import UnverifiedOwner from "@/components/my-listing/UnverifiedOwner";
 
 const myListingPage = () => {
   const [propData, setData] = useState<PropertyData[]>([]);
@@ -33,42 +34,46 @@ const myListingPage = () => {
   };
   return (
     <>
-      {total !== 0 && propData !== undefined ? (
-        <div className="mt-8 flex h-full w-full flex-col items-center">
-          <div className="flex flex-col md:w-[700px] lg:w-[1000px]">
-            <div className="large-text font-bold ">My Listing</div>
-            <PropertyCards
-              propData={propData}
-              totalProp={total}
-              isEditable={true}
-              additionaltext={"for rent or sales in my listing"}
-              showAmount={false}
-              setSort={setSortby}
-              setOnPage={setOnPage}
-            ></PropertyCards>
-          </div>
-          {isVerified ? (
-            <button
-              className="fixed bottom-24 right-4 size-16 rounded-full bg-ci-blue  shadow-xl shadow-slate-400"
-              onClick={handleCreate}
-            >
-              <div className=" size-15 relative p-5">
-                <Image
-                  src="/img/mylisting/plusCircle.svg"
-                  alt="add"
-                  fill={true}
-                />
+      {isVerified ? (
+        <>
+          {total !== 0 && propData !== undefined ? (
+            <div className="mt-8 flex h-full w-full flex-col items-center">
+              <div className="flex flex-col md:w-[700px] lg:w-[1000px]">
+                <div className="large-text font-bold ">My Listing</div>
+                <PropertyCards
+                  propData={propData}
+                  totalProp={total}
+                  isEditable={true}
+                  additionaltext={"for rent or sales in my listing"}
+                  showAmount={false}
+                  setSort={setSortby}
+                  setOnPage={setOnPage}
+                ></PropertyCards>
               </div>
-            </button>
-          ) : null}
-        </div>
+            </div>
+          ) : (
+            <EmptyProperty
+              headerText="Empty property listing"
+              text1="Your listing is empty."
+              text2="Let's create a property on your listing."
+              haveButton={true}
+            />
+          )}
+          <button
+            className="fixed bottom-24 right-4 size-16 rounded-full bg-ci-blue  shadow-xl shadow-slate-400"
+            onClick={handleCreate}
+          >
+            <div className=" size-15 relative p-5">
+              <Image
+                src="/img/mylisting/plusCircle.svg"
+                alt="add"
+                fill={true}
+              />
+            </div>
+          </button>
+        </>
       ) : (
-        <EmptyProperty
-          headerText="Empty property listing"
-          text1="Your listing is empty."
-          text2="Let's create a property on your listing."
-          haveButton={true}
-        />
+        <UnverifiedOwner></UnverifiedOwner>
       )}
     </>
   );

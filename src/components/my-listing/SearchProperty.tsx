@@ -87,11 +87,12 @@ const SearchProperty = () => {
         <input
           type="text"
           className="h-full w-full rounded-xl border bg-ci-light-gray  px-3  lg:px-5"
-          placeholder={searchContent.current}
           onKeyDown={onKeyDownHandler}
           onChange={(e) => {
-            setIsSearching(true)
-            searchContent.current = e.target.value;
+            setTimeout(() => {
+              setIsSearching((prev)=>true);
+            }, 2000);
+            searchContent.current = e.target.value.trim();
             console.log(searchContent.current, "testing search");
           }}
         ></input>
