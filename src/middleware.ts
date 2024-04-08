@@ -16,9 +16,9 @@ export const config = {
   ],
 };
 
-export  function middleware(request: NextRequest) {
-  // const res = await getCurrentUser();
-  const res = request.cookies.get('session')
+export async function middleware(request: NextRequest) {
+  const res = await getCurrentUser();
+  // const res = request.cookies.get('session')
 
   if (!res) {
     return NextResponse.redirect(new URL("http://localhost:3000/login"));
