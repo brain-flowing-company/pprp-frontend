@@ -37,20 +37,34 @@ const myListingPage = () => {
       {isVerified ? (
         <>
           {total !== 0 && propData !== undefined ? (
-            <div className="mt-8 flex h-full w-full flex-col items-center">
-              <div className="flex flex-col md:w-[700px] lg:w-[1000px]">
-                <div className="large-text font-bold ">My Listing</div>
-                <PropertyCards
-                  propData={propData}
-                  totalProp={total}
-                  isEditable={true}
-                  additionaltext={"for rent or sales in my listing"}
-                  showAmount={false}
-                  setSort={setSortby}
-                  setOnPage={setOnPage}
-                ></PropertyCards>
+            <>
+              <div className="mt-8 flex h-full w-full flex-col items-center">
+                <div className="flex flex-col md:w-[700px] lg:w-[1000px]">
+                  <div className="large-text font-bold ">My Listing</div>
+                  <PropertyCards
+                    propData={propData}
+                    totalProp={total}
+                    isEditable={true}
+                    additionaltext={"for rent or sales in my listing"}
+                    showAmount={false}
+                    setSort={setSortby}
+                    setOnPage={setOnPage}
+                  ></PropertyCards>
+                </div>
               </div>
-            </div>
+              <button
+                className="fixed bottom-24 right-4 size-16 rounded-full bg-ci-blue  shadow-xl shadow-slate-400"
+                onClick={handleCreate}
+              >
+                <div className=" size-15 relative p-5">
+                  <Image
+                    src="/img/mylisting/plusCircle.svg"
+                    alt="add"
+                    fill={true}
+                  />
+                </div>
+              </button>
+            </>
           ) : (
             <EmptyProperty
               headerText="Empty property listing"
@@ -59,18 +73,6 @@ const myListingPage = () => {
               haveButton={true}
             />
           )}
-          <button
-            className="fixed bottom-24 right-4 size-16 rounded-full bg-ci-blue  shadow-xl shadow-slate-400"
-            onClick={handleCreate}
-          >
-            <div className=" size-15 relative p-5">
-              <Image
-                src="/img/mylisting/plusCircle.svg"
-                alt="add"
-                fill={true}
-              />
-            </div>
-          </button>
         </>
       ) : (
         <UnverifiedOwner></UnverifiedOwner>
