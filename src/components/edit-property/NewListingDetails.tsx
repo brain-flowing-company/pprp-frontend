@@ -9,7 +9,7 @@ import { PropertyFormData } from "@/models/PropertyData";
 import PropertyImages from "@/models/PropertyData";
 import { useRouter } from "next/navigation";
 import { arePropertiesDifferent } from "@/lib/utils";
-import PropertyMap from "../property-description/PropertyMap";
+import PropertyMap from "@/components/edit-property/PropertyMap";
 
 const propertyTypes = [
   ["Condominium", "CONDOMINIUM"],
@@ -148,7 +148,7 @@ const ListingDetails = ({
         <div className="large-text m-4 mx-10 my-8 font-bold">
           Listing Details
         </div>
-        <div className="flex flex-col gap-10 px-10 xl:flex-row">
+        <div className="flex h-full flex-col gap-10 px-10 xl:flex-row">
           <div className="flex flex-col">
             <div>
               <div className="medium-text m-2 font-medium">Name</div>
@@ -165,7 +165,7 @@ const ListingDetails = ({
             <div className="medium-text m-4 max-h-4 font-medium">
               Listing Type
             </div>
-            <div className="m-4  grid w-[550px]  grid-cols-3 gap-8">
+            <div className="m-4  grid h-full w-full xl:w-[550px]  grid-cols-3 gap-4 xl:gap-8">
               <div className="flex  w-full select-none items-center justify-center rounded-md border-2 border-solid border-ci-dark-gray hover:bg-ci-dark-gray has-[:checked]:border-0 has-[:checked]:bg-black has-[:checked]:text-white">
                 <input
                   type="radio"
@@ -215,20 +215,23 @@ const ListingDetails = ({
                 </label>
               </div>
             </div>
-            <div>
-              <div className="medium-text m-2 font-medium">
-                Rent Price/month(THB)
+            <div className="flex flex-col gap-4 md:flex-col lg:flex-row xl:gap-0 xl:flex-col justify-between">
+              <div className="w-full">
+                <div className="medium-text m-2 font-medium">
+                  Rent Price/month(THB)
+                </div>
+                <input
+                  type="number"
+                  name="price_per_month"
+                  placeholder="฿"
+                  required
+                  value={listingFormData.price_per_month}
+                  className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
+                  onChange={handleFormChange}
+                />
               </div>
-              <input
-                type="number"
-                name="price_per_month"
-                placeholder="฿"
-                required
-                value={listingFormData.price_per_month}
-                className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
-                onChange={handleFormChange}
-              />
-              <div>
+
+              <div className="w-full">
                 <div className="medium-text m-2 font-medium">
                   Sale Price(THB)
                 </div>
@@ -278,7 +281,7 @@ const ListingDetails = ({
                 onChange={handleFormChange}
               />
             </div>
-            <div className="m-2 w-full">
+            <div className="m-2 h-full w-full">
               <PropertyMap name={listingFormData.property_name}></PropertyMap>
             </div>
           </div>
