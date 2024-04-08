@@ -9,6 +9,7 @@ import { PropertyFormData } from "@/models/PropertyData";
 import PropertyImages from "@/models/PropertyData";
 import { useRouter } from "next/navigation";
 import { arePropertiesDifferent } from "@/lib/utils";
+import PropertyMap from "../property-description/PropertyMap";
 
 const propertyTypes = [
   ["Condominium", "CONDOMINIUM"],
@@ -278,7 +279,7 @@ const ListingDetails = ({
               />
             </div>
             <div className="m-2 w-full">
-              <Map name="" />
+              <PropertyMap name={listingFormData.property_name}></PropertyMap>
             </div>
           </div>
         </div>

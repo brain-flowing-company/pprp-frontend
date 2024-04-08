@@ -24,6 +24,8 @@ const AdditionalDetails = ({
 
   const [isCanceling, setIsCanceling] = useState<boolean>(false);
 
+  const [haveImg, setHaveImg] = useState<boolean>(true);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -83,6 +85,7 @@ const AdditionalDetails = ({
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files !== null) {
+      setHaveImg(true)
       if (additionalFormData.property_images !== undefined) {
         const tmpFiles: FileList[] = additionalFormData.property_images;
         tmpFiles?.push(event.target.files);
@@ -306,7 +309,7 @@ const AdditionalDetails = ({
               </div>
             </div>
           </div>
-          <div className="flex w-full flex-col">
+          <div className="relative flex w-full flex-col">
             <div className="medium-text m-4 font-medium">
               Upload Photos of Your Property
             </div>
@@ -336,11 +339,10 @@ const AdditionalDetails = ({
                   className="hidden"
                   multiple
                   onChange={handlePhotoUpload}
-                  required
                 />
               </label>
             </div>
-            <div className="m-4 flex w-full space-x-4 overflow-x-auto ">
+            <div className=" m-4 flex w-full space-x-4 overflow-x-auto ">
               {/* show fetched image */}
               {additionalFormData.image_urls
                 ? additionalFormData.image_urls.map(
@@ -367,6 +369,7 @@ const AdditionalDetails = ({
                               ...prev,
                               image_urls: tmpImg,
                             }));
+                            if (tmpImg.length === 0) setHaveImg(false);
                           }}
                         >
                           <svg
@@ -415,6 +418,7 @@ const AdditionalDetails = ({
                                 ...prev,
                                 property_images: tmpFile,
                               }));
+                              if (tmpFile.length === 0) setHaveImg(false);
                             }
                           }}
                         >
@@ -438,6 +442,11 @@ const AdditionalDetails = ({
                   )
                 : null}
             </div>
+            {!haveImg ? (
+              <span className="little-text absolute bottom-0 m-4  text-ci-red">
+                Please Uploads at least 1 photo but no more than 10
+              </span>
+            ) : null}
           </div>
         </div>
         <div className="flex justify-end">
