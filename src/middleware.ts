@@ -8,11 +8,10 @@ export const config = {
     "/favorite",
     "/create-property",
     "/edit-profile",
-    "/edit-profiles",
-    "/editProfile",
     "/my-appointment",
     "/property",
-    "/my-agreement"
+    "/my-agreement",
+    "/edit-property"
   ],
 };
 
