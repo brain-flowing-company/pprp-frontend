@@ -24,16 +24,16 @@ const Sidebar = ({
   switchTo3?: () => void;
 }) => {
   return (
-    <div className="  bg-ci-light-gray invisible max-w-0 md:visible md:max-w-screen-2xl md:w-1/3 lg:w-2/5 xl:w-1/4 ">
+    <div className="  invisible max-w-0 bg-ci-light-gray md:visible md:w-1/3 md:max-w-screen-2xl lg:w-2/5 xl:w-1/4 ">
       <div className="large-text my-3 flex w-full justify-center p-4 font-bold">
         {header}
       </div>
       <div
-        className="flex h-14 w-full cursor-pointer justify-center flex-row space-x-2 p-4 hover:bg-ci-gray"
+        className="flex h-14 w-full cursor-pointer flex-row justify-center space-x-2 p-4 hover:bg-ci-gray"
         onClick={switchTo1}
       >
         {iconSrc1 ? (
-          <div className="mx-0 xl:mx-3 flex items-center">
+          <div className="mx-0 flex items-center xl:mx-3">
             (
             <Image src={iconSrc1} alt={"first icon"} width={18} height={18} />)
           </div>
@@ -48,7 +48,7 @@ const Sidebar = ({
         onClick={switchTo2}
       >
         {iconSrc2 ? (
-          <div className="mx-0 xl:mx-3 flex items-center ">
+          <div className="mx-0 flex items-center xl:mx-3 ">
             <Image src={iconSrc2} alt={"second icon"} width={18} height={18} />
           </div>
         ) : null}
@@ -56,20 +56,24 @@ const Sidebar = ({
           {text2}
         </div>
       </div>
-      <div
-        className="flex h-14 w-full cursor-pointer flex-row space-x-2 p-4 hover:bg-ci-gray"
-        onClick={switchTo3}
-      >
-        {iconSrc3 ? (
-          <div className="mx-0 xl:mx-3 flex items-center ">
-            (
-            <Image src={iconSrc3} alt={"third icon"} width={18} height={18} />)
+      {text3 ? (
+        <div
+          className="flex h-14 w-full cursor-pointer flex-row space-x-2 p-4 hover:bg-ci-gray"
+          onClick={switchTo3}
+        >
+          {iconSrc3 ? (
+            <div className="mx-0 flex items-center xl:mx-3 ">
+              (
+              <Image src={iconSrc3} alt={"third icon"} width={18} height={18} />
+              )
+            </div>
+          ) : null}
+
+          <div className="medium-text flex  w-full items-center justify-center">
+            {text3}
           </div>
-        ) : null}
-        <div className="medium-text flex  w-full items-center justify-center">
-          {text3}
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };
