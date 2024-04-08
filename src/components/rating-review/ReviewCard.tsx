@@ -1,6 +1,7 @@
 import PropertyData from "@/models/PropertyData";
 import Image from "next/image";
 import { useState } from "react";
+import UserReview from "./UserReview";
 
 const ReviewCard = ({ property }: { property: PropertyData }) => {
   const [isShown, setShown] = useState<boolean>(false);
@@ -10,60 +11,67 @@ const ReviewCard = ({ property }: { property: PropertyData }) => {
 
   return (
     <>
-      <div className="flex h-32 w-5/6 items-center justify-between rounded-xl bg-ci-light-gray px-16">
-        <div className="pr-6 text-4xl font-semibold">
-          Property&apos;s Reviews
-        </div>
-        <div className="pr-3">
-          <Image
-            src="/img/rating-review/star.svg"
-            alt="star"
-            width={32}
-            height={32}
-          />
-        </div>
-        {/* rating of property (will change later)*/}
-        <div className="pr-3 text-xl">4.5/5</div>
-        {/* rating of property (will change later)*/}
-        <button
-          onClick={() => {
-            setShown(!isShown);
-          }}
-        >
-          {isShown ? (
-            <Image
-              src="/img/rating-review/arrow.svg"
-              alt="arrow"
-              width={32}
-              height={32}
-              className="rotate-180"
-            />
-          ) : (
-            <Image
-              src="/img/rating-review/arrow.svg"
-              alt="arrow"
-              width={32}
-              height={32}
-            />
-          )}
-        </button>
-        <div className="flex-grow"></div>
-        <button
-          className="h-2/5 w-40 items-center rounded-lg bg-ci-blue px-6"
-          onClick={() => {
-            setShowForm(true);
-          }}
-        >
-          <div className="w-100% flex flex-row justify-between">
-            <Image
-              src="/img/rating-review/plus.svg"
-              alt="plus"
-              width={28}
-              height={28}
-            />
-            <div className="text-xl font-bold text-white">Review</div>
+      <div
+        className={`flex flex-col ${isShown ? "h-3/4 items-center" : "h-32"} w-5/6 rounded-xl bg-ci-light-gray`}
+      >
+        <div className="flex w-full items-center rounded-xl bg-ci-light-gray px-16 py-8">
+          <div className="pr-6 text-4xl font-semibold">
+            Property&apos;s Reviews
           </div>
-        </button>
+          <div className="pr-3">
+            <Image
+              src="/img/rating-review/star.svg"
+              alt="star"
+              width={32}
+              height={32}
+            />
+          </div>
+          {/* rating of property (will change later)*/}
+          <div className="pr-3 text-xl">4.5/5</div>
+          {/* rating of property (will change later)*/}
+          <button
+            onClick={() => {
+              setShown(!isShown);
+            }}
+          >
+            {isShown ? (
+              <Image
+                src="/img/rating-review/arrow.svg"
+                alt="arrow"
+                width={32}
+                height={32}
+                className="rotate-180"
+              />
+            ) : (
+              <Image
+                src="/img/rating-review/arrow.svg"
+                alt="arrow"
+                width={32}
+                height={32}
+              />
+            )}
+          </button>
+          <div className="flex-grow"></div>
+          <button
+            className={`h-14 w-40 items-center rounded-lg bg-ci-blue px-6`}
+            onClick={() => {
+              setShowForm(true);
+            }}
+          >
+            <div className="w-100% flex flex-row justify-between">
+              <Image
+                src="/img/rating-review/plus.svg"
+                alt="plus"
+                width={28}
+                height={28}
+              />
+              <div className="text-xl font-bold text-white">Review</div>
+            </div>
+          </button>
+        </div>
+        <div className="flex flex-grow items-center justify-center px-16 pb-8">
+          {isShown ? <UserReview /> : null}
+        </div>
 
         {showForm && (
           <div
