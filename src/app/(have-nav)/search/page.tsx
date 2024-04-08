@@ -78,6 +78,7 @@ const SearchPage = () => {
       }
     };
     fetchProp();
+    console.log(isSearching,"se")
     setIsSearching(false);
   }, [isSearching, sort, onPage]);
 

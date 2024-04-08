@@ -87,6 +87,10 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.little-text {
+  @apply text-xs md:text-sm lg:text-base;
+}
+
 .small-text {
   @apply text-base md:text-lg lg:text-xl;
 }

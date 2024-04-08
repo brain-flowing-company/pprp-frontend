@@ -68,5 +68,6 @@ export interface PropertyFormData {
   street: string; // Example: "Pattaya"
   sub_district: string; // Example: "Bang Bon"
   unit_number: number; // Example: 123
+  property_images?:FileList[]
 }
 

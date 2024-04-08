@@ -6,15 +6,15 @@ export const NotSavedPopUp = ({
   setIsSwitchingTab: Function;
 }) => {
   return (
-    <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-20">
-      <div className=" space-y-8 rounded-xl bg-white px-4 py-6">
-        <div className="flex flex-col justify-start space-y-4">
-          <div className="font-bold">Changes have not been saved</div>
-          <div>Do you want to leave this tab without saving?</div>
+    <div className="fixed left-[0] top-[0] z-40 flex h-full w-full flex-col items-center justify-center bg-black bg-opacity-20">
+      <div className=" p-auto relative  m-10 flex flex-col items-center justify-around rounded-2xl bg-white p-10">
+        <div className="large-text font-bold ">Changes have not been saved</div>
+        <div className="small-text m-6 md:m-8 lg:m-10">
+          Do you want to leave this tab without saving?
         </div>
-        <div className="flex justify-end space-x-6">
+        <div className="flex w-full flex-row items-center justify-center gap-x-5">
           <button
-            className="rounded-md bg-ci-dark-gray px-6 py-2 text-white"
+            className="medium-text  in-card-button  bg-[#B3B3B3]  "
             onClick={() => {
               setIsSwitchingTab(false);
               setIsChangesExist(true);
@@ -23,8 +23,8 @@ export const NotSavedPopUp = ({
             Cancel
           </button>
           <button
-            className="rounded-md bg-ci-red px-6 py-2 text-white"
-            onClick={() => {
+            className="medium-text in-card-button  bg-ci-red "
+            onClick={(e) => {
               setIsChangesExist(false);
               setIsSwitchingTab(false);
             }}

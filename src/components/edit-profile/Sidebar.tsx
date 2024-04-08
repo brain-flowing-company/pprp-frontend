@@ -15,46 +15,65 @@ const Sidebar = ({
   header: string;
   text1: string;
   text2: string;
-  text3: string;
+  text3?: string;
   iconSrc1?: string;
   iconSrc2?: string;
   iconSrc3?: string;
   switchTo1: () => void;
   switchTo2: () => void;
-  switchTo3: () => void;
+  switchTo3?: () => void;
 }) => {
   return (
-    <div className=" invisible max-w-0 bg-ci-light-gray pt-4 text-[20px] md:visible md:min-w-72">
-      <div className="flex w-full justify-center text-[40px] font-bold">
+    <div className="  invisible max-w-0 bg-ci-light-gray md:visible md:w-1/3 md:max-w-screen-2xl lg:w-2/5 xl:w-1/4 ">
+      <div className="large-text my-3 flex w-full justify-center p-4 font-bold">
         {header}
       </div>
       <div
-        className="flex h-14 w-full cursor-pointer flex-row space-x-2 hover:bg-ci-gray"
+        className="flex h-14 w-full cursor-pointer flex-row justify-center space-x-2 p-4 hover:bg-ci-gray"
         onClick={switchTo1}
       >
-        <div className="ml-4 flex items-center">
-          {iconSrc1 ? <Image src={iconSrc1} alt={"first icon"} width={18} height={18} /> :null}
+        {iconSrc1 ? (
+          <div className="mx-0 flex items-center xl:mx-3">
+            (
+            <Image src={iconSrc1} alt={"first icon"} width={18} height={18} />)
+          </div>
+        ) : null}
+        <div className="medium-text flex  w-full  items-center justify-center">
+          {text1}
         </div>
-        <div className="flex items-center">{text1}</div>
       </div>
+
       <div
-        className="flex h-14 w-full cursor-pointer flex-row space-x-2 hover:bg-ci-gray"
+        className="flex h-14 w-full cursor-pointer flex-row space-x-2 p-4 hover:bg-ci-gray"
         onClick={switchTo2}
       >
-        <div className="ml-4 flex items-center">
-          {iconSrc2 ? <Image src={iconSrc2} alt={"second icon"} width={18} height={18} /> :null}
+        {iconSrc2 ? (
+          <div className="mx-0 flex items-center xl:mx-3 ">
+            <Image src={iconSrc2} alt={"second icon"} width={18} height={18} />
+          </div>
+        ) : null}
+        <div className="medium-text flex w-full items-center justify-center">
+          {text2}
         </div>
-        <div className="flex items-center">{text2}</div>
       </div>
-      <div
-        className="flex h-14 w-full cursor-pointer flex-row space-x-2 hover:bg-ci-gray "
-        onClick={switchTo3}
-      >
-        <div className="ml-4 flex items-center">
-          {iconSrc3 ? <Image src={iconSrc3} alt={"third icon"} width={18} height={18} /> :null}
+      {text3 ? (
+        <div
+          className="flex h-14 w-full cursor-pointer flex-row space-x-2 p-4 hover:bg-ci-gray"
+          onClick={switchTo3}
+        >
+          {iconSrc3 ? (
+            <div className="mx-0 flex items-center xl:mx-3 ">
+              (
+              <Image src={iconSrc3} alt={"third icon"} width={18} height={18} />
+              )
+            </div>
+          ) : null}
+
+          <div className="medium-text flex  w-full items-center justify-center">
+            {text3}
+          </div>
         </div>
-        <div className="flex items-center">{text3}</div>
-      </div>
+      ) : null}
     </div>
   );
 };

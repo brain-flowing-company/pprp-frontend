@@ -33,7 +33,7 @@ const EditProfile = () => {
     }
   };
   return (
-    <div className=" flex min-h-dvh  flex-row">
+    <div className=" flex min-h-dvh w-full flex-row">
       <Sidebar
         switchTo1={switchToPersonal}
         switchTo2={switchToFinancial}
@@ -55,12 +55,12 @@ const EditProfile = () => {
         )}
         {tab === "owner" && <OwnerPage />}
       </div>
-      {isSwitchingTab && isChangesExist && (
+      {isSwitchingTab && isChangesExist ? (
         <NotSavedPopUp
           setIsChangesExist={setIsChangesExist}
           setIsSwitchingTab={setIsSwitchingTab}
         />
-      )}
+      ):null}
     </div>
   );
 };
