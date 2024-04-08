@@ -6,22 +6,26 @@ import Image from "next/image";
 
 import { useEffect, useState } from "react";
 import EmptyProperty from "@/components/my-listing/EmptyProperty";
+import getCurrentUser from "@/services/users/getCurrentUser";
 
 const myListingPage = () => {
   const [propData, setData] = useState<PropertyData[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [sort, setSortby] = useState<string>("created_at:desc");
   const [onPage, setOnPage] = useState<number>(1);
+  const [isVerified, setIsVerified] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchProp = async () => {
+    const fetchData = async () => {
       const data = await getUserProperty(10, onPage, sort);
       if (data) {
-        setData(data.properties)
+        setData(data.properties);
         setTotal(data.total);
       }
+      const user = await getCurrentUser();
+      setIsVerified(user.is_verified);
     };
-    fetchProp();
+    fetchData();
   }, [sort, onPage]);
 
   const handleCreate = () => {
@@ -43,19 +47,20 @@ const myListingPage = () => {
               setOnPage={setOnPage}
             ></PropertyCards>
           </div>
-
-          <button
-            className="fixed bottom-24 right-4 size-16 rounded-full bg-ci-blue  shadow-xl shadow-slate-400"
-            onClick={handleCreate}
-          >
-            <div className=" size-15 relative p-5">
-              <Image
-                src="/img/mylisting/plusCircle.svg"
-                alt="add"
-                fill={true}
-              />
-            </div>
-          </button>
+          {isVerified ? (
+            <button
+              className="fixed bottom-24 right-4 size-16 rounded-full bg-ci-blue  shadow-xl shadow-slate-400"
+              onClick={handleCreate}
+            >
+              <div className=" size-15 relative p-5">
+                <Image
+                  src="/img/mylisting/plusCircle.svg"
+                  alt="add"
+                  fill={true}
+                />
+              </div>
+            </button>
+          ) : null}
         </div>
       ) : (
         <EmptyProperty

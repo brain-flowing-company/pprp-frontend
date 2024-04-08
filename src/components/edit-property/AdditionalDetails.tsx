@@ -85,7 +85,7 @@ const AdditionalDetails = ({
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files !== null) {
-      setHaveImg(true)
+      setHaveImg(true);
       if (additionalFormData.property_images !== undefined) {
         const tmpFiles: FileList[] = additionalFormData.property_images;
         tmpFiles?.push(event.target.files);
@@ -449,7 +449,7 @@ const AdditionalDetails = ({
             ) : null}
           </div>
         </div>
-        <div className="flex justify-end">
+        <div className="flex w-full justify-end">
           <button
             type="reset"
             onClick={(e) => {
