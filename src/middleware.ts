@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import getCurrentUser from "./services/users/getCurrentUser";
+import isUserLogin from "./services/users/isUserLogin";
 
 export const config = {
   matcher: [
@@ -16,10 +16,11 @@ export const config = {
   ],
 };
 
-export async function middleware(request: NextRequest) {
-  const res = await getCurrentUser();
-  // const res = request.cookies.get('session')
-
+export function middleware(request: NextRequest) {
+  // const res = await isUserLogin();
+  
+  const res = request.cookies.get('session')
+  console.log(res,"middle")
   if (!res) {
     return NextResponse.redirect(new URL("http://localhost:3000/login"));
   }
