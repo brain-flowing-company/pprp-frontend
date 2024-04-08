@@ -150,7 +150,7 @@ const ListingDetails = ({
         </div>
         <div className="flex flex-col gap-10 px-10 xl:flex-row">
           <div className="flex flex-col">
-          <div>
+            <div>
               <div className="medium-text m-2 font-medium">Name</div>
               <input
                 type="text"
@@ -162,7 +162,9 @@ const ListingDetails = ({
                 onChange={handleFormChange}
               />
             </div>
-            <div className="medium-text m-4 max-h-4 font-medium">Listing Type</div>
+            <div className="medium-text m-4 max-h-4 font-medium">
+              Listing Type
+            </div>
             <div className="m-4  grid w-[550px]  grid-cols-3 gap-8">
               <div className="flex  w-full select-none items-center justify-center rounded-md border-2 border-solid border-ci-dark-gray hover:bg-ci-dark-gray has-[:checked]:border-0 has-[:checked]:bg-black has-[:checked]:text-white">
                 <input
@@ -213,21 +215,19 @@ const ListingDetails = ({
                 </label>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <div className="medium-text m-2 font-medium">
-                  Rent Price/month(THB)
-                </div>
-                <input
-                  type="number"
-                  name="price_per_month"
-                  placeholder="฿"
-                  required
-                  value={listingFormData.price_per_month}
-                  className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
-                  onChange={handleFormChange}
-                />
+            <div>
+              <div className="medium-text m-2 font-medium">
+                Rent Price/month(THB)
               </div>
+              <input
+                type="number"
+                name="price_per_month"
+                placeholder="฿"
+                required
+                value={listingFormData.price_per_month}
+                className="m-2 block w-full rounded-md border-2 border-solid border-ci-dark-gray p-2 "
+                onChange={handleFormChange}
+              />
               <div>
                 <div className="medium-text m-2 font-medium">
                   Sale Price(THB)
