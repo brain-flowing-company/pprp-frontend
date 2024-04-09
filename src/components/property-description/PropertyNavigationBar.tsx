@@ -8,6 +8,7 @@ import UserData from "@/models/UserData";
 import { HamburgerIcon } from "../ui/icon";
 import { useRouter } from "next/navigation";
 import { MenuHamburger } from "./MenuHamburger";
+import { useAuthContext } from "@/context/AuthContext";
 
 const logo = "/img/IK_SueChaoKhai-04.svg";
 const arrowDown = "/img/PropertyNavBar/arrow-down-icon.svg";
@@ -15,10 +16,12 @@ const arrowUp = "/img/PropertyNavBar/arrow-up-icon.svg";
 const favoriteIcon = "/img/PropertyNavBar/mdi_heart-outline.svg";
 
 const PropertyNavigationBar = () => {
+  const {user,setUser} = useAuthContext()
+
   const [accountMenu, setAccountMenu] = useState(false);
   const [menuHamburger, setMenuHamburger] = useState(false);
 
-  const [user, setUser] = useState<UserData | null>(null);
+  // const [user, setUser] = useState<UserData | null>(null);
   const router = useRouter();
   const fetchUser = async () => {
     try {

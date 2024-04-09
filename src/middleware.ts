@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import isUserLogin from "./services/users/isUserLogin";
+import { useAuthContext } from "./context/AuthContext";
 
 export const config = {
   matcher: [
@@ -11,13 +12,15 @@ export const config = {
     "/my-appointment",
     "/property",
     "/my-agreement",
-    "/edit-property"
+    "/edit-property",
   ],
 };
 
 export function middleware(request: NextRequest) {
   // const res = await isUserLogin();
-  
+  // const { user } = useAuthContext();
+  // console.log(user,"auth")
+
   const res = request.cookies.get('session')
   console.log(res,"middle")
   if (!res) {
