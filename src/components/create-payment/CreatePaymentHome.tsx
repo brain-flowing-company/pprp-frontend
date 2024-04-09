@@ -1,17 +1,20 @@
 import TextBox from "../register-login/TextField";
 import Dropdown from "../register-login/DropDown";
 import { useState, useEffect } from "react"
+import { useParams } from "next/navigation";
 import { CreditCardData } from "../edit-profile/FinancialPage";
 import getUserFinancial from "@/services/users/getUserFinancial";
 import { redirectPayment } from "@/services/payments/redirectPayment";
 import getOneAgreement from "@/services/agreement/getOneAgreement";
 import Image from "next/image";
+import { formatDate } from "@/app/(have-nav)/payment-history/page";
 
 export type AgreementInfo = {
     owner: Owner
     dweller: Dweller
     property: Property,
     deposit_amount: number,
+    created_at: string,
 }
 type Owner = {
     owner_first_name: string,
@@ -40,6 +43,14 @@ type Property = {
 type Image = {
     image_url:string,
 }
+function formatPrice(num: number): string {
+    if (num) {
+      return Math.round(num)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    return "0";
+  }
 export const CreatePaymentHomePage = ({
     setConfirm
     }:{
@@ -50,11 +61,13 @@ export const CreatePaymentHomePage = ({
     const [creditCards, setCreditCards] = useState<CreditCardData[]|null>();
     const [agreement, setAgreement] = useState<AgreementInfo|null>();
     // const [selectedCardNumber, setSelectedCardNumber] = useState("-");
-    const agreementId = "23f563dc-ebbb-400c-ab3e-9a7611f0ae30";
+    // const agreementId = "481095e8-f136-4e5b-b7fd-179e5fa40a28";
+    const params = useParams<{ id: string }>();
+
     const fetchData = async () => {
         try {
           const data = await getUserFinancial();
-          const agreement = await getOneAgreement(agreementId)
+          const agreement = await getOneAgreement(params.id)
           console.log(agreement)
           setAgreement(agreement);
         //   setCreditCards(data.credit_cards);
@@ -70,7 +83,7 @@ export const CreatePaymentHomePage = ({
             price : agreement?.deposit_amount,
             name : agreement!.dweller.dweller_first_name + agreement!.dweller.dweller_last_name,
             payment_method : paymentType,
-            agreement_id : agreementId,
+            agreement_id : params.id,
         }
         const res = await redirectPayment(response);
         window.location.href = res.url;
@@ -92,6 +105,7 @@ export const CreatePaymentHomePage = ({
     //         }
     //     }
     // }
+
     return (
         <div className="flex flex-col justify-center items-center sm:text-md text-sm">
             <div className="flex flex-row bg-ci-dark-blue w-full h-16 rounded-t-2xl px-10 text-white ">
@@ -131,10 +145,10 @@ export const CreatePaymentHomePage = ({
                     </div>
                 </div>
                 <div className="flex flex-row items-center justify-between w-3/5">
-                    <div className="w-1/4 flex justify-center">30 Nov 2002</div>
-                    <div className="w-1/4 flex justify-center">30 Nov 2002</div>
-                    <div className="w-1/4 flex justify-center">30</div>
-                    <div className=" text-ci-red w-1/4 flex justify-center">฿{agreement?.deposit_amount}</div>
+                    <div className="w-1/4 flex justify-center">{formatDate(agreement?.created_at)}</div>
+                    <div className="w-1/4 flex justify-center">{formatDate(new Date())}</div>
+                    <div className="w-1/4 flex justify-center">-</div>
+                    <div className=" text-ci-red w-1/4 flex justify-center">฿{formatPrice(agreement?.deposit_amount || 0)}</div>
                     
                 </div>
             </div>
@@ -170,7 +184,7 @@ export const CreatePaymentHomePage = ({
                 <div className="flex flex-row justify-center float-right h-full space-x-8">
                     <div className="mt-1">Price</div>
                     <div className="flex flex-col space-y-2">
-                        <div className="text-2xl text-ci-red">฿{agreement?.deposit_amount}</div>
+                        <div className="text-2xl text-ci-red">฿{formatPrice(agreement?.deposit_amount || 0)}</div>
                         <button className="text-white bg-ci-blue text-sm px-4 rounded-md py-1" 
                             onClick={redirect}>
                                 Confirm</button>

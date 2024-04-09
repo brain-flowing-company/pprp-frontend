@@ -15,7 +15,6 @@ export type Transaction = {
 };
 export const formatDate = (e:any) => {
   const newDate = new Date(e);
-  console.log(e)
   return newDate.toDateString().slice(4,) + " - " + newDate.toLocaleTimeString();
 }
 const PaymentHistory = () => {
@@ -44,10 +43,16 @@ const PaymentHistory = () => {
     try{
       const data = await getUserPayment();
       console.log(data);
-      setItems(data.payments);
-      setAllItems(data.payments);
-      setPageCount(Math.ceil(data.payments.length / 10));
-      setLength(data.payments.length);
+      setItems([]);
+      setAllItems([]);
+      setPageCount(0);
+      setLength(0);
+      if(data != null){
+        setItems(data.payments);
+        setAllItems(data.payments);
+        setPageCount(Math.ceil(data.payments.length / 10));
+        setLength(data.payments.length);
+      }
     }
     catch{
       console.log("Failed to fetch")
@@ -81,11 +86,12 @@ const PaymentHistory = () => {
   }
 
   const handlePageChange = (p: any) => {
-    setPageCount(Math.ceil(items!.length / 10));
-    setLength(items!.length);
+    setPageCount(Math.ceil(items?.length || 0 / 10));
+    setLength(items?.length || 0);
     const begin = (p - 1) * 10;
     const end = p == pageCount ? length : p * 10;
-    setCurrentItems([...items!.slice(begin, end)]);
+    const cur = items? items : []
+    setCurrentItems([...cur.slice(begin, end)]);
     setBegin(begin);
     setEnd(end);
 
@@ -96,7 +102,8 @@ const PaymentHistory = () => {
   }
   const handleFilter = () => {
     const tmp:any = [];
-    allItems!.forEach(e => {
+    const all = allItems? allItems : [];
+    all.forEach(e => {
       if(filterCard && e.payment_method == "CREDIT_CARD"){
         tmp.push(e);
       }
