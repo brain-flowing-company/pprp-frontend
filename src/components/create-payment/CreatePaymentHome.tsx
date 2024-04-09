@@ -146,7 +146,7 @@ export const CreatePaymentHomePage = ({
                 </div>
                 <div className="flex flex-row items-center justify-between w-3/5">
                     <div className="w-1/4 flex justify-center">{formatDate(agreement?.created_at)}</div>
-                    <div className="w-1/4 flex justify-center">{formatDate(new Date())}</div>
+                    <div className="w-1/4 flex justify-center">{formatDate(agreement?.created_at)}</div>
                     <div className="w-1/4 flex justify-center">-</div>
                     <div className=" text-ci-red w-1/4 flex justify-center">฿{formatPrice(agreement?.deposit_amount || 0)}</div>
                     
