@@ -1,4 +1,4 @@
-export default async function getCurrentUser() {
+export default async function isUserLogin() {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_HTTP_BACKEND_HOST}/api/v1/user/me/personal-information`,
@@ -7,12 +7,13 @@ export default async function getCurrentUser() {
         credentials: "include",
       }
     );
-    console.log(response.ok,"getCur")
+    console.log(response.ok, "isLo?");
     if (!response.ok) {
-      throw new Error("Failed to fetch current user");
+      throw false;
     }
-    return await response.json();
+    return true;
   } catch (error) {
-    console.error(error);
+    console.error(error, "lo");
+    return false;
   }
 }

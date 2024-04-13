@@ -54,9 +54,8 @@ const SearchProperty = () => {
   const [bedrooms, setBedrooms] = useState<number>(0);
   const [bathrooms, setBathrooms] = useState<number>(0);
 
-  const [bedNull,setBedNull] = useState<boolean>(true)
-  const [bathNull,setBathNull] = useState<boolean>(true)
-
+  const [bedNull, setBedNull] = useState<boolean>(true);
+  const [bathNull, setBathNull] = useState<boolean>(true);
 
   function formatBedroom(val: number) {
     if (val < 0) {
@@ -66,7 +65,6 @@ const SearchProperty = () => {
     }
   }
 
-
   function formatBathroom(val: number) {
     if (val < 0) {
       setBathrooms(0);
@@ -74,10 +72,13 @@ const SearchProperty = () => {
       setBathrooms(val);
     }
   }
+  const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") setIsSearching(true);
+  };
 
   useEffect(() => {
-    if(!bedNull)searchFilters.current.numBedrooms = bedrooms;
-    if(!bathNull)searchFilters.current.numBathrooms = bathrooms;
+    if (!bedNull) searchFilters.current.numBedrooms = bedrooms;
+    if (!bathNull) searchFilters.current.numBathrooms = bathrooms;
   }, [bathrooms, bedrooms]);
 
   return (
@@ -85,10 +86,13 @@ const SearchProperty = () => {
       <div className="my-4 flex h-14 flex-row items-center justify-center gap-x-5 rounded-2xl bg-white px-3 text-black  md:gap-x-7">
         <input
           type="text"
-          className="h-full w-full rounded-xl border bg-ci-light-gray  px-3 placeholder-black lg:px-5"
-          placeholder={searchContent.current}
+          className="h-full w-full rounded-xl border bg-ci-light-gray  px-3  lg:px-5"
+          onKeyDown={onKeyDownHandler}
           onChange={(e) => {
-            searchContent.current = e.target.value;
+            setTimeout(() => {
+              setIsSearching((prev)=>true);
+            }, 2000);
+            searchContent.current = e.target.value.trim();
             console.log(searchContent.current, "testing search");
           }}
         ></input>
@@ -293,7 +297,7 @@ const SearchProperty = () => {
                   <button
                     onClick={() => {
                       formatBedroom(bedrooms + 1);
-                      setBedNull(false)
+                      setBedNull(false);
                     }}
                     className="large-text flex cursor-pointer rounded-xl px-2 pb-2 text-center hover:bg-ci-gray"
                   >
@@ -328,7 +332,7 @@ const SearchProperty = () => {
                   <button
                     onClick={() => {
                       formatBathroom(bathrooms + 1);
-                      setBathNull(false)
+                      setBathNull(false);
                     }}
                     className="large-text cursor-pointer justify-center rounded-xl px-2 pb-2 hover:bg-ci-gray"
                   >

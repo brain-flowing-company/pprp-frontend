@@ -11,13 +11,15 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { toast } from "sonner";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { ChatContext } from "@/context/ChatContext";
+import UserData from "@/models/UserData";
 
 interface RoomTourResProps {
   property: PropertyData;
   handlePost: Function;
+  user: UserData;
 }
 
-const RoomTourRes = ({ property, handlePost }: RoomTourResProps) => {
+const RoomTourRes = ({ property, handlePost, user }: RoomTourResProps) => {
   const today = new Date();
   const [isReserving, setReserve] = useState<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
@@ -228,13 +230,15 @@ const RoomTourRes = ({ property, handlePost }: RoomTourResProps) => {
       ) : null}
 
       <div className="flex w-full flex-col items-start justify-start gap-y-6">
-        {/* <div className="text-xl font-bold">Room Tour Reservation</div> */}
-        <button
-          className="w-1/4 min-w-60 rounded-full bg-ci-blue px-4 py-2 text-lg font-semibold text-white shadow hover:bg-blue-800 sm:text-xl"
-          onClick={chatWithOwnerHandler}
-        >
-          Chat with Owner
-        </button>
+        {property.owner_id != user.user_id && (
+          <button
+            className="w-1/4 min-w-60 rounded-full bg-ci-blue px-4 py-2 text-lg font-semibold text-white shadow hover:bg-blue-800 sm:text-xl"
+            onClick={chatWithOwnerHandler}
+          >
+            Chat with Owner
+          </button>
+        )}
+
         <button
           className="w-1/4 min-w-60 rounded-full bg-ci-blue px-4 py-2 text-lg font-semibold text-white shadow hover:bg-blue-800 sm:text-xl"
           onClick={(e) => {

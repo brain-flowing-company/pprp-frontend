@@ -98,7 +98,7 @@ const PropertyCard = ({
               <Image src="/img/mylisting/bed.svg" alt="bed" fill={true} />
             </div>
 
-            <div className="small-text">{propData.bathrooms} Bedrooms</div>
+            <div className="small-text">{propData.bedrooms} Bedrooms</div>
           </div>
 
           <div className="my-1 flex  w-full flex-row items-center justify-around lg:w-1/2">

@@ -129,7 +129,13 @@ export default function PropertyDetail({
             </div>
           </div>
         </div>
-        {user && <RoomTourRes property={property} handlePost={handlePost} />}
+        {user && (
+          <RoomTourRes
+            property={property}
+            handlePost={handlePost}
+            user={user}
+          />
+        )}
       </div>
       <PropertyFeatures property={property} />
       <PropertyMap name={property.property_name} />

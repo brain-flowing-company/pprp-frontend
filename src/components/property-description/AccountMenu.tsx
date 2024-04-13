@@ -45,7 +45,7 @@ const AccountMenu = ({ profileUrl }: { profileUrl: string }) => {
       </div>
       <div
         className="flex h-1/5 cursor-pointer flex-row items-center px-2 hover:bg-ci-light-gray"
-        onClick={() => router.push("/edit-profile")} // add path to payment history
+        onClick={() => router.push("/payment-history")} // add path to payment history
       >
         <div className="flex h-full w-8 items-center">
           <Image
