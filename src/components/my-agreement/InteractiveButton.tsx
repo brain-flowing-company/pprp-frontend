@@ -135,3 +135,26 @@ export function CancelButton({
         
     )
 }
+
+export function PaymentButton({
+    agreementId
+} : {
+    agreementId: string
+}) {
+
+    const router = useRouter();
+
+    return (
+        <div className="h-[30%]">
+            <button 
+                className="w-full bg-ci-blue text-white rounded-lg font-medium text-2xl text-center py-3 hover:shadow-blue-950 hover:shadow-inner"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    router.push(`/create-payment/${agreementId}`)
+                }}
+            >
+                Pay
+            </button>
+        </div>
+    )
+}

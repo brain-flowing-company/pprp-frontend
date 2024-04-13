@@ -1,6 +1,6 @@
 import Image from "next/image";
 import StatusBox from "@/components/my-agreement/StatusBox";
-import { DetailButton, CancelButton } from "@/components/my-agreement/InteractiveButton";
+import { DetailButton, CancelButton, PaymentButton } from "@/components/my-agreement/InteractiveButton";
 import { useEffect, useState } from "react";
 import UpdateAgreementStatus from "@/services/agreement/updateAgreementStatus";
 import { useRouter } from "next/navigation";
@@ -105,8 +105,13 @@ export default function AgreementList({
                 <div className="flex flex-col w-[12.5%] h-full ml-28 my-auto justify-center">
                     {/* <DetailButton agreementId={agreementId}/> */}
                     {currentStatus !== 'Archived' && currentStatus !== 'Cancelled' ? (
-                        <div className="my-auto">
-                            <CancelButton status={currentStatus} reasontmp={reason} setReason={setReason} setCancel={setCancel}/>            
+                        <div className="flex flex-col h-full">
+                            <div className="my-auto">
+                                <PaymentButton agreementId={agreementId}/>
+                            </div>
+                            <div className="my-auto">
+                                <CancelButton status={currentStatus} reasontmp={reason} setReason={setReason} setCancel={setCancel}/>            
+                            </div>
                         </div>
                     ) : null}
                 </div>
