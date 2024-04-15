@@ -20,14 +20,6 @@ export default function ChatBox() {
       <div className="flex flex-row justify-between">
         <div className="text-xl font-bold">Chat</div>
         <div className="flex flex-row gap-x-4 text-lg">
-          <button className="rounded-md hover:bg-slate-300">
-            <Image
-              src="/img/chat/create-message-icon.svg"
-              width={24}
-              height={24}
-              alt="create message"
-            />
-          </button>
           <button
             className="rounded-md hover:bg-slate-300"
             onClick={() => {
