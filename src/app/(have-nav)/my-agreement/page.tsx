@@ -255,7 +255,7 @@ export default function MyAgreement() {
   };
 
   const handlePost = async () => {
-    const agreementType = selectOn % 2 == 0 ? "RENTING" : "SELLING";
+    const agreementType = selectTypeOn % 2 == 0 ? "RENTING" : "SELLING";
     const propertyId = selectedPropertyId;
     const dwellerId = selectedDwellerId;
     const date = new Date().toISOString();
