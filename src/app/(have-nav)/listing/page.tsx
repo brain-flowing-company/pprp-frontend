@@ -29,9 +29,6 @@ const myListingPage = () => {
     fetchData();
   }, [sort, onPage]);
 
-  const handleCreate = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_HTTP_BACKEND_HOST}/create-property`;
-  };
   return (
     <>
       {isVerified ? (
@@ -55,7 +52,6 @@ const myListingPage = () => {
               <a
                 href="/create-property"
                 className="fixed bottom-24 right-4 size-16 rounded-full bg-ci-blue  shadow-xl shadow-slate-400"
-                onClick={handleCreate}
               >
                 <div className=" size-15 relative p-5">
                   <Image
