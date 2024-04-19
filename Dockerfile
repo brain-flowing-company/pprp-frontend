@@ -3,6 +3,8 @@ FROM node:20.10.0-alpine
 WORKDIR /app
 COPY . .
 
-RUN npm install
+RUN npm i -g pnpm
 
-CMD ["npm", "run", "production"]
+RUN pnpm i
+
+CMD ["pnpm", "run", "dev"]
