@@ -30,7 +30,7 @@ const myListingPage = () => {
   }, [sort, onPage]);
 
   const handleCreate = () => {
-    window.location.href = "http://localhost:3000/create-property";
+    window.location.href = `${process.env.NEXT_PUBLIC_HTTP_BACKEND_HOST}/create-property`;
   };
   return (
     <>
@@ -52,7 +52,8 @@ const myListingPage = () => {
                   ></PropertyCards>
                 </div>
               </div>
-              <button
+              <a
+                href="/create-property"
                 className="fixed bottom-24 right-4 size-16 rounded-full bg-ci-blue  shadow-xl shadow-slate-400"
                 onClick={handleCreate}
               >
@@ -63,7 +64,7 @@ const myListingPage = () => {
                     fill={true}
                   />
                 </div>
-              </button>
+              </a>
             </>
           ) : (
             <EmptyProperty
