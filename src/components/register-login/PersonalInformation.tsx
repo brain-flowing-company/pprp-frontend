@@ -176,6 +176,7 @@ export default function PersonalInformation({
         </div>
         <div className="flex flex-col gap-y-4">
           <TextBox
+            data-testid='firstName-input'
             label="First Name"
             placeholder="Enter your first name"
             onChange={(e) => {
@@ -188,6 +189,7 @@ export default function PersonalInformation({
             ref={inputRef}
           ></TextBox>
           <TextBox
+            data-testid='lastName-input'
             label="Last Name"
             placeholder="Enter your last name"
             onChange={(e) => {
@@ -198,6 +200,7 @@ export default function PersonalInformation({
             value={lasttmp}
           ></TextBox>
           <TextBox
+            data-testid='phoneNumber-input'
             label="Phone Number"
             placeholder="Enter your phone number"
             onChange={(e) => {
@@ -219,6 +222,7 @@ export default function PersonalInformation({
           </div>
           <div>
             <button
+              data-testid='next-button'
               type="submit"
               onClick={nextPageStatus}
               className={`h-[60px] w-[190px] rounded-[10px] bg-${nextColor} text-[24px] font-bold text-white`}

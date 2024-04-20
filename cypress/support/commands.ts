@@ -35,3 +35,25 @@
 //     }
 //   }
 // }
+
+// Cypress.Commands.add('page1', (email: string, password: string, confirmPassword: string) => {
+//     cy.visit('/')
+  
+//     cy.get('input[name=username]').type(email)
+  
+//     // {enter} causes the form to submit
+//     cy.get('input[name=password]').type(password)
+
+//     cy.get('input[name=confirmPassword]').type(`${confirmPassword}{enter}`, { log: false })
+
+
+//     // we should be redirected to /dashboard
+//     // cy.url().should('include', '/dashboard')
+  
+//     // our auth cookie should be present
+//     // cy.getCookie('your-session-cookie').should('exist')
+  
+//     // UI should reflect this user being logged in
+//     // cy.get('h1').should('contain', username)
+//   })
+  
