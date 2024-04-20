@@ -10,7 +10,8 @@
     "format:fix": "prettier --write .",
     "lint": "eslint ./src",
     "lint:debug": "eslint ./src --debug",
-    "lint:fix": "eslint ./src --fix"
+    "lint:fix": "eslint ./src --fix",
+    "cy:open": "cypress open"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -25,6 +26,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "cypress": "^13.8.0",
     "date-fns": "^3.3.1",
     "dayjs": "^1.11.10",
     "lucide-react": "^0.323.0",

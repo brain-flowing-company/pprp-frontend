@@ -6,8 +6,7 @@ import ProfileImage from "./ProfileImage";
 import { useContext, useEffect, useRef, useState } from "react";
 import MessageSection, { MessageSectionHandler } from "./MessageSection";
 import { ChatContext } from "@/context/ChatContext";
-import ToggleSwitch from "../my-appointment/ToggleSwitch";
-import postAgreement from "@/services/agreement/postAgreement";
+import Link from "next/link";
 
 export default function MessageBox() {
   const ctx = useContext(ChatContext);
@@ -73,17 +72,16 @@ export default function MessageBox() {
         </div>
         <div className="w-full truncate text-xl font-bold">{`${chat.first_name} ${chat.last_name}`}</div>
         <div className="flex shrink-0 flex-row gap-x-4 text-lg">
-          <button className="rounded-md hover:bg-slate-300">
-            <Image
-              src="/img/chat/agreement.svg"
-              width={24}
-              height={24}
-              alt="agreement"
-              onClick={() => {
-                setMakingAgreement(true);
-              }}
-            />
-          </button>
+          <Link href='/my-agreement'>
+            <button className="rounded-md hover:bg-slate-300">
+              <Image
+                src="/img/chat/agreement.svg"
+                width={24}
+                height={24}
+                alt="agreement"
+              />
+            </button>
+          </Link>
           <button
             className="rounded-md hover:bg-slate-300"
             onClick={() => {
