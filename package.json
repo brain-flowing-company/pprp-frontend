@@ -10,7 +10,8 @@
     "format:fix": "prettier --write .",
     "lint": "eslint ./src",
     "lint:debug": "eslint ./src --debug",
-    "lint:fix": "eslint ./src --fix"
+    "lint:fix": "eslint ./src --fix",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -47,6 +48,7 @@
     "@types/react-dom": "^18",
     "@typescript-eslint/parser": "^6.19.1",
     "autoprefixer": "^10.4.17",
+    "cypress": "^13.8.0",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "eslint-config-prettier": "^9.1.0",
