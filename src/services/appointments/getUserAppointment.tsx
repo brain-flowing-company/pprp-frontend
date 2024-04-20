@@ -1,7 +1,7 @@
-export default async function getUserAppointment() {
+export default async function getUserAppointment(sortBy: string) {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v1/user/me/appointments`,
+        `http://localhost:8000/api/v1/user/me/appointments?order=${sortBy}`,
         {
           method: "GET",
           credentials: "include"

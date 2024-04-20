@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import AgreementList from "@/components/my-agreement/AgreementList";
 import ToggleSwitch from "@/components/my-appointment/ToggleSwitch";
+import DropdownAppointment from "@/components/my-appointment/Dropdown";
 import AgreementData from "@/models/AgreementData";
 import getUserAgreement from "@/services/agreement/getUserAgreement";
 import Dropdown, { IDropdownOption } from "@/components/my-agreement/Dropdown";
@@ -46,7 +47,9 @@ export default function MyAgreement() {
   const deptRef = useRef(0);
   const ppmRef = useRef(0);
   const pDRef = useRef(0);
-
+  
+  const [sortedOption, setSortedOption] = useState<string>("Latest Appointment Date First");
+  const [sortedShort, setSortedShort] = useState<string>("DESC");
   const [selectOn, setSelectOn] = useState(0);
   const [selectTypeOn, setSelectTypeOn] = useState(0);
   const [showFilter, setShowFilter] = useState(false);
@@ -61,6 +64,14 @@ export default function MyAgreement() {
     "Overdue",
     "Renting",
   ]);
+  const statusMapping = new Map<string, string>([
+    ['ARCHIVED', 'Archived'],
+    ['AWAITING_DEPOSIT', 'Awaiting Deposit'],
+    ['AWAITING_PAYMENT', 'Awaiting Payment'],
+    ['RENTING', 'Renting'],
+    ['CANCELLED', 'Cancelled'],
+    ['OVERDUE', 'Overdue']    
+  ])
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -87,7 +98,7 @@ export default function MyAgreement() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getUserAgreement();
+      const data = await getUserAgreement(sortedShort);
       console.log(data);
       if (data) {
         setOwnerAgreementData(data.owner_agreements);
@@ -103,7 +114,8 @@ export default function MyAgreement() {
     fetchData();
     setFinishFetching(true);
     setPosted(false);
-  }, [isPosted]);
+    console.log('eiei')
+  }, [isPosted, sortedShort]);
 
   // useEffect(() => {
   //     console.log(total);
@@ -216,9 +228,14 @@ export default function MyAgreement() {
     paymentDuration,
   ]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
-  };
+  const dropdownOptions: IDropdownOption[] = [
+    {label: 'Latest Agreement Date First', labelValue: 'DESC'},
+    {label: 'Oldest Agreement Date First', labelValue: 'ASC'},
+  ]
+
+  // const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedOption(event.target.value);
+  // };
 
   const handlePropertyChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -238,7 +255,7 @@ export default function MyAgreement() {
   };
 
   const handlePost = async () => {
-    const agreementType = selectOn % 2 == 0 ? "RENTING" : "SELLING";
+    const agreementType = selectTypeOn % 2 == 0 ? "RENTING" : "SELLING";
     const propertyId = selectedPropertyId;
     const dwellerId = selectedDwellerId;
     const date = new Date().toISOString();
@@ -297,7 +314,7 @@ export default function MyAgreement() {
   return (
     <div className="mx-auto mt-8 h-full w-[80%]">
       <div className="flex flex-row">
-        <div className="mr-auto text-5xl font-bold">My Agreement</div>
+        <div className="mr-auto gigantic-text font-bold">My Agreement</div>
         <div className="pt-1">
           <ToggleSwitch
             label1="Dweller"
@@ -308,10 +325,10 @@ export default function MyAgreement() {
         </div>
       </div>
       <div className="mx-auto my-5 flex w-full flex-row items-center">
-        <div className="text-xl font-bold">Sort By</div>
-        <div className="ml-1">
-          <select
-            className="block w-full rounded-md text-xl font-semibold text-ci-blue focus-within:border-none hover:cursor-pointer focus:border-none"
+        <div className="small-text font-bold">Sort By</div>
+        <div className="ml-1 mr-auto">
+          {/* <select
+            className="block w-full rounded-md small-text font-semibold text-ci-blue focus-within:border-none hover:cursor-pointer focus:border-none"
             value={selectedOption}
             onChange={handleChange}
           >
@@ -327,9 +344,11 @@ export default function MyAgreement() {
             >
               Oldest Agreement First
             </option>
-          </select>
+          </select> */}
+          <DropdownAppointment options={dropdownOptions} selectedItem={sortedOption} setSelectedItem={setSortedOption} 
+          sid={sortedShort} setId={setSortedShort}/>
         </div>
-        <div className="relative ml-2 mr-auto flex flex-row place-items-start text-xl font-bold">
+        {/* <div className="relative ml-2 mr-auto flex flex-row place-items-start small-text font-bold">
           <div
             className="flex flex-row hover:cursor-pointer"
             onClick={() => {
@@ -365,10 +384,10 @@ export default function MyAgreement() {
               ))}
             </div>
           ) : null}
-        </div>
+        </div> */}
         <div className="flex w-[25%] justify-end">
           <button
-            className="w-full rounded-lg bg-ci-blue py-3 text-center text-2xl font-medium text-white hover:shadow-inner hover:shadow-blue-950"
+            className="w-full rounded-lg bg-ci-blue py-3 text-center medium-text font-medium text-white hover:shadow-inner hover:shadow-blue-950"
             onClick={() => {
               setMakingAgreement(true);
             }}
@@ -379,10 +398,10 @@ export default function MyAgreement() {
         {isMakingAgreement ? (
           <div className="fixed left-[0] top-[0] z-40 flex h-[100vh] w-[100%] flex-col items-center justify-center bg-black bg-opacity-20">
             <div className="relative flex h-4/5 w-1/2 flex-col items-center justify-around rounded-2xl bg-white p-[32px]">
-              <div className="text-4xl font-bold">Make Agreement</div>
+              <div className="large-text font-bold">Make Agreement</div>
               <div className="mx-auto flex w-full flex-row justify-center">
                 <div className="mx-auto flex w-[40%] flex-col">
-                  <div className="text-2xl font-medium">
+                  <div className="medium-text font-medium">
                     Select your property
                   </div>
                   <div className="">
@@ -400,7 +419,7 @@ export default function MyAgreement() {
                   </div>
                 </div>
                 <div className="mx-auto flex w-[40%] flex-col">
-                  <div className="text-2xl font-medium">Select dweller</div>
+                  <div className="medium-text font-medium">Select dweller</div>
                   <div className="">
                     <Dropdown
                       name="Dweller"
@@ -417,7 +436,7 @@ export default function MyAgreement() {
                 </div>
               </div>
               <div className="flex h-1/3 w-full flex-row">
-                <div className="ml-auto flex w-1/2 flex-col text-xl font-medium">
+                <div className="ml-auto flex w-1/2 flex-col small-text font-medium">
                   <div className="h-1/4">
                     <ToggleSwitch
                       label1="Renting"
@@ -505,7 +524,7 @@ export default function MyAgreement() {
                 <div className="mx-auto my-auto flex h-full w-1/3 flex-col">
                   {isCreateValid ? (
                     <button
-                      className="my-auto h-1/3 w-full rounded-full bg-ci-blue text-xl font-semibold text-white"
+                      className="my-auto h-1/3 w-full rounded-full bg-ci-blue small-text font-semibold text-white"
                       onClick={() => {
                         setCreateValid(false);
                         setMakingAgreement(false);
@@ -516,14 +535,14 @@ export default function MyAgreement() {
                     </button>
                   ) : (
                     <button
-                      className="my-auto h-1/3 w-full rounded-full bg-ci-gray text-xl font-semibold text-white"
+                      className="my-auto h-1/3 w-full rounded-full bg-ci-gray small-text font-semibold text-white"
                       disabled
                     >
                       Create
                     </button>
                   )}
                   <button
-                    className="my-auto h-1/3 w-full rounded-full bg-ci-blue text-xl font-semibold text-white"
+                    className="my-auto h-1/3 w-full rounded-full bg-ci-blue small-text font-semibold text-white"
                     onClick={() => {
                       setMakingAgreement(false);
                     }}
@@ -537,7 +556,7 @@ export default function MyAgreement() {
         ) : null}
       </div>
 
-      <div className="h-[80px] rounded-t-3xl bg-ci-dark-blue text-2xl font-semibold text-white">
+      <div className="h-[80px] rounded-t-3xl bg-ci-dark-blue medium-text font-semibold text-white">
         <div className="mx-auto my-auto flex h-full w-[90%] flex-row justify-start">
           <div className="my-auto w-[40%]">Property</div>
           <div className="mx-auto my-auto w-[15%]">Date - Time</div>
@@ -562,7 +581,7 @@ export default function MyAgreement() {
                     height={100}
                   />
 
-                  <div className="m-1 text-center text-2xl">
+                  <div className="m-1 text-center medium-text">
                     Your agreement is empty.
                   </div>
                 </div>
@@ -571,6 +590,7 @@ export default function MyAgreement() {
                   {dwellerAgreementData.map((agmt) => {
                     return (
                       <AgreementList
+                        key={agmt.agreement_id}
                         agreementId={agmt.agreement_id}
                         propertyImgSrc={
                           agmt.property.property_images.length === 0
@@ -590,10 +610,7 @@ export default function MyAgreement() {
                         }
                         date={getDate(agmt.agreement_date)}
                         time={getTime(agmt.agreement_date)}
-                        status={
-                          agmt.status.charAt(0) +
-                          agmt.status.toLowerCase().slice(1)
-                        }
+                        status={statusMapping.get(agmt.status)}
                       />
                     );
                   })}
@@ -615,7 +632,7 @@ export default function MyAgreement() {
                     height={100}
                   />
 
-                  <div className="m-1 text-center text-2xl">
+                  <div className="m-1 text-center medium-text">
                     Your agreement is empty.
                   </div>
                 </div>
@@ -624,6 +641,7 @@ export default function MyAgreement() {
                   {ownerAgreementData.map((agmt) => {
                     return (
                       <AgreementList
+                        key={agmt.agreement_id}
                         agreementId={agmt.agreement_id}
                         propertyImgSrc={
                           agmt.property.property_images.length === 0
@@ -643,10 +661,7 @@ export default function MyAgreement() {
                         }
                         date={getDate(agmt.agreement_date)}
                         time={getTime(agmt.agreement_date)}
-                        status={
-                          agmt.status.charAt(0) +
-                          agmt.status.toLowerCase().slice(1)
-                        }
+                        status={statusMapping.get(agmt.status)}
                       />
                     );
                   })}
@@ -657,7 +672,7 @@ export default function MyAgreement() {
         </div>
       ) : null}
 
-      <div className="mx-auto flex h-20 w-full place-items-center justify-center text-2xl font-medium">
+      <div className="mx-auto flex h-20 w-full place-items-center justify-center medium-text font-medium">
         {selectOn % 2 == 0 ? (
           <div>{dwellerTotal} lists</div>
         ) : (

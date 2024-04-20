@@ -9,6 +9,7 @@ import PropertyData from "@/models/PropertyData";
 import getPropertyDetail from "@/services/property/getPropertyDetail";
 import AppointmentDetailData from "@/models/AppointmentDetailData";
 import getOwnerData from "@/services/users/getOwnerData";
+import Dropdown, { IDropdownOption } from "@/components/my-appointment/Dropdown";
 
 export default function MyAppointment() {
   const [ownerAppointmentData, setOwnerAppointmentData] = useState<AppointmentData[]>([]);
@@ -21,7 +22,8 @@ export default function MyAppointment() {
   const [finishFetching, setFinishFetching] = useState<boolean>(false);
 
   const [selectOn, setSelectOn] = useState(0);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [sortedOption, setSortedOption] = useState<string>("Latest Appointment Date First");
+  const [sortedShort, setSortedShort] = useState<string>("DESC");
   const [showFilter, setShowFilter] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<Array<string>>([
     "Archive",
@@ -48,7 +50,7 @@ export default function MyAppointment() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getUserAppointment();
+      const data = await getUserAppointment(sortedShort);
       console.log(data);
       setOwnerAppointmentData(data.owner_appointments);
       if (data.owner_appointments !== null) {
@@ -61,7 +63,7 @@ export default function MyAppointment() {
     };
     fetchData();
     setFinishFetching(true);
-  }, []);
+  }, [sortedShort]);
 
   // useEffect(() => {
   //     const fetchPropertyData = async () => {
@@ -91,9 +93,14 @@ export default function MyAppointment() {
     console.log(appointmentDetail);
   }, [appointmentDetail]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
-  };
+  const dropdownOptions: IDropdownOption[] = [
+    {label: 'Latest Appointment Date First', labelValue: 'DESC'},
+    {label: 'Oldest Appointment Date First', labelValue: 'ASC'},
+  ]
+
+  // const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedOption(event.target.value);
+  // };
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -139,7 +146,7 @@ export default function MyAppointment() {
   return (
     <div className="mx-auto mt-8 h-full w-[80%]">
       <div className="flex flex-row">
-        <div className="mr-auto text-5xl font-bold">My Appointment</div>
+        <div className="mr-auto gigantic-text font-bold">My Appointment</div>
         <div className="pt-1">
           <ToggleSwitch
             label1="Dweller"
@@ -149,29 +156,31 @@ export default function MyAppointment() {
           />
         </div>
       </div>
-      <div className="my-5 flex flex-row">
-        <div className="text-xl font-bold">Sort By</div>
-        <div className="ml-1">
-          <select
-            className="block w-full rounded-md text-xl font-semibold text-ci-blue focus-within:border-none hover:cursor-pointer focus:border-none"
+      <div className="my-5 flex flex-row small-text">
+        <div className="font-bold">Sort By</div>
+        <div className="">
+          {/* <select
+            className="block w-full rounded-md font-semibold text-ci-blue focus-within:border-none hover:cursor-pointer focus:border-none"
             value={selectedOption}
             onChange={handleChange}
           >
             <option
               className="hover:bg-ci-light-gray hover:shadow-inner"
-              value="latest"
+              value="DESC"
             >
-              Latest Appointment First
+              Latest Appointment Date First
             </option>
             <option
               className="hover:bg-ci-light-gray hover:shadow-inner"
-              value="oldest"
+              value="ASC"
             >
-              Oldest Appointment First
+              Oldest Appointment Date First
             </option>
-          </select>
+          </select> */}
+          <Dropdown options={dropdownOptions} selectedItem={sortedOption} setSelectedItem={setSortedOption} 
+          sid={sortedShort} setId={setSortedShort}/>
         </div>
-        <div className="relative ml-2 flex flex-row place-items-start text-xl font-bold">
+        {/* <div className="relative ml-2 flex flex-row place-items-start text-xl font-bold">
           <div
             className="flex flex-row hover:cursor-pointer"
             onClick={() => {
@@ -207,10 +216,10 @@ export default function MyAppointment() {
               ))}
             </div>
           ) : null}
-        </div>
+        </div> */}
       </div>
 
-      <div className="h-[80px] rounded-t-3xl bg-ci-dark-blue text-2xl font-semibold text-white">
+      <div className="h-[80px] rounded-t-3xl bg-ci-dark-blue medium-text font-semibold text-white">
         <div className="mx-auto my-auto flex h-full w-[90%] flex-row justify-start">
           <div className="my-auto w-[40%]">Property</div>
           <div className="w-[15%] mx-auto my-auto">Date - Time</div>
@@ -235,7 +244,7 @@ export default function MyAppointment() {
                         height={100}
                       />
                       
-                      <div className="m-1 text-center text-2xl">
+                      <div className="m-1 text-center medium-text">
                         Your appointment is empty.
                       </div>
                     </div>
@@ -244,6 +253,7 @@ export default function MyAppointment() {
                         {dwellerAppointmentData.map((appt) => {
                           return (
                             <AppointmentList
+                              key={appt.appointment_id}
                               apptId={appt.appointment_id}
                               propertyImgSrc={
                                 appt.property.property_images.length === 0
@@ -264,6 +274,7 @@ export default function MyAppointment() {
                               status={
                                 appt.status.charAt(0) + appt.status.toLowerCase().slice(1)
                               }
+                              isOwner={false}
                             />
                           );
                         })}
@@ -285,7 +296,7 @@ export default function MyAppointment() {
                         height={100}
                       />
                       
-                      <div className="m-1 text-center text-2xl">
+                      <div className="m-1 text-center medium-text">
                         Your appointment is empty.
                       </div>
                     </div>
@@ -294,6 +305,7 @@ export default function MyAppointment() {
                         {ownerAppointmentData.map((appt) => {
                           return (
                             <AppointmentList
+                              key={appt.appointment_id}
                               apptId={appt.appointment_id}
                               propertyImgSrc={
                                 appt.property.property_images.length === 0
@@ -314,6 +326,7 @@ export default function MyAppointment() {
                               status={
                                 appt.status.charAt(0) + appt.status.toLowerCase().slice(1)
                               }
+                              isOwner={true}
                             />
                           );
                         })}
@@ -326,7 +339,7 @@ export default function MyAppointment() {
         </div>
       ) : null}
 
-      <div className="mx-auto flex h-20 w-full place-items-center justify-center text-2xl font-medium">
+      <div className="mx-auto flex h-20 w-full place-items-center justify-center medium-text font-medium">
         {selectOn % 2 == 0 ? (
           <div>
             {dwellerTotal} lists

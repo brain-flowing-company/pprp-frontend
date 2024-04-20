@@ -3,9 +3,12 @@ import StatusBox from "@/components/my-appointment/StatusBox";
 import {
   DetailButton,
   CancelButton,
+  ConfirmButton,
+  RejectButton,
 } from "@/components/my-appointment/InteractiveButton";
 import { useEffect, useState } from "react";
 import UpdateAppointmentStatus from "@/services/appointments/updateAppointmentStatus";
+import { useRouter } from "next/navigation";
 
 export default function AppointmentList({
   apptId,
@@ -17,6 +20,7 @@ export default function AppointmentList({
   date,
   time,
   status,
+  isOwner,
 }: {
   apptId: string;
   propertyImgSrc: string;
@@ -27,10 +31,18 @@ export default function AppointmentList({
   date: string;
   time: string;
   status: string;
+  isOwner: boolean;
 }) {
   const [reason, setReason] = useState("");
   const [isCancelled, setCancel] = useState(false);
+  const [isConfirm, setConfirm] = useState(false);
+  const [isRejected, setRejected] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(status);
+
+  const router = useRouter();
+
+  useEffect(() => console.log("jadil;srjgljdsklr"
+  ), [])
 
   useEffect(() => {
     const updateCancel = async () => {
@@ -47,11 +59,60 @@ export default function AppointmentList({
     updateCancel();
   }, [isCancelled]);
 
+  useEffect(() => {
+    const updateConfirm = async () => {
+      if (isConfirm) {
+        const data = await UpdateAppointmentStatus({
+          appointmentId: apptId,
+          status: "CONFIRMED",
+          msg: "",
+        });
+        console.log(data);
+        setCurrentStatus("Confirmed");
+      }
+    };
+    updateConfirm();
+  }, [isConfirm]);
+
+  useEffect(() => {
+    const updateRejected = async () => {
+      if (isRejected) {
+        const data = await UpdateAppointmentStatus({
+          appointmentId: apptId,
+          status: "REJECTED",
+          msg: "",
+        });
+        console.log(data);
+        setCurrentStatus("Rejected");
+      }
+    };
+    updateRejected();
+  }, [isRejected]);
+
+  useEffect(() => {
+    const updateArchived = async () => {
+      const currentEpoch = new Date(date).getTime() + Number(time.split(':')[0])*60*60*1000 + Number(time.split(':')[1])*60*1000;
+      if (Date.now() > currentEpoch) {
+        const data = await UpdateAppointmentStatus({
+          appointmentId: apptId,
+          status: "ARCHIVED",
+          msg: "",
+        });
+        console.log(data);
+        setCurrentStatus("Archived");
+      }
+    }
+    updateArchived();
+  }, [])
+
   return (
-    <div className="flex h-[240px] w-full border-x-4 border-y-2 border-ci-dark-gray bg-ci-light-gray">
+    <div className="flex h-[240px] w-full border-x-4 border-y-2 border-ci-dark-gray bg-ci-light-gray hover:cursor-pointer" 
+    onClick={() => router.push(`/my-appointment/${apptId}`)}
+    >
       <div className="mx-auto flex h-[67%] w-[90%] flex-row my-auto">
         <div className="my-auto flex w-[40%] flex-row">
-          <div className="my-auto w-40 relative flex aspect-square items-center justify-center overflow-hidden rounded-lg">
+          <div className="my-auto w-40 relative flex aspect-square items-center justify-center overflow-hidden rounded-lg cursor-auto"  onClick={(e) => e.stopPropagation()}
+          >
             <Image
               src={propertyImgSrc}
               alt="propertyImg"
@@ -62,10 +123,10 @@ export default function AppointmentList({
             />
           </div>
           <div className="my-auto ml-5 flex flex-col">
-            <div className="text-2xl font-medium">{propertyName}</div>
-            <div className="text-xl font-normal">{propertySubName}</div>
-            <div className="mt-3 flex flex-row text-xl font-normal">
-              <div className="w-20 relative flex aspect-square items-center justify-center overflow-hidden rounded-full">
+            <div className="medium-text font-medium hover:cursor-text" onClick={(e) => e.stopPropagation()}>{propertyName}</div>
+            <div className="small-text font-normal hover:cursor-text" onClick={(e) => e.stopPropagation()}>{propertySubName}</div>
+            <div className="mt-3 flex flex-row small-text font-normal">
+              <div className="w-20 relative flex aspect-square items-center justify-center overflow-hidden rounded-full hover:cursor-auto" onClick={(e) => e.stopPropagation()}>
                 <Image
                   src={ownerImgSrc}
                   alt="Owner Image"
@@ -75,25 +136,40 @@ export default function AppointmentList({
                   // layout="responsive"
                 />
               </div>
-              <div className="mx-2 my-auto">{ownerName}</div>
+              <div className="mx-2 my-auto hover:cursor-text" onClick={(e) => e.stopPropagation()}>{ownerName}</div>
             </div>
           </div>
         </div>
-        <div className="font-regular my-auto mx-auto flex w-[15%] flex-col text-2xl">
+        <div className="font-regular medium-text my-auto mx-auto flex w-[15%] flex-col hover:cursor-text" 
+          onClick={(e) => e.stopPropagation()}>
           <div>{date}</div>
           <div className="mt-2">{time}</div>
         </div>
-        <div className="my-auto mx-auto h-[30%] w-[12.5%]">
+        <div className="my-auto mx-auto h-[30%] w-[12.5%] hover:cursor-auto" onClick={(e) => e.stopPropagation()}>
           <StatusBox status={currentStatus} />
         </div>
-        <div className="my-auto ml-auto flex h-full w-[12.5%] flex-col justify-between">
-          <DetailButton appointmentId={apptId} />
-          <CancelButton
-            status={currentStatus}
-            reasontmp={reason}
-            setReason={setReason}
-            setCancel={setCancel}
-          />
+        <div className="my-auto ml-auto flex h-full w-[12.5%] flex-col justify-center">
+          {/* <DetailButton appointmentId={apptId} /> */}
+          {(isOwner && currentStatus === 'Pending') ? (
+            <>
+              <div className="my-auto">
+                <ConfirmButton status={currentStatus} setConfirm={setConfirm}/>
+              </div>
+              <div className="my-auto">
+                <RejectButton status={currentStatus} setRejected={setRejected}/>
+              </div>
+            </>
+          ) : null}
+          {(((!isOwner) && currentStatus === 'Pending') || (currentStatus === 'Confirmed')) ? (
+            <div className="my-auto">
+              <CancelButton
+                status={currentStatus}
+                reasontmp={reason}
+                setReason={setReason}
+                setCancel={setCancel}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

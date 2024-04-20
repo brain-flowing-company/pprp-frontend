@@ -7,11 +7,13 @@ export default function StatusBox({
         switch (value) {
             case 'Pending':
                 return 'bg-ci-yellow text-black';
-            case 'Cancelled' || 'Rejected':
+            case 'Cancelled':
                 return 'bg-ci-red text-white';
-            case 'Archive':
+            case 'Rejected':
+                return 'bg-ci-red text-white';
+            case 'Archived':
                 return 'bg-ci-gray text-black';
-            case 'Confirm':
+            case 'Confirmed':
                 return 'bg-ci-green text-black'
         }
     }
@@ -20,7 +22,7 @@ export default function StatusBox({
 
     return (
         <div>
-            <div className={`rounded-lg font-medium text-2xl text-center py-3 ${boxColor}`}>
+            <div className={`rounded-lg font-medium small-text text-center py-3 ${boxColor}`}>
                 {status}
             </div>
         </div>

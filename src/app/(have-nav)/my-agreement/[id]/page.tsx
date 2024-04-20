@@ -17,24 +17,6 @@ import AgreementData from "@/models/AgreementData";
 export default function AgreementDetail() {
   const router = useRouter();
 
-  const propertyImgSrc = "/img/my-appointment/mhadaeng.png";
-  const propertyName = "Bhan Mha Daeng 3";
-  const propertySubName = "Project House of Mha Daeng";
-  const ownerImgSrc = "/img/my-appointment/owapapi.png";
-  const ownerName = "Owa Papi";
-  const ownerTel = "012 - 345 - 6789";
-  const dwellerName = "Piwa Opi";
-  const dwellerTel = "098 - 765 - 4321";
-  const date = "1 Apr 2005";
-  const time = "13:39";
-  const status = "Pending";
-
-  const address =
-    "101 ถนน สุขุมวิท 101/1 Bang Chak, Phra Khanong, Bangkok 10260";
-  const price = "25,000 Baht/mo";
-  const note =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo";
-
   const params = useParams<{ id: string }>();
 
   const [agmntDetail, setAgmntDetail] = useState<AgreementData | null>(null);
@@ -44,6 +26,14 @@ export default function AgreementDetail() {
   const [ownerDetail, setOwnerDetail] = useState<UserData | null>(null);
   const [dwellerDetail, setDwellerDetail] = useState<UserData | null>(null);
   const [isFetched, setFetched] = useState<boolean>(false);
+  const statusMapping = new Map<string, string>([
+    ['ARCHIVED', 'Archived'],
+    ['AWAITING_DEPOSIT', 'Awaiting Deposit'],
+    ['AWAITING_PAYMENT', 'Awaiting Payment'],
+    ['RENTING', 'Renting'],
+    ['CANCELLED', 'Cancelled'],
+    ['OVERDUE', 'Overdue']    
+  ])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -173,10 +163,7 @@ export default function AgreementDetail() {
                 </div>
                 <div className="w-[20%]">
                   <StatusBox
-                    status={
-                      agmntDetail?.status.charAt(0) +
-                      agmntDetail?.status.toLowerCase().slice(1)
-                    }
+                    status={statusMapping.get(agmntDetail?.status)}
                   />
                 </div>
               </div>

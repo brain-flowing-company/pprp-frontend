@@ -346,8 +346,10 @@ export default function RegisterPage1({
         {user && !isGoogle && !isLoading && (
           <div>
             <button
+              data-testid='page1-confirm-button'
               className={`h-[60px] w-full rounded-[10px] bg-${isValidColor} font-bold text-white`}
               onClick={nextStage}
+              disabled={isValidColor === 'ci-gray'}
             >
               Confirm
             </button>

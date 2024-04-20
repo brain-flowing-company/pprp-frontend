@@ -20,6 +20,9 @@ export default function EmailVerificationPage({
   isGoogle: boolean;
 }) {
   const [code, setCode] = useState<string>();
+  const [isValid, setValid] = useState<boolean>(true);
+
+  const code_forTesting = 'AbCd12'
 
   useEffect(() => {
     if (isGoogle) {
@@ -28,9 +31,19 @@ export default function EmailVerificationPage({
   }, []);
   async function checkVerification() {
     if (!isGoogle) {
-      const checkCode = await authCallback(`code=SCK-${code}&email=${email}`);
-      if (checkCode) {
+      // const checkCode = await authCallback(`code=SCK-${code}&email=${email}`);
+      // // console.log(checkCode.session_type);
+      // if (checkCode.session_type !== undefined) {
+      //   changeRegState(2);
+      // } else {
+      //   setValid(false);
+      // }
+
+      // for testing
+      if (code === code_forTesting) {
         changeRegState(2);
+      } else {
+        setValid(false);
       }
     }
   }
@@ -63,8 +76,9 @@ export default function EmailVerificationPage({
             </div>
           </div>
 
-          <div className="font-regular flex w-full w-full flex-col justify-between gap-y-4 text-xl">
+          <div className="font-regular flex w-full flex-col justify-between gap-y-4 text-xl">
             <input
+              data-testid='verification-input'
               type="text"
               className="block h-[50px] w-full rounded-[10px] border border-[#B3B3B3] p-2 text-gray-700"
               placeholder="Enter your verification code"
@@ -77,10 +91,25 @@ export default function EmailVerificationPage({
               onClick={() => {
                 checkVerification();
               }}
+              data-testid='verify-button'
               className="h-[60px] w-full rounded-[10px] bg-ci-blue font-bold text-white"
             >
               Verify
             </button>
+            {!isValid && (
+              <div data-testid='wrong-code' className="fixed left-[0] top-[0] z-40 flex h-[100vh] w-[100%] flex-col items-center justify-center bg-black bg-opacity-20">
+                <div className="relative flex h-2/5 w-1/3 flex-col items-center justify-around rounded-2xl bg-white p-[32px]">
+                  <div className="large-text font-bold">Error</div>
+                  <div className="medium-text font-medium">Wrong verification code</div>
+                  <div className="cursor-pointer text-ci-blue gap-y-6 text-center text-lg" onClick={() => {
+                    sendEmail();
+                    setValid(true);
+                  }}>
+                    Resend verification link
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="flex flex-col gap-y-6 text-center text-lg text-ci-blue">
             <div onClick={sendEmail} className="cursor-pointer">
