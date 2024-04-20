@@ -14,5 +14,6 @@ export default async function authCallback(query: string) {
   } catch (err) {
     console.log(err);
     return { registered_type: "EMAIL" };
+    // return err;
   }
 }

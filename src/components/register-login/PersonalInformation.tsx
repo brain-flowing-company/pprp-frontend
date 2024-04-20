@@ -30,6 +30,10 @@ export default function PersonalInformation({
   const lastName = useRef("");
   const phoneNumber = useRef("");
 
+  const [isFirstNameValid, setFirstNameValid] = useState<boolean>(false);
+  const [isLastNameValid, setLastNameValid] = useState<boolean>(false);
+  const [isPhoneValid, setPhoneValid] = useState<boolean>(false);
+
   const [src, setSrc] = useState("/img/login-register/prof_pic.png");
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -43,6 +47,32 @@ export default function PersonalInformation({
     lastName.current = lname;
     phoneNumber.current = pnum;
     formatPhoneNumber(pnum);
+  }
+
+  function formatFirstName(name: string) {
+    const currentName = name.replace(/[^a-zA-Z]/g, "");
+    const nameLength = currentName.length;
+
+    setFirstName(currentName);
+    
+    if (nameLength >= 1) {
+      setFirstNameValid(true);
+    } else {
+      setFirstNameValid(false);
+    }
+  }
+
+  function formatLastName(name: string) {
+    const currentName = name.replace(/[^a-zA-Z]/g, "");
+    const nameLength = currentName.length;
+
+    setLastName(currentName);
+    
+    if (nameLength >= 1) {
+      setLastNameValid(true);
+    } else {
+      setLastNameValid(false);
+    }
   }
 
   function formatPhoneNumber(phoneNum: String) {
@@ -60,11 +90,21 @@ export default function PersonalInformation({
     setPhoneNumber(phoneNumber.current);
 
     if (phoneLength >= 10) {
+      setPhoneValid(true);
+      // setNextColor("ci-blue");
+    } else {
+      setPhoneValid(false);
+      // setNextColor("ci-gray");
+    }
+  }
+
+  useEffect(() => {
+    if (isFirstNameValid && isLastNameValid && isPhoneValid) {
       setNextColor("ci-blue");
     } else {
       setNextColor("ci-gray");
     }
-  }
+  }, [isFirstNameValid, isLastNameValid, isPhoneValid])
 
   const hiddenFileInput = useRef<HTMLInputElement>(null);
 
@@ -139,9 +179,10 @@ export default function PersonalInformation({
             label="First Name"
             placeholder="Enter your first name"
             onChange={(e) => {
-              firstName.current = e.target.value;
-              setFirstName(firstName.current);
-              console.log(src);
+              formatFirstName(e.target.value);
+              // firstName.current = e.target.value;
+              // setFirstName(firstName.current);
+              // console.log(src);
             }}
             value={firsttmp}
             ref={inputRef}
@@ -150,8 +191,9 @@ export default function PersonalInformation({
             label="Last Name"
             placeholder="Enter your last name"
             onChange={(e) => {
-              lastName.current = e.target.value;
-              setLastName(lastName.current);
+              formatLastName(e.target.value)
+              // lastName.current = e.target.value;
+              // setLastName(lastName.current);
             }}
             value={lasttmp}
           ></TextBox>

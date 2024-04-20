@@ -20,6 +20,7 @@ export default function EmailVerificationPage({
   isGoogle: boolean;
 }) {
   const [code, setCode] = useState<string>();
+  const [isValid, setValid] = useState<boolean>(true);
 
   useEffect(() => {
     if (isGoogle) {
@@ -29,8 +30,11 @@ export default function EmailVerificationPage({
   async function checkVerification() {
     if (!isGoogle) {
       const checkCode = await authCallback(`code=SCK-${code}&email=${email}`);
-      if (checkCode) {
+      // console.log(checkCode.session_type);
+      if (checkCode.session_type !== undefined) {
         changeRegState(2);
+      } else {
+        setValid(false);
       }
     }
   }
@@ -81,6 +85,20 @@ export default function EmailVerificationPage({
             >
               Verify
             </button>
+            {!isValid && (
+              <div className="fixed left-[0] top-[0] z-40 flex h-[100vh] w-[100%] flex-col items-center justify-center bg-black bg-opacity-20">
+                <div className="relative flex h-2/5 w-1/3 flex-col items-center justify-around rounded-2xl bg-white p-[32px]">
+                  <div className="large-text font-bold">Error</div>
+                  <div className="medium-text font-medium">Wrong verification code</div>
+                  <div className="cursor-pointer text-ci-blue gap-y-6 text-center text-lg" onClick={() => {
+                    sendEmail();
+                    setValid(true);
+                  }}>
+                    Resend verification link
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="flex flex-col gap-y-6 text-center text-lg text-ci-blue">
             <div onClick={sendEmail} className="cursor-pointer">
