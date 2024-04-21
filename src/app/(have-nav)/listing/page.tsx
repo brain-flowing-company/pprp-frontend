@@ -8,13 +8,16 @@ import { useEffect, useState } from "react";
 import EmptyProperty from "@/components/my-listing/EmptyProperty";
 import getCurrentUser from "@/services/users/getCurrentUser";
 import UnverifiedOwner from "@/components/my-listing/UnverifiedOwner";
+import { useRouter } from "next/navigation";
 
-const myListingPage = () => {
+const MyListingPage = () => {
   const [propData, setData] = useState<PropertyData[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [sort, setSortby] = useState<string>("created_at:desc");
   const [onPage, setOnPage] = useState<number>(1);
   const [isVerified, setIsVerified] = useState<boolean>(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,15 +33,16 @@ const myListingPage = () => {
   }, [sort, onPage]);
 
   const handleCreate = () => {
-    window.location.href = "http://localhost:3000/create-property";
+    router.push("/create-property");
   };
+
   return (
     <>
       {isVerified ? (
         <>
           {total !== 0 && propData !== undefined ? (
             <>
-              <div className="mt-8 flex h-full w-full flex-col items-center">
+              <div className="mt-8 flex size-full flex-col items-center">
                 <div className="flex flex-col md:w-[700px] lg:w-[1000px]">
                   <div className="large-text font-bold ">My Listing</div>
                   <PropertyCards
@@ -56,7 +60,7 @@ const myListingPage = () => {
                 className="fixed bottom-24 right-4 size-16 rounded-full bg-ci-blue  shadow-xl shadow-slate-400"
                 onClick={handleCreate}
               >
-                <div className=" size-15 relative p-5">
+                <div className="size-15 relative p-5">
                   <Image
                     src="/img/mylisting/plusCircle.svg"
                     alt="add"
@@ -81,4 +85,4 @@ const myListingPage = () => {
   );
 };
 
-export default myListingPage;
+export default MyListingPage;
