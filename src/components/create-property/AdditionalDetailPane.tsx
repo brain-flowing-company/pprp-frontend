@@ -34,6 +34,14 @@ export default function AdditionalDetailPane({
   } = additionalDetailPaneProps;
 
   // const router = useRouter();
+  // valid form check
+  const formIsValid =
+    bedrooms !== "" &&
+    bathrooms !== "" &&
+    floor !== "" &&
+    floorSize !== "" &&
+    unitNumber !== "" &&
+    images.length > 0;
 
   async function nextPageStatus() {
     console.log(additionalDetailPaneProps);
@@ -74,11 +82,11 @@ export default function AdditionalDetailPane({
       {/* <button onClick={test}>test</button> */}
       <TrackingCircle page="Additional" className="pb-10" />
       <div className="m-20 my-20 h-auto items-center justify-center space-y-10 rounded-2xl border-2 border-ci-gray bg-white p-4 px-20 pt-10">
-        <h2 className="text-c-2xl mb-4 font-bold">Additional Details</h2>
+        <h2 className="mb-4 text-c-2xl font-bold">Additional Details</h2>
         <div className="mb-4">
           <div className="flex space-x-4">
             <div className="w-full">
-              <h3 className="text-c-md mb-2">Furnishing</h3>
+              <h3 className="mb-2 text-c-md">Furnishing</h3>
               <div className="flex flex-col space-y-4">
                 <div className="flex flex-row space-x-4">
                   <div className="w-full">
@@ -146,7 +154,7 @@ export default function AdditionalDetailPane({
             <div>
               <label
                 htmlFor="bedrooms"
-                className="text-c-md block font-medium text-gray-700"
+                className="block text-c-md font-medium text-gray-700"
               >
                 Bedrooms
               </label>
@@ -161,13 +169,13 @@ export default function AdditionalDetailPane({
                     bedrooms: e.target.value,
                   })
                 }
-                className="sm:text-c-sm mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 sm:text-c-sm"
               />
             </div>
             <div>
               <label
                 htmlFor="bathrooms"
-                className="text-c-md block font-medium text-gray-700"
+                className="block text-c-md font-medium text-gray-700"
               >
                 Bathrooms
               </label>
@@ -182,13 +190,13 @@ export default function AdditionalDetailPane({
                     bathrooms: e.target.value,
                   })
                 }
-                className="sm:text-c-sm mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 sm:text-c-sm"
               />
             </div>
             <div>
               <label
                 htmlFor="floor"
-                className="text-c-md block font-medium text-gray-700"
+                className="block text-c-md font-medium text-gray-700"
               >
                 Floor
               </label>
@@ -203,13 +211,13 @@ export default function AdditionalDetailPane({
                     floor: e.target.value,
                   })
                 }
-                className="sm:text-c-sm mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 sm:text-c-sm"
               />
             </div>
             <div>
               <label
                 htmlFor="floorSize"
-                className="text-c-md block font-medium text-gray-700"
+                className="block text-c-md font-medium text-gray-700"
               >
                 Floor Size
               </label>
@@ -225,7 +233,7 @@ export default function AdditionalDetailPane({
                       floorSize: e.target.value,
                     })
                   }
-                  className="sm:text-c-sm block rounded-l-md border-gray-300 pr-12 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                  className="block rounded-l-md border-gray-300 pr-12 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 sm:text-c-sm"
                 />
                 <div className="flex items-center rounded-md bg-ci-light-blue hover:bg-ci-dark-blue">
                   <label htmlFor="floorSizeUnit" className="sr-only">
@@ -233,7 +241,7 @@ export default function AdditionalDetailPane({
                   </label>
                   <select
                     id="floorSizeUnit"
-                    className="sm:text-sm h-full border-transparent bg-transparent py-0 pl-2 pr-7  text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    className="h-full border-transparent bg-transparent py-0 pl-2 pr-7 text-white  focus:border-blue-500 focus:ring-2 focus:ring-blue-500 sm:text-sm"
                     onChange={(e) =>
                       setAdditionalDetailPaneProps({
                         ...additionalDetailPaneProps,
@@ -251,7 +259,7 @@ export default function AdditionalDetailPane({
             <div>
               <label
                 htmlFor="unitNumber"
-                className="text-c-md block font-medium text-gray-700"
+                className="block text-c-md font-medium text-gray-700"
               >
                 Unit Number
               </label>
@@ -266,13 +274,13 @@ export default function AdditionalDetailPane({
                     unitNumber: e.target.value,
                   })
                 }
-                className="sm:text-c-sm mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 sm:text-c-sm"
               />
             </div>
           </div>
         </div>
         <div className="mb-4">
-          <h3 className="text-c-md mb-2">Upload Photos of Your Property</h3>
+          <h3 className="mb-2 text-c-md">Upload Photos of Your Property</h3>
           <div className="flex w-full items-center justify-center">
             <label
               htmlFor="photo-upload"
@@ -358,8 +366,9 @@ export default function AdditionalDetailPane({
             Back
           </button>
           <button
-            className="rounded-md bg-ci-light-blue px-10 py-2 text-white hover:bg-ci-dark-blue"
+            className="rounded-md bg-ci-light-blue px-10 py-2 text-white hover:bg-ci-dark-blue disabled:bg-ci-dark-gray"
             onClick={nextPageStatus}
+            disabled={!formIsValid}
           >
             Submit
           </button>
