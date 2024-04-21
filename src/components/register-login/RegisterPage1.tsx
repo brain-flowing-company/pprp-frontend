@@ -42,6 +42,10 @@ export default function RegisterPage1({
   const [isEmailValid, setEmailValid] = useState(true);
   const [isLoading, setLoading] = useState(false);
 
+  const [isEmailCorrect, setEmailCorrect] = useState<boolean>(false);
+  const [isPasswordCorrect, setPasswordCorrect] = useState<boolean>(false);
+  const [isCheckPasswordCorrect, setCheckPasswordCorrect] = useState<boolean>(false);
+
   const submit = (event: { keyCode: number }) => {
     if (event.keyCode === 13) {
       console.log("enter");
@@ -75,12 +79,25 @@ export default function RegisterPage1({
     }
   }
 
+  function isEValid(email: string) {
+    if (email.length === 0) {
+      setEmailCorrect(false);
+      buttonColor();
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setEmailCorrect(emailRegex.test(email));
+      buttonColor();
+    }
+  }
+
   function isPassValid(password: string) {
     if (password.length === 0) {
       changeColor1("#B3B3B3");
       changeValid(0);
-      setValidColor("ci-gray");
+      // setValidColor("ci-gray");
+      buttonColor();
       setInfoValid(0);
+      setPasswordCorrect(false);
     } else {
       if (
         !/\d/.test(password) ||
@@ -89,11 +106,14 @@ export default function RegisterPage1({
       ) {
         changeColor1("#D22F42");
         changeValid(1);
-        setValidColor("ci-gray");
+        // setValidColor("ci-gray");
+        buttonColor();
         setInfoValid(0);
+        setPasswordCorrect(false);
       } else {
         changeColor1("#30AD53");
         changeValid(2);
+        setPasswordCorrect(true);
       }
     }
   }
@@ -102,23 +122,34 @@ export default function RegisterPage1({
     if (password2.length === 0) {
       changeColor2("#B3B3B3");
       changeValid2(0);
-      setValidColor("ci-gray");
+      // setValidColor("ci-gray");
+      buttonColor();
       setInfoValid(0);
+      setCheckPasswordCorrect(false);
     } else {
       if (password2 !== password.current) {
         changeColor2("#D22F42");
         changeValid2(1);
-        setValidColor("ci-gray");
+        // setValidColor("ci-gray");
+        buttonColor();
         setInfoValid(0);
+        setCheckPasswordCorrect(false);
       } else {
         changeColor2("#30AD53");
         changeValid2(2);
+        setCheckPasswordCorrect(true);
         if (email.current.length !== 0) {
           setInfoValid(1);
-          setValidColor("ci-blue");
+          // setValidColor("ci-blue");
+          buttonColor();
         }
       }
     }
+  }
+
+  function buttonColor() {
+    const color = (isEmailCorrect && isPasswordCorrect && isCheckPasswordCorrect) ? 'ci-blue' : 'ci-gray';
+    setValidColor(color);
   }
 
   function userReg1(event: FormEvent<HTMLFormElement>) {
@@ -178,6 +209,7 @@ export default function RegisterPage1({
                     onChange={(e) => {
                       email.current = e.target.value;
                       setEmail(email.current);
+                      isEValid(email.current);
                     }}
                     value={emailtmp}
                     readOnly={isGoogle}
@@ -185,13 +217,14 @@ export default function RegisterPage1({
                     ref={inputRef}
                   />
                   {!isEmailValid && (
-                    <div className="text-base text-ci-red">
+                    <div data-testid='duplicate-email' className="text-base text-ci-red">
                       This email is already in use
                     </div>
                   )}
                 </div>
                 <div>
                   <PasswordField
+                    data-testid="password-field"
                     label="Password"
                     placeholder="Enter your password"
                     type="password"
@@ -260,6 +293,7 @@ export default function RegisterPage1({
                   </div>
                 </div>
                 <PasswordField
+                  data-testid='confirm-password-field'
                   label="Confirm Password"
                   placeholder="Re-enter your password"
                   type="password"
@@ -349,7 +383,7 @@ export default function RegisterPage1({
               data-testid='page1-confirm-button'
               className={`h-[60px] w-full rounded-[10px] bg-${isValidColor} font-bold text-white`}
               onClick={nextStage}
-              disabled={isValidColor === 'ci-gray'}
+              disabled={(isValidColor === 'ci-gray') || !isEmailCorrect || !isPasswordCorrect || !isCheckPasswordCorrect}
             >
               Confirm
             </button>
