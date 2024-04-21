@@ -46,7 +46,7 @@ const all_filters = [
 
 const SearchProperty = () => {
   const { searchContent, setIsSearching, searchFilters } = useSearchContext();
-
+  const [sc,setSc] = useState<string>(searchContent.current)
   const [filterPrice, setFilterPrice] = useState<boolean>(false);
   const [filterSize, setFilterSize] = useState<boolean>(false);
   const [filter, setFilter] = useState<boolean>(false);
@@ -100,12 +100,14 @@ const SearchProperty = () => {
           type="text"
           className="h-full w-full rounded-xl border bg-ci-light-gray  px-3  lg:px-5"
           onKeyDown={onKeyDownHandler}
+          value={sc}
           onChange={(e) => {
-            setTimeout(() => {
+            const id = setTimeout(() => {
               setIsSearching((prev) => true);
             }, 2000);
+            // clearTimeout(id)
+            setSc(e.target.value.trim())
             searchContent.current = e.target.value.trim();
-            console.log(searchContent.current, "testing search");
           }}
         ></input>
 
