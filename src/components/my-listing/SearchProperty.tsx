@@ -77,8 +77,20 @@ const SearchProperty = () => {
   };
 
   useEffect(() => {
-    if (!bedNull) searchFilters.current.numBedrooms = bedrooms;
-    if (!bathNull) searchFilters.current.numBathrooms = bathrooms;
+    if (!bedNull) {
+      if (bedrooms === 0) {
+        searchFilters.current.numBedrooms = null;
+      } else {
+        searchFilters.current.numBedrooms = bedrooms;
+      }
+    }
+    if (!bathNull) {
+      if (bathrooms === 0) {
+        searchFilters.current.numBathrooms = null;
+      } else {
+        searchFilters.current.numBathrooms = bathrooms;
+      }
+    }
   }, [bathrooms, bedrooms]);
 
   return (
@@ -90,7 +102,7 @@ const SearchProperty = () => {
           onKeyDown={onKeyDownHandler}
           onChange={(e) => {
             setTimeout(() => {
-              setIsSearching((prev)=>true);
+              setIsSearching((prev) => true);
             }, 2000);
             searchContent.current = e.target.value.trim();
             console.log(searchContent.current, "testing search");
