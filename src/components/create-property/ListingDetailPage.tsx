@@ -175,7 +175,7 @@ export default function ListingDetailPage({
                     Name
                   </div>
                   <input
-                    id="txt"
+                    id="name"
                     autoComplete="off"
                     className={`block h-[60px] w-full rounded-[10px] border ${
                       name.trim() === ""
@@ -219,7 +219,7 @@ export default function ListingDetailPage({
                     Rent Price/m (THB)
                   </div>
                   <input
-                    id="txt"
+                    id="rent-price"
                     autoComplete="off"
                     className={`block h-[60px] w-full rounded-[10px] border ${
                       rentPrice.trim() === "" &&
@@ -244,7 +244,7 @@ export default function ListingDetailPage({
                     Sale Price (THB)
                   </div>
                   <input
-                    id="txt"
+                    id="sale-price"
                     autoComplete="off"
                     className={`block h-[60px] w-full rounded-[10px] border ${
                       salePrice.trim() === "" &&
@@ -305,6 +305,7 @@ export default function ListingDetailPage({
                     } p-2`}
                     onChange={handleInputChange}
                     placeholder="Address"
+                    id="address"
                     style={{ fontSize: "20px" }}
                   ></input>
                   <Map name="" />
@@ -314,7 +315,8 @@ export default function ListingDetailPage({
                 <button
                   type="submit"
                   onClick={nextPage}
-                  className="font- h-[60px] w-[190px] rounded-[10px] bg-ci-light-blue px-10 py-2 text-[24px] font-medium text-white"
+                  className="h-[60px] w-[190px] rounded-[10px] bg-ci-light-blue px-10 py-2 text-[24px] font-medium text-white disabled:bg-ci-dark-gray"
+                  disabled={!isFormValid}
                 >
                   Next
                 </button>
