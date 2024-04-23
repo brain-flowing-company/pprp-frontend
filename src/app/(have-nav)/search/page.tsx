@@ -74,11 +74,9 @@ const SearchPage = () => {
       if (data) {
         setData(data.properties);
         setTotal(data.total);
-        console.log(propData, "test fetch search with total =", total);
       }
     };
     fetchProp();
-    console.log(isSearching,"se")
     setIsSearching(false);
   }, [isSearching, sort, onPage]);
 

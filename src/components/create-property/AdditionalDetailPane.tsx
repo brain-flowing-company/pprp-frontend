@@ -361,7 +361,7 @@ export default function AdditionalDetailPane({
         <div className="flex justify-between">
           <button
             className="rounded-md bg-white px-10 py-2 text-gray-700 outline outline-gray-300 hover:bg-ci-dark-blue hover:text-white hover:outline-none"
-            onClick={backStage}
+            onClick={()=>backStage}
           >
             Back
           </button>

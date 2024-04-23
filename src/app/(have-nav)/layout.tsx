@@ -5,6 +5,7 @@ import PropertyNavigationBar from "@/components/property-description/PropertyNav
 import { ChatContextProvider } from "@/context/ChatContext";
 
 import { SearchContextProvider } from "@/context/SearchContext";
+import { AuthContextProvider } from "@/context/AuthContext";
 
 export default function Suechaokhai({
   children,
@@ -13,15 +14,17 @@ export default function Suechaokhai({
 }) {
   return (
     <div>
-      <ChatContextProvider>
-        <PropertyNavigationBar />
-        <div>
-          <div className="">
-            <SearchContextProvider>{children}</SearchContextProvider>
+      <AuthContextProvider>
+        <ChatContextProvider>
+          <PropertyNavigationBar />
+          <div>
+            <div className="">
+              <SearchContextProvider>{children}</SearchContextProvider>
+            </div>
           </div>
-        </div>
-        <ChatModule />
-      </ChatContextProvider>
+          <ChatModule />
+        </ChatContextProvider>
+      </AuthContextProvider>
     </div>
   );
 }
