@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const EmptyProperty = ({
   headerText,
@@ -11,13 +12,14 @@ const EmptyProperty = ({
   text2?: string;
   haveButton: boolean;
 }) => {
-    
+  const router = useRouter();
+
   const handleCreate = () => {
-    window.location.href = "http://localhost:3000/create-property";
+    router.push("/create-property");
   };
   return (
     <div className="mt-8 flex h-1/2 flex-col items-center justify-around">
-      <div className="text-center large-text font-bold">{headerText}</div>
+      <div className="large-text text-center font-bold">{headerText}</div>
 
       <Image
         src="/img/mylisting/home.svg"
@@ -28,13 +30,15 @@ const EmptyProperty = ({
       />
 
       <div className="">
-        <div className="m-1 text-center medium-text">{text1}</div>
-        {text2 ? <div className="m-1 text-center medium-text">{text2}</div> : null}
+        <div className="medium-text m-1 text-center">{text1}</div>
+        {text2 ? (
+          <div className="medium-text m-1 text-center">{text2}</div>
+        ) : null}
       </div>
 
       {haveButton ? (
         <button
-          className="flex m-8 w-[230px] md:w-[250px] lg:w-[270px] flex-row justify-around rounded-md bg-ci-blue p-2 md:p-3 lg:p-4"
+          className="m-8 flex w-[230px] flex-row justify-around rounded-md bg-ci-blue p-2 md:w-[250px] md:p-3 lg:w-[270px] lg:p-4"
           onClick={handleCreate}
         >
           <Image
