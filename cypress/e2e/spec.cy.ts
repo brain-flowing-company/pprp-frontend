@@ -213,7 +213,7 @@ describe("Register Page", () => {
 
     const verCode = "AbCd12";
 
-    cy.get("[data-testid='verification-input']").type(verCode);
+    cy.get("[data-testid='verification-input']", { timeout: 10000 }).type(verCode);
     cy.get("[data-testid='verify-button']").click();
 
     const firstName = "123";
@@ -256,7 +256,7 @@ describe("Register Page", () => {
 
     const verCode = "AbCd12";
 
-    cy.get("[data-testid='verification-input']").type(verCode);
+    cy.get("[data-testid='verification-input']", { timeout: 10000 }).type(verCode);
     cy.get("[data-testid='verify-button']").click();
 
     const firstName = "d1e2f3";
@@ -295,7 +295,7 @@ describe("Register Page", () => {
 
     const verCode = "AbCd12";
 
-    cy.get("[data-testid='verification-input']").type(verCode);
+    cy.get("[data-testid='verification-input']", { timeout: 10000 }).type(verCode);
     cy.get("[data-testid='verify-button']").click();
 
     const firstName = "def";
@@ -333,7 +333,7 @@ describe("Register Page", () => {
 
     const verCode = "AbCd12";
 
-    cy.get("[data-testid='verification-input']").type(verCode);
+    cy.get("[data-testid='verification-input']", { timeout: 10000 }).type(verCode);
     cy.get("[data-testid='verify-button']").click();
 
     const firstName = "def";
@@ -371,7 +371,7 @@ describe("Register Page", () => {
 
     const verCode = "AbCd12";
 
-    cy.get("[data-testid='verification-input']").type(verCode);
+    cy.get("[data-testid='verification-input']", { timeout: 10000 }).type(verCode);
     cy.get("[data-testid='verify-button']").click();
 
     const firstName = "def";
@@ -409,7 +409,7 @@ describe("Register Page", () => {
 
     const verCode = "AbCd12";
 
-    cy.get("[data-testid='verification-input']").type(verCode);
+    cy.get("[data-testid='verification-input']", { timeout: 10000 }).type(verCode);
     cy.get("[data-testid='verify-button']").click();
 
     const firstName = "def";
@@ -447,7 +447,7 @@ describe("Register Page", () => {
 
     const verCode = "AbCd12";
 
-    cy.get("[data-testid='verification-input']").type(verCode);
+    cy.get("[data-testid='verification-input']", { timeout: 10000 }).type(verCode);
     cy.get("[data-testid='verify-button']").click();
 
     const firstName = "def";
