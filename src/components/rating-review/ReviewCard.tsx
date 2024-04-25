@@ -130,7 +130,7 @@ const ReviewCard = ({ property }: { property: PropertyData }) => {
             <>
               <div className="flex w-full flex-col">
                 <div className="mb-8 flex flex-row">
-                  <div className="text-lg font-semibold">Sort By</div>
+                  {/* <div className="text-lg font-semibold">Sort By</div>
                   <div className="flex flex-row text-lg">
                     <div
                       className="mx-3 font-semibold text-ci-blue"
@@ -171,11 +171,12 @@ const ReviewCard = ({ property }: { property: PropertyData }) => {
                         </div>
                       </div>
                     ) : null}
-                  </div>
+                  </div> */}
                 </div>
                 <div className="flex w-full flex-col gap-4">
-                  {reviews?.map((review) => (
+                  {reviews?.map((review, idx) => (
                     <UserReview
+                      key={idx}
                       dwellerId={review.dweller_user_id}
                       star={review.rating}
                       review={review.review}
